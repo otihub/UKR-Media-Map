@@ -1,3 +1,3 @@
-#USAID/OTI
-[Where We Work](http://www.usaid.gov/political-transition-initiatives/where-we-work)
+#OTI Ukraine Media Map
+Git Repository for the OTI Ukraine Program Media Map
 
