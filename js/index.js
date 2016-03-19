@@ -1,29 +1,22 @@
-//Implement the red light using jQuery. Don't forget to add the script tags.
+
 $(document).ready(function() {
 
-	function clearLights() {
-		$('.bulb').css('background-color', 'black');
-	}
+	var canvas = d3.select("body").append("svg")
+		.attr("width", 760)
+		.attr("height", 700)
 
-	function illuminateStopLightRed() {
-		clearLights();
-		$('#stopLight').css('background-color', 'red');
-	}
+	d3.json("../data/ukrNatEarth110m.json", function(data){
+		var group = canvas.selectAll("g")
+			.data(data.features)
+			.enter()
+			.append("g")
 
-	// COde goes here!
-	$('#stopButton').click(illuminateStopLightRed);
-
-	function illuminateStopLightYellow() {
-		clearLights();
-		$('#slowLight').css('background-color', 'yellow');
-	}
-	$('#slowButton').click(illuminateStopLightYellow);
-
-	function illuminateStopLightGreen() {
-		clearLights();
-		$('#goLight').css('background-color', 'Green');
-	}
-	$('#goButton').click(illuminateStopLightGreen);
-
+	var projection = d3.geo.mercator().scale(150,000);
+		var path = d3.geo.path().projection(projection)
+		var areas = group.append("path")
+			.attr("d", path)
+			.attr("class", "area")
+			.attr("fill", "black");
+	});
 
 });
