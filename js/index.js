@@ -23,10 +23,10 @@ $(document).ready(function() {
 
 	var topo_data = null;
 
-	d3.json("../data/ukraine.json", function(error, ukraine_data) {
-		topo_data = ukraine_data;
+	d3.json("../data/ukraine.json", function(error, ukraineData) {
+		topo_data = ukraineData;
 
-		var countries = topojson.feature(ukraine_data, ukraine_data.objects.countries);
+		var countries = topojson.feature(ukraineData, ukraineData.objects.countries);
 		svg.selectAll(".country")
 			.data(countries.features)
 		  .enter().append("path")
@@ -34,18 +34,18 @@ $(document).ready(function() {
 			.attr("d", path);
 
 		svg.append("path")
-			.datum(topojson.mesh(ukraine_data, ukraine_data.objects.countries, function(a, b) { return a !== b; }))
+			.datum(topojson.mesh(ukraineData, ukraineData.objects.countries, function(a, b) { return a !== b; }))
 			.attr("class", "country-boundary")
 			.attr("d", path);
 		svg.append("path")
-			.datum(topojson.mesh(ukraine_data, ukraine_data.objects.countries, function(a, b) { return a === b; }))
+			.datum(topojson.mesh(ukraineData, ukraineData.objects.countries, function(a, b) { return a === b; }))
 			.attr("class", "coastline")
 			.attr("d", path);
 
 		var water_group = svg.append("g")
 			.attr("id", "water-resources");
 
-		var rivers = topojson.feature(ukraine_data, ukraine_data.objects.rivers);
+		var rivers = topojson.feature(ukraineData, ukraineData.objects.rivers);
 		water_group.selectAll(".river")
 			.data(rivers.features)
 		  .enter().append("path")
@@ -54,7 +54,7 @@ $(document).ready(function() {
 			.attr("d", path);
 
 		// Add lakes after rivers so that river lines connect reservoirs, not cross them.
-		var lakes = topojson.feature(ukraine_data, ukraine_data.objects.lakes);
+		var lakes = topojson.feature(ukraineData, ukraineData.objects.lakes);
 		water_group.selectAll(".lake")
 			.data(lakes.features)
 		  .enter().append("path")
@@ -62,7 +62,7 @@ $(document).ready(function() {
 			.attr("name", function(d) { return d.properties.name; })
 			.attr("d", path);
 
-		var regions = topojson.feature(ukraine_data, ukraine_data.objects.regions);
+		var regions = topojson.feature(ukraineData, ukraineData.objects.regions);
 		svg.selectAll(".region")
 			.data(regions.features)
 		  .enter().append("path")
@@ -70,7 +70,7 @@ $(document).ready(function() {
 			.attr("id", function(d) { return d.id; })
 			.attr("d", path);
 		svg.append("path")
-			.datum(topojson.mesh(ukraine_data, ukraine_data.objects.regions, function(a, b) { return a !== b; }))
+			.datum(topojson.mesh(ukraineData, ukraineData.objects.regions, function(a, b) { return a !== b; }))
 			.classed("region-boundary", true)
 			.attr("d", path);
 });
