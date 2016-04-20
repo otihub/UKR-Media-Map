@@ -1,5 +1,11 @@
 $(document).ready(function() {
-
+	var data;
+	
+	d3.json("data/surveyResponse.json", function(error, json) {
+		if(error) return console.warn(error);
+		data = json;
+		console.log(data);
+	});
 	var width = 900,
 		height = 570;
 
