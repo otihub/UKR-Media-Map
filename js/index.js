@@ -1,10 +1,10 @@
 $(document).ready(function() {
-	var data;
+// bring in survey data; will be available within the call 
+	var surveyData;
 	
 	d3.json("data/surveyResponse.json", function(error, json) {
 		if(error) return console.warn(error);
-		data = json;
-		console.log(data);
+		surveyData = json;
 	});
 	var width = 900,
 		height = 570;
