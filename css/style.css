@@ -103,31 +103,74 @@ svg {
 /******************************************
 /* BASE STYLES
 /*******************************************/
+div,html,body {
+	margin:0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font:inherit;
+	vertical-align: baseline
+}
 
+
+body.frontpage {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	overflow: hidden
+
+}
 body {
-  color: #f0efef;
-  font-size: 26px;
   line-height: 1.4;
-  color: #ffcc00;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  font-weight: 300;
+  color: #404040;
+  font-family: 'Noto Serif', serif;
+  font-weight: 400
 }
 
-header {
-  background: rgba(0, 91, 187, .95);
+#header {
+  background: #606060;
   padding: 1%;
-}
-
-footer {
+  height: 45px;
+  width:100%;
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1%;
-  background: rgba(0, 91, 187, .95);
+  top:0px
+}
 
 h1 {
-  font-size: 32px;
-  color: #ffcc00;
-  padding: 0% 1%
+  font-size: 22px;
+  color: white;
+
 }
+
+/******************************************
+/* MAP
+/*******************************************/
+
+#map { 
+	height:100%;
+	width:65%;
+	position: absolute;
+	left: 0%;
+	top: 45px 
+
+}
+
+/******************************************
+/* DRAWER
+/*******************************************/
+
+
+#drawer {
+	position: absolute;
+	top: 45px;
+	width: 35%;
+	height: 100%;
+	background: rgba(32,32,32,.9);
+	right: 0px
+}
+
+.drawer-content {
+	position: absolute;
+	padding: 15px;
+	height: 100%
+}	

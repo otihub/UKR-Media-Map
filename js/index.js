@@ -6,14 +6,14 @@ $(document).ready(function() {
 		if(error) return console.warn(error);
 		surveyData = json;
 	});
-	var width = 900,
-		height = 570;
+	var width = parseInt(d3.select('#map').style('width')),
+		height = width * .7;
 
 	var geometry_center =  {"latitude": 48.360833, "longitude": 31.1809725};
 	var geography_center = {"latitude": 49.0275, "longitude": 31.482778};
 
 // create the variable to append the svg to the map class in the html
-	var svg = d3.select("body").selectAll(".map").append("left").append("svg")
+	var svg = d3.select("body").selectAll("#map").append("left").append("svg")
 		.attr("width", width)
 		.attr("height", height);
 
@@ -22,7 +22,8 @@ $(document).ready(function() {
 		.center([0, geometry_center.latitude])
 		.rotate([-geometry_center.longitude, 0])
 		.parallels([46, 52])  // vsapsai: selected these parallels myself, most likely they are wrong.
-		.scale(3920)
+//		.scale(3920)
+		.scale(width * 4.5)
 		.translate([width / 2, height / 2]);
 	var path = d3.geo.path()
 		.projection(projection);
