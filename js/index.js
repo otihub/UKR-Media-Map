@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 	var topo_data = null;
 
-	d3.json("../data/ukraine.json", function(error, ukraineData) {
+	d3.json("data/ukraine.json", function(error, ukraineData) {
 		topo_data = ukraineData;
 
 		var countries = topojson.feature(ukraineData, ukraineData.objects.countries);
