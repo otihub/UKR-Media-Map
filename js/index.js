@@ -1,10 +1,17 @@
 $(document).ready(function() {
-// bring in survey data; will be available within the call 
+// bring in survey data; will be available within the call
 	var surveyData;
-	
+
 	d3.json("data/surveyResponse.json", function(error, json) {
 		if(error) return console.warn(error);
 		surveyData = json;
+
+	// Bring the Survey Data into crossfilter
+	var surveyDataXF = crossfilter(surveyData);
+
+	// Create our dimension by Oblast
+	var oblastXF = surveyDataXF.dimension(function(ob) { return ob.v175; });
+
 	});
 	var width = parseInt(d3.select('#map').style('width')),
 		height = width * .7;
