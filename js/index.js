@@ -1,3 +1,5 @@
+
+d3.select(window).on("resize",sizeChange);
 $(document).ready(function() {
 // bring in survey data; will be available within the call
 	var surveyData;
@@ -5,20 +7,27 @@ $(document).ready(function() {
 	d3.json("data/surveyResponse.json", function(error, json) {
 		if(error) return console.warn(error);
 		surveyData = json;
+		visualizeit(surveyData);
 
+	});
+	function visualizeit(surveyData) {
 	// Bring the Survey Data into crossfilter
-	var surveyDataXF = crossfilter(surveyData);
+//		var surveyDataXF = crossfilter(surveyData);
 
-	// // // Create our dimension by Oblast
-	var oblastXF = surveyDataXF.dimension(function(ob) { return ob.v175; });
+	// Create our dimension by Oblast
+//		var oblastXF = surveyDataXF.dimension(function(ob) {
+//			console.log('created dimension for Oblast');
+//			return ob.v175; 
+//		});
 
 	// Group by educational level
-	// var groupByEdu = oblastXF.group();
-	// groupByEdu.top(Infinity).forEach(function(ob, i) {
-  // 	console.log(ob.key + ": " + ob.value);
-	// });
-	});
+//	 	var groupByEdu = oblastXF.group();
+//		console.log('grouped');
+//	 	groupByEdu.top(Infinity).forEach(function(ob, i) {
+  //  		console.log(ob.key + ": " + ob.value);
+	// 	});
 
+	}
 	var width = parseInt(d3.select('#map').style('width')),
 		height = width * .7;
 
@@ -28,14 +37,14 @@ $(document).ready(function() {
 // create the variable to append the svg to the map class in the html
 	var svg = d3.select("body").selectAll("#map").append("left").append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+			.append("g");
 
 // create the variable to set the map projection and scale
 	var projection = d3.geo.conicEqualArea()
 		.center([0, geometry_center.latitude])
 		.rotate([-geometry_center.longitude, 0])
 		.parallels([46, 52])  // vsapsai: selected these parallels myself, most likely they are wrong.
-//		.scale(3920)
 		.scale(width * 4.5)
 		.translate([width / 2, height / 2]);
 	var path = d3.geo.path()
@@ -96,23 +105,17 @@ $(document).ready(function() {
 });
 
 
-// 		d3.select("body").selectAll("div.map").append("ul")
-// 			.classed("regions-list", true)
-// 			.selectAll("a")
-// 			.data(regions.features.sort(function(a, b) {
-// 				return a.properties.name.localeCompare(b.properties.name); }))
-// 		  .enter().append("li").append("a")
-// 			.text(function(d) { return d.properties.name; })
-// 			.attr("href", "javascript:void(0)")
-// 			.on("click", function(d) {
-// 				highlightRegion(d.id);
-// 				d3.event.stopPropagation();
-// 			});
-// 		window.addEventListener("click", clearRegionHighlight);
-// }
 
 	d3.select(self.frameElement)
 		.style("width", width + "px")
 		.style("height", "800px");
-
 });
+function sizeChange() {
+	d3.select("g").attr("transform","scale(" + $("#map").width()/450 + ")");
+	$("svg").height($("#map").width()*0.7);
+	$("svg").width($("#map").width());
+
+
+	
+}
+
