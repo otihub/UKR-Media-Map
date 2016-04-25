@@ -9,10 +9,16 @@ $(document).ready(function() {
 	// Bring the Survey Data into crossfilter
 	var surveyDataXF = crossfilter(surveyData);
 
-	// Create our dimension by Oblast
+	// // // Create our dimension by Oblast
 	var oblastXF = surveyDataXF.dimension(function(ob) { return ob.v175; });
 
+	// Group by educational level
+	// var groupByEdu = oblastXF.group();
+	// groupByEdu.top(Infinity).forEach(function(ob, i) {
+  // 	console.log(ob.key + ": " + ob.value);
+	// });
 	});
+
 	var width = parseInt(d3.select('#map').style('width')),
 		height = width * .7;
 
