@@ -111,7 +111,7 @@ $(document).ready(function() {
 		.style("height", "800px");
 });
 function sizeChange() {
-	d3.select("g").attr("transform","scale(" + $("#map").width()/450 + ")");
+	d3.select("g").attr("transform","scale(" + $("#map").width()/560 + ")");
 	$("svg").height($("#map").width()*0.7);
 	$("svg").width($("#map").width());
 
