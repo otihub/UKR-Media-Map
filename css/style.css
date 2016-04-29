@@ -109,7 +109,6 @@ div,html,body {
 	border: 0;
 	font-size: 100%;
 	font:inherit;
-	vertical-align: baseline
 }
 
 
@@ -133,13 +132,19 @@ body {
   height: 45px;
   width:100%;
   position: absolute;
-  top:0px
+  top:0px;
 }
 
 h1 {
   font-size: 22px;
   color: white;
 
+}
+h1.title {
+	line-height:45px;
+	padding:0;
+	border:0;
+	float:left;
 }
 
 /******************************************
@@ -164,7 +169,6 @@ h1 {
 	position: absolute;
 	top: 45px;
 	width: 35%;
-	height: 100%;
 	background: rgba(32,32,32,.9);
 	right: 0px
 }

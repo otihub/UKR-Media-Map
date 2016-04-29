@@ -5,13 +5,16 @@ $(document).ready(function() {
 		var width = parseInt(d3.select('#map').style('width')),
 			mapRatio = .7,
 			height = width * mapRatio;
+		console.log("width is " + width)
+
+		d3.select("#drawer").style("height",height + "px");
 		var projection = d3.geo.conicEqualArea()
 			.center([0, geometry_center.latitude])
 			.rotate([-geometry_center.longitude, 0])
 			.parallels([46, 52]);  // vsapsai: selected these parallels myself, most likely they are wrong.
 		var path = d3.geo.path()
 			.projection(projection);
-
+		console.log(height)
 		d3.select(window).on("resize",sizeChange);
 		// bring in survey data; will be available within the call
 		var surveyData;
@@ -27,20 +30,9 @@ $(document).ready(function() {
 		});
 		function visualizeit(surveyData) {
 		// Bring the Survey Data into crossfilter
-			//		var surveyDataXF = crossfilter(surveyData);
-
-		// Create our dimension by Oblast
-			//		var oblastXF = surveyDataXF.dimension(function(ob) {
-			//			console.log('created dimension for Oblast');
-			//			return ob.v175; 
-			//		});
-
-		// Group by educational level
-			//	 	var groupByEdu = oblastXF.group();
-			//		console.log('grouped');
-			//	 	groupByEdu.top(Infinity).forEach(function(ob, i) {
-			//  		console.log(ob.key + ": " + ob.value);
-		// 	});
+			var cf = crossfilter(surveyData);
+			var gender = cf.dimension(function(d) {return d.v2;})
+			var genderGroup = gender.group();
 
 		}
 
@@ -114,7 +106,7 @@ $(document).ready(function() {
 			var width = parseInt(d3.select('#map').style('width')),
 				mapRatio = .7
 				height = width * mapRatio;
-
+			console.log("width: " + width + " height: " + height)
 		//update projection
 			projection
 				.scale([width * 4.5])
@@ -122,11 +114,12 @@ $(document).ready(function() {
 		//resize #mapc container and and svg
 			
 			d3.select("svg").attr("width",width).attr("height",height);
-			d3.select("#map").attr("width",width).attr("height",height);
+			d3.select("#map").style("height",height + "px");
 		
 		//reset d attribute to new datum
 			d3.selectAll("path").attr('d',path);
 
+			d3.select("#drawer").style("height",height + "px");
 
 			
 		}
