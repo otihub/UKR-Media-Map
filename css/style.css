@@ -47,7 +47,6 @@ Developer @ the DAT in Washington DC
 /*******************************************/
 
 svg {
-    background-color: rgb(191, 216, 242);
 }
 
 .country {
@@ -177,4 +176,8 @@ h1.title {
 	position: absolute;
 	padding: 15px;
 	height: 100%
-}	
+}
+
+.pie-graph {
+	background-color: transparent;
+} 	

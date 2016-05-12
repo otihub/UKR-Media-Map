@@ -5,7 +5,39 @@ $(document).ready(function() {
 		var width = parseInt(d3.select('#map').style('width')),
 			mapRatio = .7,
 			height = width * mapRatio;
-		console.log("width is " + width)
+		
+		piRadius = width/30
+
+		//abstract function to create a pie chart 
+		function pieChart(element, cf) {
+			var piHight = piRadius *2, 
+				piWidth = piRadius * 2;
+			var color = d3.scale.ordinal().range(["#98abc5","#ff8c00"]);
+			var svg = d3.select(element)
+				.append("svg:svg")
+				.attr("width",piHight)
+				.attr("height",piWidth)
+			.append("svg:g")
+				.attr("transform","translate(" + (piHight / 2) + "," + (piWidth / 2) + ")");
+
+			var arc = d3.svg.arc()
+				.outerRadius(piRadius);
+
+			var pie = d3.layout.pie()
+				.value(function(d) { return d.value;})
+				.sort(null)
+
+			var path = svg.selectAll("path")
+				.data(pie(cf))
+				.enter()
+				.append("path")
+				.attr("d",arc)
+				.attr("fill", function(d) {
+					return color(d.data.value) 
+				});
+
+		
+		}
 
 		d3.select("#drawer").style("height",height + "px");
 		var projection = d3.geo.conicEqualArea()
@@ -14,7 +46,6 @@ $(document).ready(function() {
 			.parallels([46, 52]);  // vsapsai: selected these parallels myself, most likely they are wrong.
 		var path = d3.geo.path()
 			.projection(projection);
-		console.log(height)
 		d3.select(window).on("resize",sizeChange);
 		// bring in survey data; will be available within the call
 		var surveyData;
@@ -31,9 +62,11 @@ $(document).ready(function() {
 		function visualizeit(surveyData) {
 		// Bring the Survey Data into crossfilter
 			var cf = crossfilter(surveyData);
-			var gender = cf.dimension(function(d) {return d.v2;})
-			var genderGroup = gender.group();
-
+			var genderDimension = cf.dimension(function(d) {return d.v2;})
+	 	 	var countMeasure = genderDimension.group().reduceCount();
+			var n = countMeasure.top(2);
+			console.log(n)
+			pieChart("#gender-pie-graph", n)
 		}
 
 
@@ -98,6 +131,7 @@ $(document).ready(function() {
 				.datum(topojson.mesh(ukraineData, ukraineData.objects.regions, function(a, b) { return a !== b; }))
 				.classed("region-boundary", true)
 				.attr("d", path);
+
 		});
 
 
@@ -106,7 +140,6 @@ $(document).ready(function() {
 			var width = parseInt(d3.select('#map').style('width')),
 				mapRatio = .7
 				height = width * mapRatio;
-			console.log("width: " + width + " height: " + height)
 		//update projection
 			projection
 				.scale([width * 4.5])
