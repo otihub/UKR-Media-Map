@@ -163,6 +163,17 @@ h1.title {
 /* DRAWER
 /*******************************************/
 
+.overview ul li {
+ float:left
+}
+
+.vert-graph rect {
+	fill: steelblue;
+
+}
+.vert-graph text {
+	fill:white;
+}
 
 #drawer {
 	position: absolute;
@@ -177,7 +188,13 @@ h1.title {
 	padding: 15px;
 	height: 100%
 }
-
+.group {
+	float:left;
+	margin-right:10px;
+	}
+	.group.first {
+	
+	}
 .pie-graph {
 	background-color: transparent;
 } 	

@@ -6,13 +6,13 @@ $(document).ready(function() {
 			mapRatio = .7,
 			height = width * mapRatio;
 		
-		piRadius = width/30
+		piRadius = width/60
 
+		var color = d3.scale.category20();
 		//abstract function to create a pie chart 
 		function pieChart(element, cf) {
 			var piHight = piRadius *2, 
 				piWidth = piRadius * 2;
-			var color = d3.scale.ordinal().range(["#98abc5","#ff8c00"]);
 			var svg = d3.select(element)
 				.append("svg:svg")
 				.attr("width",piHight)
@@ -39,6 +39,42 @@ $(document).ready(function() {
 		
 		}
 
+	//abstract function to create vertical divchart
+		function vertChart(element, dim) {
+			var width = d3.select(element).style("width");
+			console.log(width)
+			var barHeight = 20;
+			var data =  dim.group().reduceCount().all();
+			console.log(data.length); 
+			console.log(dim.group().reduceCount().all()); 
+
+			var x = d3.scale.linear()
+				.domain([0,d3.max(data, function (x) {
+						return x.value;
+					}
+				)])
+				.range([0,width]);
+			var chart = d3.select(element)
+				.attr("width",width)
+				.attr("height", barHeight * data.length);
+			var bar = chart.selectAll("g")
+					.data(data)
+			 	.enter().append("g")
+					.attr("transform",function(d,i) { return "translate(0," + i * barHeight + ")";});
+			bar.append("rect")
+				.attr("width",function(d) {
+					return x(d.value);
+				})
+				.attr("height",barHeight - 1);
+			bar.append("text")
+				.attr("x",3)
+				.attr("y",barHeight/2)
+				.attr("dy",".35em")
+				.text(function(d) {return d.key;});
+					
+		}
+		
+
 		d3.select("#drawer").style("height",height + "px");
 		var projection = d3.geo.conicEqualArea()
 			.center([0, geometry_center.latitude])
@@ -62,11 +98,27 @@ $(document).ready(function() {
 		function visualizeit(surveyData) {
 		// Bring the Survey Data into crossfilter
 			var cf = crossfilter(surveyData);
-			var genderDimension = cf.dimension(function(d) {return d.v2;})
-	 	 	var countMeasure = genderDimension.group().reduceCount();
-			var n = countMeasure.top(2);
-			console.log(n)
-			pieChart("#gender-pie-graph", n)
+			var genderDim = cf.dimension(function(d) {return d.v2;})
+			var ageDim = cf.dimension(function(d) {return d.v172;})
+			var educDim = cf.dimension(function(d) {return d.v152;})
+			var employDim = cf.dimension(function(d) {return d.v153;})
+			var wealthDim = cf.dimension(function(d) {return d.v154;})
+			var languageDim = cf.dimension(function(d) {return d.v155;})
+			var oblaskDim = cf.dimension(function(d) {return d.v175;})
+//			var cityDim = cf.dimension(function(d) {return d.v170;})
+			
+			
+	//Makes Gender piechart			 
+	 	 	var countMeasure = genderDim.group().reduceCount();
+			var n = countMeasure.all();
+			pieChart("#gender-pie-graph", n);
+			
+	//Makes wealth graph
+			vertChart("#wealth-vert-graph",wealthDim);
+
+	//Makes age graph
+			vertChart("#age-vert-graph", ageDim);
+	
 		}
 
 
