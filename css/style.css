@@ -175,6 +175,12 @@ h1.title {
 	fill:white;
 }
 
+.node {
+	position: absolute;
+	overflow:hidden;	
+}
+.node div{	
+}
 #drawer {
 	position: absolute;
 	top: 45px;

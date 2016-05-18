@@ -10,7 +10,9 @@ $(document).ready(function() {
 
 		var color = d3.scale.category20();
 		//abstract function to create a pie chart 
-		function pieChart(element, cf) {
+		function pieChart(element, dim) {
+
+	 	 	var data = dim.group().reduceCount().all();
 			var piHight = piRadius *2, 
 				piWidth = piRadius * 2;
 			var svg = d3.select(element)
@@ -28,7 +30,7 @@ $(document).ready(function() {
 				.sort(null)
 
 			var path = svg.selectAll("path")
-				.data(pie(cf))
+				.data(pie(data))
 				.enter()
 				.append("path")
 				.attr("d",arc)
@@ -42,12 +44,8 @@ $(document).ready(function() {
 	//abstract function to create vertical divchart
 		function vertChart(element, dim) {
 			var width = d3.select(element).style("width");
-			console.log(width)
 			var barHeight = 20;
 			var data =  dim.group().reduceCount().all();
-			console.log(data.length); 
-			console.log(dim.group().reduceCount().all()); 
-
 			var x = d3.scale.linear()
 				.domain([0,d3.max(data, function (x) {
 						return x.value;
@@ -73,6 +71,50 @@ $(document).ready(function() {
 				.text(function(d) {return d.key;});
 					
 		}
+		
+	//astract function to make treemap
+
+		function treeChart(media, records, element) {
+			//Set grab width and height of containing div [element]		
+			var width = innerWidth - 40;
+			var height = innerHeight - 40;
+			//Generate array of frequencies by user pick
+			var favorites = d3.nest()
+				.key(function(d) {return d[media];})
+				.rollup(function(v) {return v.length;})
+				.entries(records);
+			favorites.sort(function (x,y) {
+				return d3.descending(x.values, y.values);
+			});
+			
+			//Save frequency array in format treemap likes
+			favorites = {"name":"tree","children":favorites}
+
+			var div = d3.select(element).append("div").style("position","relative")
+			var treemap = d3.layout.treemap()
+				.size([width,height])
+				.sticky(true)
+				.value(function(d) {return d.values;});
+			var node = div.datum(favorites).selectAll(".node")
+					.data(treemap.nodes)
+				.enter().append("div")	
+					.attr("class","node")
+					.call(position)
+					.style("background-color", function(d) {
+						return d.name=='tree' ?'#fff': color( d.key ); 
+					})
+					.append('div')
+					.text(function(d) { return d.key; });
+			function position() {
+				this.style("left",function(d) { 
+						return d.x + "px";
+					})	
+					.style("top",function(d) {return d.y + "px";})	
+					.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})	
+					.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})	
+			}
+
+			}
 		
 
 		d3.select("#drawer").style("height",height + "px");
@@ -105,13 +147,21 @@ $(document).ready(function() {
 			var wealthDim = cf.dimension(function(d) {return d.v154;})
 			var languageDim = cf.dimension(function(d) {return d.v155;})
 			var oblaskDim = cf.dimension(function(d) {return d.v175;})
+			console.log(cf.all())
 //			var cityDim = cf.dimension(function(d) {return d.v170;})
+	
+//			var onlineFavDim = cf.dimension(function(d) {return d.v27;})
+//			var radioFavDim = cf.dimension(function(d) {return d.v41;})
+//			var tvFavDim = cf.dimension(function(d) {return d.v57;})
+//			var newsFavDim = cf.dimension(function(d) {return d.v68;})
 			
+	//Makes Internet treeChart
+			treeChart("v27",cf.all(), "#net-tree-graph")
 			
+
 	//Makes Gender piechart			 
-	 	 	var countMeasure = genderDim.group().reduceCount();
-			var n = countMeasure.all();
-			pieChart("#gender-pie-graph", n);
+
+			pieChart("#gender-pie-graph", genderDim);
 			
 	//Makes wealth graph
 			vertChart("#wealth-vert-graph",wealthDim);
