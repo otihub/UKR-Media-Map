@@ -112,7 +112,7 @@ $(document).ready(function() {
 					.style("top",function(d) {return d.y + "px";})	
 					.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})	
 					.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})	
-			}
+				}
 
 			}
 		
@@ -147,7 +147,6 @@ $(document).ready(function() {
 			var wealthDim = cf.dimension(function(d) {return d.v154;})
 			var languageDim = cf.dimension(function(d) {return d.v155;})
 			var oblaskDim = cf.dimension(function(d) {return d.v175;})
-			console.log(cf.all())
 //			var cityDim = cf.dimension(function(d) {return d.v170;})
 	
 //			var onlineFavDim = cf.dimension(function(d) {return d.v27;})
@@ -174,9 +173,9 @@ $(document).ready(function() {
 
 
 		// create the variable to append the svg to the map class in the html
-		var svg = d3.select("body").selectAll("#map").append("left").append("svg")
-			.attr("width", width)
-			.attr("height", height)
+		var svg = d3.select("body").selectAll("#map").append("svg")
+			.attr("viewBox","0 0 " + width + " " + height )
+			.attr("preserveAspectRatio","xMinYMin")
 				.append("g");
 
 
@@ -242,17 +241,6 @@ $(document).ready(function() {
 			var width = parseInt(d3.select('#map').style('width')),
 				mapRatio = .7
 				height = width * mapRatio;
-		//update projection
-			projection
-				.scale([width * 4.5])
-				.translate([width / 2, height / 2]);
-		//resize #mapc container and and svg
-			
-			d3.select("svg").attr("width",width).attr("height",height);
-			d3.select("#map").style("height",height + "px");
-		
-		//reset d attribute to new datum
-			d3.selectAll("path").attr('d',path);
 
 			d3.select("#drawer").style("height",height + "px");
 

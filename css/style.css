@@ -155,7 +155,8 @@ h1.title {
 	width:65%;
 	position: absolute;
 	left: 0%;
-	top: 45px 
+	top: 45px;
+	overflow: hidden;
 
 }
 
