@@ -12,12 +12,14 @@
 		<!-- external CSS link -->
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/dc.css">
 
 		<!-- external js libraries -->
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="js/d3.v3.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="js/topojson.v1.min.js"></script>
 		<script type="text/javascript" src="js/crossfilter.js"></script>
+		<script type="text/javascript" src="js/dc.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 	</head>
 
@@ -38,23 +40,9 @@
 					</div>
 					<div class="group">
 						<h4>Age</h4>
-						<svg class="vert-graph" id="age-vert-graph">
-						</svg>
-<!--						<ul>
-							<li>
-								<span class="overview-label">18-35</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">36-55</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">56+</span>
-								<span class="overview-value"></span>
-							</li>
-						</ul>
--->
+						<div class="horiz-graph" id="age-horiz-graph">
+						</div>
+
 					</div>
 					<div class="group">
 						<h4>Language</h4>
@@ -75,29 +63,9 @@
 					</div>
 					<div class="group">
 						<h4>Wealth</h4>
-						<svg class="vert-graph" id="wealth-vert-graph">
-						</svg>
+						<div class="horiz-graph" id="wealth-horiz-graph">
+						</div>
 
-
-<!--						<ul>
-							<li>
-								<span class="overview-label">Well-off</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">Medium Income</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">Poor</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">Very Poor</span>
-								<span class="overview-value"></span>
-							</li>
-						</ul>
--->
 					</div>
 				</div>
 				<div class="internet section clearfix">
