@@ -168,14 +168,6 @@ h1.title {
  float:left
 }
 
-.vert-graph rect {
-	fill: steelblue;
-
-}
-.vert-graph text {
-	fill:white;
-}
-
 .node {
 	position: absolute;
 	overflow:hidden;	
@@ -204,4 +196,8 @@ h1.title {
 	}
 .pie-graph {
 	background-color: transparent;
+}
+.tree-graph {
+
+	position: relative;
 } 	

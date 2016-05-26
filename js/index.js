@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 		if(error) return
 		surveyData = json;
-		visualizeit(surveyData); console.warn(error);
+		console.warn(error);
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph"); 		
 		var ageRowChart = dc.rowChart("#age-horiz-graph"); 
@@ -50,90 +50,98 @@ $(document).ready(function() {
 			.group(ageDim.group())
 			.renderLabel(true)
 			.xAxis().tickValues([]);
-
-		dc.renderAll();
-		//Makes Internet treeChart
-		treeChart("v27",cf.all(), "#net-tree-graph")
 	
 
-		function treeChart(media, records, element) {
-		//Set grab width and height of containing div [element]		
-			var width = innerWidth - 40;
-			var height = innerHeight - 40;
-		//Generate array of frequencies by user pick
-			var favorites = d3.nest()
-				.key(function(d) {return d[media];})
-				.rollup(function(v) {return v.length;})
-				.entries(records);
-			favorites.sort(function (x,y) {
-				return d3.descending(x.values, y.values);
-			});
-
-		//Removes undefined and Difficult to answer 
-			favorites = favorites.filter(function (d) {
-				return  d.key != "undefined" && d.key != "Difficult to answer";
-			})
-			favorites = favorites.slice(0,10)
-			favorites = {"name":"tree","children":favorites}
-
-			var div = d3.select(element).append("div").style("position","relative")
-			var treemap = d3.layout.treemap()
-				.size([width,height])
-				.sticky(true)
-				.value(function(d) {return d.values;});
-			var node = div.datum(favorites).selectAll(".node")
-				.data(treemap.nodes)
-				.enter().append("div")	
-				.attr("class","node")
-				.call(position)
-				.style("background-color", function(d) {
-					return d.name=='tree' ?'#fff': color( d.key ); 
-				})
-				.append('div')
-				.text(function(d) { return d.key; });
-
-		function position() {
-			this.style("left",function(d) { 
+		dc.renderAll();
+			
+	    dc.treeChart =  function (parent,  media, chartGroup) {
+			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
+			function position() {
+				this.style("left",function(d) { 
 					return d.x + "px";
 				})	
 				.style("top",function(d) {return d.y + "px";})	
 				.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})	
 				.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})	
+			}
+
+			_chart._doRender = function() {
+				_chart.selectAll("div").remove();
+		
+				var treemap = d3.layout.treemap()
+					.size([_chart.width(),_chart.height()])
+					.sticky(false)
+					.value(function(d) {return d.values;});
+				var node = _chart.root()
+					.datum(rollup(media)).selectAll(".node")
+					.data(treemap.nodes)
+					.enter().append("div")	
+					.attr("class","node")
+					.call(position)
+					.style("background-color", function(d) {
+						return d.name=='tree' ?'#fff': color( d.key ); 
+					})
+					.append('div')
+					.text(function(d) { return d.key; });
+				};
+
+			_chart._doRedraw = function() {
+				return _chart._doRender();
+
+			};
+			return _chart.anchor(parent, chartGroup)
 		}
 
-		}
 
+			function rollup(media) {
+				var rows = cf.all();
+			//Generate array of frequencies by user pick
+				var favorites = d3.nest()
+					.key(function(d) {return d[media];})
+					.rollup(function(v) {return v.length;})
+					.entries(rows);
+				favorites.sort(function (x,y) {
+					return d3.descending(x.values, y.values);
+				});
+
+			//Removes undefined and Difficult to answer 
+				favorites = favorites.filter(function (d) {
+					return  d.key != "undefined" && d.key != "Difficult to answer";
+				});
+				favorites = favorites.slice(0,10)
+				favorites = {"name":"tree","children":favorites}
+				return favorites;
+			}
+			
+
+	
+
+		//Makes Internet treeCharti
+		var internetTreeChart = dc.treeChart("#net-tree-graph","v27")
+
+
+		internetTreeChart;
+
+		//register chart
+		dc.registerChart(internetTreeChart);
+		//redraw all Charts
+		dc.redrawAll();
 
 		d3.select("#drawer").style("height",height + "px");
 		var projection = d3.geo.conicEqualArea()
-		.center([0, geometry_center.latitude])
-		.rotate([-geometry_center.longitude, 0])
-		.parallels([46, 52]);  // vsapsai: selected these parallels myself, most likely they are wrong.
+			.center([0, geometry_center.latitude])
+			.rotate([-geometry_center.longitude, 0])
+			.parallels([46, 52]);  // vsapsai: selected these parallels myself, most likely they are wrong.
 		var path = d3.geo.path()
-		.projection(projection);
+			.projection(projection);
 		d3.select(window).on("resize",sizeChange);
 		// bring in survey data; will be available within the call
 		var surveyData;
 		projection
-		.scale(width * 4.5)
-		.translate([width / 2, height / 2]);
-
-
-		//function to update all charts
-		function render(dim) {
-			d3.select("#gender-pie-graph") 
-		}
-
-		function visualizeit(surveyData) {
-		// Bring the Survey Data into crossfilter
-	//			var cityDim = cf.dimension(function(d) {return d.v170;})
+			.scale(width * 4.5)
+			.translate([width / 2, height / 2]);
 
 			
-		
-
-
-		}
-
 
 		// create the variable to append the svg to the map class in the html
 		var svg = d3.select("body").selectAll("#map").append("svg")
