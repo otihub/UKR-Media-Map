@@ -17,7 +17,8 @@ $(document).ready(function() {
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph"); 		
 		var ageRowChart = dc.rowChart("#age-horiz-graph"); 
-//		var wealthHorizChart = dc.barChart("#wealth-horiz-graph"); 
+//		var wealthHorizChart = dc.barChart("#wealth-horiz-graph");
+		 
 				
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
@@ -30,8 +31,10 @@ $(document).ready(function() {
 		var wealthDim = cf.dimension(function(d) {return d.v154;})
 		var languageDim = cf.dimension(function(d) {return d.v155;})
 		var oblaskDim = cf.dimension(function(d) {return d.v175;})
-	
 
+
+		
+	
 //Visualize it
 		genderPieChart
 			.width(width/30)
@@ -53,8 +56,62 @@ $(document).ready(function() {
 	
 
 		dc.renderAll();
+
+		dc.portionTextChart = function (parent, attribute, chartGroup) {
+			var recordsTotal = cf.groupAll().value();
+
+			console.log(recordsTotal)
+			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
+			function position() {
+				this.style("left",function(d) { 
+					return d.x + "px";
+				})	
+				.style("top",function(d) {return d.y + "px";})	
+				.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})	
+				.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})	
+			}
+
+		//accessor function to add a list of items to remove from the chart _ but keep in data
+			_chart.removeList = function(_) {
+			   if (!arguments.length) {
+    		      return _;
+     			 }
+      			_removeList = _;
+      			return _chart;
+ 			 };			
 			
-	    dc.treeChart =  function (parent,  media, chartGroup) {
+	
+			_chart._doRender = function() {
+				console.log(_chart.root())
+				
+				var items = rollup(attribute);
+				
+				console.log(items.children.filter(itemsToRemove))
+
+				function itemsToRemove (element) {
+					return _removeList.indexOf(element.key) == -1;
+				}
+
+				_chart.selectAll("div").remove();
+				var line = _chart.root()
+					.selectAll(".overview-label")
+					.data(items.children.filter(itemsToRemove))
+					.enter().append("span")
+					.attr("class","overview-label")
+					.attr("text", function(d) {return d.key;})
+					.append("span")
+					.attr("class","overview-value")
+					.attr("text", function(d) {return ((d.values/recordsTotal) * 100).toString() + "%";})
+			};
+			
+			_chart._doRedraw = function() {
+				return _chart._doRender();
+
+		};
+			return _chart.anchor(parent, chartGroup)
+		};
+			
+	    dc.treeChart =  function (parent,  attribute, chartGroup) {
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
 				this.style("left",function(d) { 
@@ -67,13 +124,12 @@ $(document).ready(function() {
 
 			_chart._doRender = function() {
 				_chart.selectAll("div").remove();
-		
 				var treemap = d3.layout.treemap()
 					.size([_chart.width(),_chart.height()])
 					.sticky(false)
-					.value(function(d) {return d.values;});
+					.value(function(d) { return d.values;});
 				var node = _chart.root()
-					.datum(rollup(media)).selectAll(".node")
+					.datum(rollup(attribute)).selectAll(".node")
 					.data(treemap.nodes)
 					.enter().append("div")	
 					.attr("class","node")
@@ -93,11 +149,11 @@ $(document).ready(function() {
 		}
 
 
-			function rollup(media) {
+			function rollup(attribute) {
 				var rows = cf.all();
 			//Generate array of frequencies by user pick
 				var favorites = d3.nest()
-					.key(function(d) {return d[media];})
+					.key(function(d) {return d[attribute];})
 					.rollup(function(v) {return v.length;})
 					.entries(rows);
 				favorites.sort(function (x,y) {
@@ -114,16 +170,15 @@ $(document).ready(function() {
 			}
 			
 
-	
-
 		//Makes Internet treeCharti
 		var internetTreeChart = dc.treeChart("#net-tree-graph","v27")
-
-
+		var langPortion = dc.portionTextChart("#lang-text-graph","v155");
 		internetTreeChart;
-
+		langPortion
+			.removeList(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
 		//register chart
 		dc.registerChart(internetTreeChart);
+		dc.registerChart(langPortion);
 		//redraw all Charts
 		dc.redrawAll();
 
@@ -141,7 +196,6 @@ $(document).ready(function() {
 			.scale(width * 4.5)
 			.translate([width / 2, height / 2]);
 
-			
 
 		// create the variable to append the svg to the map class in the html
 		var svg = d3.select("body").selectAll("#map").append("svg")
