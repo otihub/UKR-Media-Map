@@ -56,7 +56,7 @@ $(document).ready(function() {
 	
 
 		dc.renderAll();
-
+//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
 		dc.portionTextChart = function (parent, attribute, chartGroup) {
 			var recordsTotal = cf.groupAll().value();
 
@@ -78,16 +78,15 @@ $(document).ready(function() {
      			 }
       			_removeList = _;
       			return _chart;
- 			 };			
-			
+ 			 };		
 	
+		//formatter for percent	
+			percent = d3.format(".0%")
+
 			_chart._doRender = function() {
-				console.log(_chart.root())
 				
 				var items = rollup(attribute);
-				
-				console.log(items.children.filter(itemsToRemove))
-
+				console.log(items)
 				function itemsToRemove (element) {
 					return _removeList.indexOf(element.key) == -1;
 				}
@@ -98,13 +97,14 @@ $(document).ready(function() {
 					.data(items.children.filter(itemsToRemove))
 					.enter().append("span")
 					.attr("class","overview-label")
-					.attr("text", function(d) {return d.key;})
+					.text( function(d) {return d.key;})
 					.append("span")
 					.attr("class","overview-value")
-					.attr("text", function(d) {return ((d.values/recordsTotal) * 100).toString() + "%";})
+					.text(function(d) {return  percent(d.values/recordsTotal);})
 			};
 			
 			_chart._doRedraw = function() {
+				console.log("rerender")
 				return _chart._doRender();
 
 		};
@@ -151,6 +151,7 @@ $(document).ready(function() {
 
 			function rollup(attribute) {
 				var rows = cf.all();
+				console.log(rows.length)
 			//Generate array of frequencies by user pick
 				var favorites = d3.nest()
 					.key(function(d) {return d[attribute];})
@@ -172,6 +173,7 @@ $(document).ready(function() {
 
 		//Makes Internet treeCharti
 		var internetTreeChart = dc.treeChart("#net-tree-graph","v27")
+//		var langPortion = dc.portionTextChart("#lang-text-graph","v155");
 		var langPortion = dc.portionTextChart("#lang-text-graph","v155");
 		internetTreeChart;
 		langPortion
