@@ -31,8 +31,13 @@ $(document).ready(function() {
 		var wealthDim = cf.dimension(function(d) {return d.v154;})
 		var languageDim = cf.dimension(function(d) {return d.v155;})
 		var oblaskDim = cf.dimension(function(d) {return d.v175;})
+		var intDim = cf.dimension(function(d) {return d.v27;})
 
+// radioDim causing max call stack error
+		var radioDim = cf.dimension(function(d) {return d.v41;})
+		var tvDim = cf.dimension(function(d) {return d.v57;})
 
+		
 		
 	
 //Visualize it
@@ -57,10 +62,8 @@ $(document).ready(function() {
 
 		dc.renderAll();
 //portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
-		dc.portionTextChart = function (parent, attribute, chartGroup) {
-			var recordsTotal = cf.groupAll().value();
+		dc.portionTextChart = function (parent, dim, chartGroup) {
 
-			console.log(recordsTotal)
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
 				this.style("left",function(d) { 
@@ -84,34 +87,36 @@ $(document).ready(function() {
 			percent = d3.format(".0%")
 
 			_chart._doRender = function() {
+				var recordsTotal = dim.groupAll().reduceCount().value();
 				
-				var items = rollup(attribute);
-				console.log(items)
+				var items = dim.group().reduceCount().all()
+
 				function itemsToRemove (element) {
 					return _removeList.indexOf(element.key) == -1;
 				}
 
-				_chart.selectAll("div").remove();
+				_chart.selectAll("span").remove();
 				var line = _chart.root()
-					.selectAll(".overview-label")
-					.data(items.children.filter(itemsToRemove))
+				line.selectAll("span").remove();
+				line.selectAll(".overview-label")
+					.data(items.filter(itemsToRemove))
 					.enter().append("span")
 					.attr("class","overview-label")
-					.text( function(d) {return d.key;})
+					.text( function(d) { return d.key;})
 					.append("span")
 					.attr("class","overview-value")
-					.text(function(d) {return  percent(d.values/recordsTotal);})
+					.text(function(d) {return  percent(d.value/recordsTotal);})
 			};
 			
 			_chart._doRedraw = function() {
-				console.log("rerender")
+				
 				return _chart._doRender();
 
 		};
 			return _chart.anchor(parent, chartGroup)
 		};
 			
-	    dc.treeChart =  function (parent,  attribute, chartGroup) {
+	    dc.treeChart =  function (parent, dim, chartGroup) {
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
 				this.style("left",function(d) { 
@@ -127,9 +132,9 @@ $(document).ready(function() {
 				var treemap = d3.layout.treemap()
 					.size([_chart.width(),_chart.height()])
 					.sticky(false)
-					.value(function(d) { return d.values;});
+					.value(function(d) { return d.value;});
 				var node = _chart.root()
-					.datum(rollup(attribute)).selectAll(".node")
+					.datum(makeTree(dim.group().reduceCount().all())).selectAll(".node")
 					.data(treemap.nodes)
 					.enter().append("div")	
 					.attr("class","node")
@@ -149,32 +154,23 @@ $(document).ready(function() {
 		}
 
 
-			function rollup(attribute) {
-				var rows = cf.all();
-				console.log(rows.length)
-			//Generate array of frequencies by user pick
-				var favorites = d3.nest()
-					.key(function(d) {return d[attribute];})
-					.rollup(function(v) {return v.length;})
-					.entries(rows);
-				favorites.sort(function (x,y) {
-					return d3.descending(x.values, y.values);
-				});
-
-			//Removes undefined and Difficult to answer 
-				favorites = favorites.filter(function (d) {
+			
+		//Removes undefined and Difficult to answer 
+			function makeTree (json) {	
+				json = json.filter(function (d) {
 					return  d.key != "undefined" && d.key != "Difficult to answer";
 				});
-				favorites = favorites.slice(0,10)
-				favorites = {"name":"tree","children":favorites}
-				return favorites;
+		//only the top 10 (might want to make this a parameter)
+				json = json.slice(0,10)
+				json = {"name":"tree","children":json}
+				return json;
 			}
-			
+				
 
 		//Makes Internet treeCharti
-		var internetTreeChart = dc.treeChart("#net-tree-graph","v27")
+		var internetTreeChart = dc.treeChart("#net-tree-graph",intDim)
 //		var langPortion = dc.portionTextChart("#lang-text-graph","v155");
-		var langPortion = dc.portionTextChart("#lang-text-graph","v155");
+		var langPortion = dc.portionTextChart("#lang-text-graph",languageDim);
 		internetTreeChart;
 		langPortion
 			.removeList(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
