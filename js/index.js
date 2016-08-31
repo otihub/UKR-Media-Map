@@ -60,8 +60,8 @@ $(document).ready(function() {
 
 
 		dc.renderAll();
-//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
-		dc.portionTextChart = function (parent, dim, chartGroup) {
+		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
+		dc.portionTextChart = function (parent, chartGroup) {
 
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
@@ -77,7 +77,6 @@ $(document).ready(function() {
 			_chart.removeList = function(_) {
 				console.log(!arguments.length)
 			   if (!arguments.length) {
-					console.log("butts")
     		      return _;
      			 }
 				console.log(_)
@@ -102,9 +101,8 @@ $(document).ready(function() {
 			percent = d3.format(".0%")
 
 			_chart._doRender = function() {
-				var recordsTotal = dim.groupAll().reduceCount().value();
-
-				var items = dim.group().reduceCount().all()
+				var recordsTotal = _chart.dimension().groupAll().reduceCount().value();
+				var items = _chart.dimension().group().reduceCount().all()
 				items.sort(function(x,y) {
 					return d3.descending(x.value, y.value);
 					})
@@ -133,7 +131,7 @@ $(document).ready(function() {
 			return _chart.anchor(parent, chartGroup)
 		};
 
-	    dc.treeChart =  function (parent, dim, chartGroup) {
+	    dc.treeChart =  function (parent, chartGroup) {
 	
 			//Makes into tree structure
 			function makeTree (json) {
@@ -170,6 +168,7 @@ $(document).ready(function() {
 			}
 
 			_chart._doRender = function() {
+				console.log(_chart.dimension())
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
 				.size([_chart.width(),_chart.height()])
@@ -177,7 +176,7 @@ $(document).ready(function() {
 					.value(function(d) { return d.value;});
 
 				var node = _chart.root()
-					.datum(makeTree(removeUnwanted(dim.group().reduceCount().all(),_removeThese)))
+					.datum(makeTree(removeUnwanted(_chart.dimension().group().reduceCount().all() , _removeThese)))
 					.selectAll(".node")
 					.data(treemap.nodes)
 					.enter().append("div")
@@ -201,28 +200,27 @@ $(document).ready(function() {
 
 
 
-
-
-
 		//Makes Internet treeCharti
-		var internetTreeChart = dc.treeChart("#net-tree-graph",intDim)
-		var langPortion = dc.portionTextChart("#lang-text-graph",languageDim);
-		var educPortion = dc.portionTextChart("#educ-text-graph",educDim);
+		var internetTreeChart = dc.treeChart("#net-tree-graph");
+		var langPortion = dc.portionTextChart("#lang-text-graph");
+		var educPortion = dc.portionTextChart("#educ-text-graph");
 		internetTreeChart
-			.removeThese(["undefined","Difficult to answer","0629.com.ua"]);
+			.dimension(intDim)
+			.removeThese(["undefined","Difficult to answer"]);
 
 		educPortion
+			.dimension(educDim)
 			.removeList(["DK"])
 			.codeBook({"Primary school (finished the primary school, a 4-9 year pupi":"Primary","Secondary school (finished 9 years, a 10-11 year pupil)":"Some Secondary","Complete secondary school (finished 10-11 years)":"Secondary","Vocational school, training\\further training centre for work":"Vocational School","Technical secondary school, college, other specialised secon":"Technical","Higher educational institution (Specialist or Master degree)":"Masters","DK":"DK"} );
 
 
-
 		langPortion
+			.dimension(languageDim)
 			.removeList(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
 
 
 //	.codeBook({"Forced to economize on food":"Very Poor","Enough money to buy food. However, I have to save or borrow":"Poor","Enough money to buy food and necessary clothes, shoes. Howev":"Medium","Enough money to buy food, clothes, shoes, and other goods. H":"Upper Medium","Enough money to buy food, clothes, shoes, and expensive good":"Wealthy","I can make any necessary purchases any time":"Very Welthy","Hard to say":"Hard to Say"});
-		//register chart
+		//register charts
 		dc.registerChart(internetTreeChart);
 		dc.registerChart(langPortion);
 		dc.registerChart(educPortion);
