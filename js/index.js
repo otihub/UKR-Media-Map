@@ -74,20 +74,19 @@ $(document).ready(function() {
 			}
 
 		//accessor function to add a list of items to remove from the chart _ but keep in data
-			_chart.removeList = function(_) {
-				console.log(!arguments.length)
+			_chart.removeThese = function(_) {
 			   if (!arguments.length) {
-    		      return _;
+    		      return _removeThese;
      			 }
 				console.log(_)
-      			_removeList = _;
+      			_removeThese = _;
       			return _chart;
  			 };
 
 		//accessor function to return a dictionary to convert long strange factors to things reasonable for html
 			_chart.codeBook = function(_) {
 			   if (Object.keys(_).length == 0) {
-    		      return _;
+    		      return _codeBook;
      			 }
       			_codeBook = function(y) {
 					if (_.hasOwnProperty(y)) {
@@ -107,9 +106,18 @@ $(document).ready(function() {
 					return d3.descending(x.value, y.value);
 					})
 
-				function itemsToRemove (element) {
-					return _removeList.indexOf(element.key)== -1;
+				function itemsToRemove (x) {
+					
+					console.log(_removeThese)
+					console.log(x.key)
+					console.log( _removeThese.indexOf(x.key))
+					console.log( _removeThese.indexOf(x.key) == -1)
+					return _removeThese.indexOf(x.key) == -1;
+					
 				}
+				console.log(items)
+				console.log(_removeThese)
+				console.log(items.filter(itemsToRemove))
 				_chart.selectAll("span").remove();
 				var line = _chart.root()
 				line.selectAll("span").remove();
@@ -210,13 +218,13 @@ $(document).ready(function() {
 
 		educPortion
 			.dimension(educDim)
-			.removeList(["DK"])
-			.codeBook({"Primary school (finished the primary school, a 4-9 year pupi":"Primary","Secondary school (finished 9 years, a 10-11 year pupil)":"Some Secondary","Complete secondary school (finished 10-11 years)":"Secondary","Vocational school, training\\further training centre for work":"Vocational School","Technical secondary school, college, other specialised secon":"Technical","Higher educational institution (Specialist or Master degree)":"Masters","DK":"DK"} );
+			.codeBook({"Primary school (finished the primary school, a 4-9 year pupi":"Primary","Secondary school (finished 9 years, a 10-11 year pupil)":"Some Secondary","Complete secondary school (finished 10-11 years)":"Secondary","Vocational school, training\\further training centre for work":"Vocational School","Technical secondary school, college, other specialised secon":"Technical","Higher educational institution (Specialist or Master degree)":"Masters","DK":"DK"})
+			.removeThese(["DK","Primary school (finished the primary school, a 4-9 year pupi"]);
 
 
 		langPortion
 			.dimension(languageDim)
-			.removeList(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
+			.removeThese(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
 
 
 //	.codeBook({"Forced to economize on food":"Very Poor","Enough money to buy food. However, I have to save or borrow":"Poor","Enough money to buy food and necessary clothes, shoes. Howev":"Medium","Enough money to buy food, clothes, shoes, and other goods. H":"Upper Medium","Enough money to buy food, clothes, shoes, and expensive good":"Wealthy","I can make any necessary purchases any time":"Very Welthy","Hard to say":"Hard to Say"});
