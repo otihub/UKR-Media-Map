@@ -17,8 +17,8 @@ $(document).ready(function() {
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph");
 		var ageRowChart = dc.rowChart("#age-horiz-graph");
-//		var wealthHorizChart = dc.barChart("#wealth-horiz-graph");
 
+		
 
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
@@ -32,11 +32,8 @@ $(document).ready(function() {
 		var languageDim = cf.dimension(function(d) {return d.v155;})
 		var oblaskDim = cf.dimension(function(d) {return d.v175;})
 		var intDim = cf.dimension(function(d) {return d.v27;})
-
-// radioDim causing max call stack error
 		var radioDim = cf.dimension(function(d) {return d.v41;})
 		var tvDim = cf.dimension(function(d) {return d.v57;})
-
 
 
 //Visualize it
@@ -58,10 +55,11 @@ $(document).ready(function() {
 			.renderLabel(true)
 			.xAxis().tickValues([]);
 
-
-		dc.renderAll();
+			
 		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
 		dc.portionTextChart = function (parent, chartGroup) {
+			var _chosen;
+			var _title;
 
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
@@ -74,50 +72,39 @@ $(document).ready(function() {
 			}
 
 		//accessor function to add a list of items to remove from the chart _ but keep in data
-			_chart.removeThese = function(_) {
+			_chart._chosen = function(_) {
 			   if (!arguments.length) {
-    		      return _removeThese;
+    		      return _chosen;
      			 }
-				console.log(_)
-      			_removeThese = _;
+      			_chosen = _;
       			return _chart;
  			 };
 
-		//accessor function to return a dictionary to convert long strange factors to things reasonable for html
-			_chart.codeBook = function(_) {
-			   if (Object.keys(_).length == 0) {
-    		      return _codeBook;
+		//accessor function to grab a title for the graph			
+
+			_chart._title = function(_) {
+			   if (!arguments) {
+				  console.log(_chosen);
+    		      return _chosen;
      			 }
-      			_codeBook = function(y) {
-					if (_.hasOwnProperty(y)) {
-						return _[y];
-					}
-					else return y;
-				}
+      			_title = _;
       			return _chart;
  			 };
+
+
 		//formatter for percent
 			percent = d3.format(".0%")
 
 			_chart._doRender = function() {
+
+				console.log("hello");
 				var recordsTotal = _chart.dimension().groupAll().reduceCount().value();
 				var items = _chart.dimension().group().reduceCount().all()
-				items.sort(function(x,y) {
-					return d3.descending(x.value, y.value);
-					})
 
 				function itemsToRemove (x) {
-					
-					console.log(_removeThese)
-					console.log(x.key)
-					console.log( _removeThese.indexOf(x.key))
-					console.log( _removeThese.indexOf(x.key) == -1)
-					return _removeThese.indexOf(x.key) == -1;
+					return _chosen.indexOf(x.key) != -1;
 					
 				}
-				console.log(items)
-				console.log(_removeThese)
-				console.log(items.filter(itemsToRemove))
 				_chart.selectAll("span").remove();
 				var line = _chart.root()
 				line.selectAll("span").remove();
@@ -125,7 +112,7 @@ $(document).ready(function() {
 					.data(items.filter(itemsToRemove))
 					.enter().append("span")
 					.attr("class","overview-label")
-					.text( function(d) { return _codeBook(d.key);})
+					.text( function(d) { return _title;})
 					.append("span")
 					.attr("class","overview-value")
 					.text(function(d) {return  percent(d.value/recordsTotal);})
@@ -138,7 +125,6 @@ $(document).ready(function() {
 		};
 			return _chart.anchor(parent, chartGroup)
 		};
-
 	    dc.treeChart =  function (parent, chartGroup) {
 	
 			//Makes into tree structure
@@ -162,10 +148,10 @@ $(document).ready(function() {
 			   	if (!arguments.length) {
     		   		return _;
      			 }
-				 console.log(_)
       			_removeThese = _;
       				return _chart;
  			 	};
+
 			function position() {
 				this.style("left",function(d) {
 					return d.x + "px";
@@ -176,7 +162,6 @@ $(document).ready(function() {
 			}
 
 			_chart._doRender = function() {
-				console.log(_chart.dimension())
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
 				.size([_chart.width(),_chart.height()])
@@ -206,26 +191,31 @@ $(document).ready(function() {
 
 
 
-
-
 		//Makes Internet treeCharti
-		var internetTreeChart = dc.treeChart("#net-tree-graph");
-		var langPortion = dc.portionTextChart("#lang-text-graph");
-		var educPortion = dc.portionTextChart("#educ-text-graph");
+		var internetTreeChart = dc.treeChart("#net-tree-graph", "main");
+		var langPortion = dc.portionTextChart("#lang-text-graph", "main");
+		var educPortion = dc.portionTextChart("#educ-text-graph", "main");
+		
+		var groupLang = languageDim.group()
+	
 		internetTreeChart
 			.dimension(intDim)
 			.removeThese(["undefined","Difficult to answer"]);
 
+
+
 		educPortion
 			.dimension(educDim)
-			.codeBook({"Primary school (finished the primary school, a 4-9 year pupi":"Primary","Secondary school (finished 9 years, a 10-11 year pupil)":"Some Secondary","Complete secondary school (finished 10-11 years)":"Secondary","Vocational school, training\\further training centre for work":"Vocational School","Technical secondary school, college, other specialised secon":"Technical","Higher educational institution (Specialist or Master degree)":"Masters","DK":"DK"})
-			.removeThese(["DK","Primary school (finished the primary school, a 4-9 year pupi"]);
+			._title("Primary")
+			._chosen(["Primary school (finished the primary school, a 4-9 year pupi"]);
 
 
 		langPortion
 			.dimension(languageDim)
-			.removeThese(["Other","Other: no answer","Other: 'surzhyk' (mixture of Ukrainian and Russian)"]);
+			._chosen(["Russian"])
+			._title("Russian");
 
+		dc.renderAll();
 
 //	.codeBook({"Forced to economize on food":"Very Poor","Enough money to buy food. However, I have to save or borrow":"Poor","Enough money to buy food and necessary clothes, shoes. Howev":"Medium","Enough money to buy food, clothes, shoes, and other goods. H":"Upper Medium","Enough money to buy food, clothes, shoes, and expensive good":"Wealthy","I can make any necessary purchases any time":"Very Welthy","Hard to say":"Hard to Say"});
 		//register charts
