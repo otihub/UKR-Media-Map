@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 		//accessor function to add a list of items to remove from the chart _ but keep in data
 			_chart._chosen = function(_) {
-			   if (!arguments.length) {
+			   if (!arguments) {
     		      return _chosen;
      			 }
       			_chosen = _;
@@ -97,7 +97,6 @@ $(document).ready(function() {
 
 			_chart._doRender = function() {
 
-				console.log("hello");
 				var recordsTotal = _chart.dimension().groupAll().reduceCount().value();
 				var items = _chart.dimension().group().reduceCount().all()
 
@@ -207,17 +206,16 @@ $(document).ready(function() {
 		educPortion
 			.dimension(educDim)
 			._title("Primary")
-			._chosen(["Primary school (finished the primary school, a 4-9 year pupi"]);
+			._chosen("Primary school (finished the primary school, a 4-9 year pupi");
 
 
 		langPortion
 			.dimension(languageDim)
-			._chosen(["Russian"])
+			._chosen("Russian")
 			._title("Russian");
 
 		dc.renderAll();
 
-//	.codeBook({"Forced to economize on food":"Very Poor","Enough money to buy food. However, I have to save or borrow":"Poor","Enough money to buy food and necessary clothes, shoes. Howev":"Medium","Enough money to buy food, clothes, shoes, and other goods. H":"Upper Medium","Enough money to buy food, clothes, shoes, and expensive good":"Wealthy","I can make any necessary purchases any time":"Very Welthy","Hard to say":"Hard to Say"});
 		//register charts
 		dc.registerChart(internetTreeChart);
 		dc.registerChart(langPortion);
