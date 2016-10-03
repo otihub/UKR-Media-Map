@@ -9,20 +9,18 @@ $(document).ready(function() {
 
 	var transitionTime = 700;
 	var color = d3.scale.category20();
-	d3.json("data/surveyResponse.json", function(error, json) {
+	d3.json("data/chosen.json", function(error, json) {
+		
 
 		if(error) return
 		surveyData = json;
 		console.warn(error);
-//Make DC.js charts
-		var genderPieChart = dc.pieChart("#gender-pie-graph");
-		var ageRowChart = dc.rowChart("#age-horiz-graph");
+
 
 		
 
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
-
 //Create Dimensions
 		var genderDim = cf.dimension(function(d) {return d.v2;})
 		var ageDim = cf.dimension(function(d) {return d.v172;})
@@ -35,32 +33,11 @@ $(document).ready(function() {
 		var radioDim = cf.dimension(function(d) {return d.v41;})
 		var tvDim = cf.dimension(function(d) {return d.v57;})
 
-
-//Visualize it
-		genderPieChart
-			.width(width/30)
-			.height(width/30)
-			.dimension(genderDim)
-			.group(genderDim.group())
-			.transitionDuration(transitionTime)
-			.radius(width/60)
-			.renderLabel(false);
-
-		ageRowChart
-			.width(width/10)
-			.height(width/10)
-			.dimension(ageDim)
-			.margins({top:0,right:0,bottom:-1,left:0})
-			.group(ageDim.group())
-			.renderLabel(true)
-			.xAxis().tickValues([]);
-
 			
 		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
 		dc.portionTextChart = function (parent, chartGroup) {
 			var _chosen;
 			var _title;
-
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			function position() {
 				this.style("left",function(d) {
@@ -125,7 +102,7 @@ $(document).ready(function() {
 			return _chart.anchor(parent, chartGroup)
 		};
 	    dc.treeChart =  function (parent, chartGroup) {
-	
+			console.log(chartGroup);	
 			//Makes into tree structure
 			function makeTree (json) {
 				json = {"name":"tree","children":json}
@@ -187,118 +164,99 @@ $(document).ready(function() {
 			
 			return _chart.anchor(parent, chartGroup)
 		}
-
-
-
-		//Makes Internet treeCharti
+//Make DC.js charts
+		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
+		var ageRowChart = dc.rowChart("#age-horiz-graph","main");		
 		var internetTreeChart = dc.treeChart("#net-tree-graph", "main");
 		var langPortion = dc.portionTextChart("#lang-text-graph", "main");
 		var educPortion = dc.portionTextChart("#educ-text-graph", "main");
+		var Map = dc_leaflet.choroplethChart("#map","main");
+
+		
+
+		d3.json("data/select-oblasks.geojson", function(error, ukraineData) {
+
+//Filter out the json in RU controlled mostly to check to see if that was the problem 
+			ukraineData.features = ukraineData.features.filter(function(d) {
+					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
+				}
+			)
+
+	console.log(	oblaskDim.group().reduceSum(function(d) { return d.value;}))
+		console.log(oblaskDim.group().reduceCount().all())
+//Visualize it
+			Map
+				.dimension(oblaskDim)
+				.group(oblaskDim.group().reduceSum(function(d) { return d.value;}))
+				.center([49,33])
+				.width(600)
+				.height(400)
+				.zoom(7)
+				.geojson(ukraineData)
+				.colors(colorbrewer.YlGnBu[7])
+				.colorAccessor(function(d,i) {
+					console.log(d);
+					return d.value;
+				})
+				.featureKeyAccessor(function(feature) {
+					console.log(feature.properties.NAMELATIN);
+					return feature.properties.NAMELATIN;
+				});
+
+	console.log(Map);	
+		genderPieChart
+			.width(width/30)
+			.height(width/30)
+			.dimension(genderDim)
+			.group(genderDim.group())
+			.transitionDuration(transitionTime)
+			.radius(width/60)
+			.renderLabel(false);
+
+		ageRowChart
+			.width(width/10)
+			.height(width/10)
+			.dimension(ageDim)
+			.margins({top:0,right:0,bottom:-1,left:0})
+			.group(ageDim.group())
+			.renderLabel(true)
+			.xAxis().tickValues([]);
 		
 		var groupLang = languageDim.group()
 	
 		internetTreeChart
+			.chartGroup("main")
 			.dimension(intDim)
 			.removeThese(["undefined","Difficult to answer"]);
 
-
-
 		educPortion
+			.chartGroup("main")
 			.dimension(educDim)
 			._title("Primary")
 			._chosen("Primary school (finished the primary school, a 4-9 year pupi");
 
 
 		langPortion
+			.chartGroup("main")
 			.dimension(languageDim)
 			._chosen("Russian")
 			._title("Russian");
 
-		dc.renderAll();
+
+
 
 		//register charts
-		dc.registerChart(internetTreeChart);
-		dc.registerChart(langPortion);
-		dc.registerChart(educPortion);
+		dc.registerChart(internetTreeChart, "main");
+		dc.registerChart(langPortion, "main");
+		dc.registerChart(educPortion, "main");
+
+		dc.renderAll("main");
 		//redraw all Charts
 		dc.redrawAll();
-
-		d3.select("#drawer").style("height",height + "px");
-		var projection = d3.geo.conicEqualArea()
-			.center([0, geometry_center.latitude])
-			.rotate([-geometry_center.longitude, 0])
-			.parallels([46, 52]);  // vsapsai: selected these parallels myself, most likely they are wrong.
-		var path = d3.geo.path()
-			.projection(projection);
-		d3.select(window).on("resize",sizeChange);
-		// bring in survey data; will be available within the call
-		var surveyData;
-		projection
-			.scale(width * 4.5)
-			.translate([width / 2, height / 2]);
+	});
 
 
-		// create the variable to append the svg to the map class in the html
-		var svg = d3.select("body").selectAll("#map").append("svg")
-		.attr("viewBox","0 0 " + width + " " + height )
-		.attr("preserveAspectRatio","xMinYMin")
-			.append("g");
-
-
-		var topo_data = null;
-
-		d3.json("data/ukraine.json", function(error, ukraineData) {
-		topo_data = ukraineData;
-
-		var countries = topojson.feature(ukraineData, ukraineData.objects.countries);
-		svg.selectAll(".country")
-			.data(countries.features)
-			.enter().append("path")
-			.attr("class", function(d) { return "country " + d.id; })
-			.attr("d", path);
-
-		svg.append("path")
-			.datum(topojson.mesh(ukraineData, ukraineData.objects.countries, function(a, b) { return a !== b; }))
-			.attr("class", "country-boundary")
-			.attr("d", path);
-		svg.append("path")
-				.datum(topojson.mesh(ukraineData, ukraineData.objects.countries, function(a, b) { return a === b; }))
-				.attr("class", "coastline")
-				.attr("d", path);
-
-		var water_group = svg.append("g")
-			.attr("id", "water-resources");
-		var rivers = topojson.feature(ukraineData, ukraineData.objects.rivers);
-		water_group.selectAll(".river")
-			.data(rivers.features)
-			.enter().append("path")
-			.attr("class", "river")
-			.attr("name", function(d) { return d.properties.name; })
-			.attr("d", path);
-
-		// Add lakes after rivers so that river lines connect reservoirs, not cross them.
-		var lakes = topojson.feature(ukraineData, ukraineData.objects.lakes);
-		water_group.selectAll(".lake")
-			.data(lakes.features)
-			.enter().append("path")
-			.attr("class", "lake")  // Note: not necessary a lake, it can be a reservoir.
-			.attr("name", function(d) { return d.properties.name; })
-			.attr("d", path);
-
-		var regions = topojson.feature(ukraineData, ukraineData.objects.regions);
-			svg.selectAll(".region")
-			.data(regions.features)
-			.enter().append("path")
-			.classed("region", true)
-			.attr("id", function(d) { return d.id; })
-			.attr("d", path);
-		svg.append("path")
-			.datum(topojson.mesh(ukraineData, ukraineData.objects.regions, function(a, b) { return a !== b; }))
-			.classed("region-boundary", true)
-			.attr("d", path);
-
-		});
-
+*/
 		//on window change resize the svg to fit d
 		function sizeChange() {
 		var width = parseInt(d3.select('#map').style('width')),
