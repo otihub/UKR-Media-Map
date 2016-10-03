@@ -168,6 +168,12 @@ h1.title {
  float:left
 }
 
+.overview-value {
+	display:block; 
+}
+.overview-label {
+
+}
 .node {
 	position: absolute;
 	overflow:hidden;	

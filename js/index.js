@@ -181,21 +181,18 @@ $(document).ready(function() {
 					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
 				}
 			)
-
-	console.log(	oblaskDim.group().reduceSum(function(d) { return d.value;}))
-		console.log(oblaskDim.group().reduceCount().all())
+console.log(oblaskDim.group().reduceCount(function(d) { return d.value;}).all())
 //Visualize it
 			Map
 				.dimension(oblaskDim)
-				.group(oblaskDim.group().reduceSum(function(d) { return d.value;}))
+				.group(oblaskDim.group().reduceCount(function(d) { return d.value;}))
 				.center([49,33])
 				.width(600)
 				.height(400)
-				.zoom(7)
+				.zoom(5)
 				.geojson(ukraineData)
 				.colors(colorbrewer.YlGnBu[7])
 				.colorAccessor(function(d,i) {
-					console.log(d);
 					return d.value;
 				})
 				.featureKeyAccessor(function(feature) {
@@ -252,11 +249,10 @@ $(document).ready(function() {
 
 		dc.renderAll("main");
 		//redraw all Charts
-		dc.redrawAll();
+//		dc.redrawAll();
 	});
 
 
-*/
 		//on window change resize the svg to fit d
 		function sizeChange() {
 		var width = parseInt(d3.select('#map').style('width')),
