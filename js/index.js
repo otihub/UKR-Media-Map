@@ -61,7 +61,6 @@ $(document).ready(function() {
 
 			_chart._title = function(_) {
 			   if (!arguments) {
-				  console.log(_chosen);
     		      return _chosen;
      			 }
       			_title = _;
@@ -102,7 +101,6 @@ $(document).ready(function() {
 			return _chart.anchor(parent, chartGroup)
 		};
 	    dc.treeChart =  function (parent, chartGroup) {
-			console.log(chartGroup);	
 			//Makes into tree structure
 			function makeTree (json) {
 				json = {"name":"tree","children":json}
@@ -181,7 +179,6 @@ $(document).ready(function() {
 					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
 				}
 			)
-console.log(oblaskDim.group().reduceCount(function(d) { return d.value;}).all())
 //Visualize it
 			Map
 				.dimension(oblaskDim)
@@ -196,11 +193,9 @@ console.log(oblaskDim.group().reduceCount(function(d) { return d.value;}).all())
 					return d.value;
 				})
 				.featureKeyAccessor(function(feature) {
-					console.log(feature.properties.NAMELATIN);
 					return feature.properties.NAMELATIN;
 				});
 
-	console.log(Map);	
 		genderPieChart
 			.width(width/30)
 			.height(width/30)
