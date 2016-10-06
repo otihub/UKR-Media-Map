@@ -15,6 +15,12 @@
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/dc.css">
+		<link rel="stylesheet" href="css/leaflet.css" />
+		<link rel="stylesheet" href="css/leaflet-legend.css" />
+		<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+
+
 
 		<!-- external js libraries -->
 <!--		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>-->
@@ -23,71 +29,76 @@
 		<script type="text/javascript" src="js/topojson.v1.min.js"></script>
 		<script type="text/javascript" src="js/crossfilter.js"></script>
 		<script type="text/javascript" src="js/dc.min.js"></script>
+		<script type="text/javascript" src="js/leaflet.js"></script>
+		<script type="text/javascript" src="js/leaflet.markercluster.js"></script>
+		<script type="text/javascript" src="js/dc.leaflet.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/colorbrewer.min.js"></script>
 	</head>
 
-	<body class="frontpage" >
-		<div id="header">
-			<h1 class="title">Media Landscape in Ukraine</h1>
-		</div>
-		<div id="drawer">
-			<div class="drawer-content">
-				<div class="overview clearfix">
-					<h2 class="drawer-title">Eastern Ukraine</h2>
-					<div class="group first">
-						<h4>Gender</h4>
-								<span class="overview-label">Female</span>
-								<span class="pie-graph" id="gender-pie-graph">
-								</span>
-								<span class="overview-label">Male</span>
-					</div>
-					<div class="group">
-						<h4>Age</h4>
-						<div class="horiz-graph" id="age-horiz-graph">
-						</div>
+	<body>
 
-					</div>
-					<div class="group">
-						<h4>Language</h4>
-							<div class="text-graph" id="lang-text-graph">
-							</div>
-<!--					<ul>
-							<li>
-								<span class="overview-label">Ukrainian</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">Russian</span>
-								<span class="overview-value"></span>
-							</li>
-							<li>
-								<span class="overview-label">Both</span>
-								<span class="overview-value"></span>
-							</li>
-						</ul>
--->
-					</div>
-					<div class="group">
-						<h4></h4>
-							<div class="text-graph" id="educ-text-graph">
-							</div>
-					</div>
-					<div class="group">
-						<h4>Wealth</h4>
-						<div class="horiz-graph" id="wealth-horiz-graph">
-						</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12"> 
+					<h1 class="title">Media Landscape in Ukraine</h1>
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-xs-8" id="map">
+				</div>
+				<div class="col-xs-4" id="drawer">
+					<div id="drawer">
+						<div class="drawer-content">
+							<div class="overview clearfix">
+								<div class="group first">
+									<h4>Gender</h4>
+										<span class="overview-label">Female</span>
+										<span class="pie-graph" id="gender-pie-graph"></span>
+										<span class="overview-label">Male</span>
+								</div>
+								<div class="group">
+									<h4>Age</h4>
+									<div class="horiz-graph" id="age-horiz-graph">
+									</div>
 
+								</div>
+								<div class="group">
+									<h4>Language</h4>
+									<div class="text-graph" id="lang-text-graph">
+									</div>
+								</div>
+								<div class="group">
+									<h4></h4>
+										<div class="text-graph" id="educ-text-graph">
+										</div>
+								</div>
+								<div class="group">
+									<h4>Wealth</h4>
+									<div class="horiz-graph" id="wealth-horiz-graph">
+									</div>
+								</div>
+							</div>
+	<!--					<div class="internet section clearfix">
+								<h3 class="media internet">Internet</h3>
+								<div class="tree-graph" id="net-tree-graph">
+								</div>
+							</div> 
+	-->
+						</div>
 					</div>
 				</div>
-				<div class="internet section clearfix">
-					<h3 class="media internet">Internet</h3>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="internet"> 
 					<div class="tree-graph" id="net-tree-graph">
 					</div>
 				</div> 
+			</div>		
 
-			</div>
+
 		</div>
-		<div class="clearfix" id="map"></div>
 	</body>
 
 </html>

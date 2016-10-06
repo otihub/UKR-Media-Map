@@ -33,7 +33,8 @@ $(document).ready(function() {
 		var radioDim = cf.dimension(function(d) {return d.v41;})
 		var tvDim = cf.dimension(function(d) {return d.v57;})
 
-			
+		console.log(intDim.group(function (site) {return site;}).reduceCount().all())	
+		
 		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
 		dc.portionTextChart = function (parent, chartGroup) {
 			var _chosen;
@@ -106,13 +107,21 @@ $(document).ready(function() {
 				json = {"name":"tree","children":json}
 				return json;
 			}
+			function test (key) {
+				return key.key == "Difficult to answer";
+			}
 			//Filters unwanted and slices to top 10
 			function removeUnwanted (json, removeList) {
 			
+				console.log(json.length)
 				json = json.filter( function(d) {
-					return removeList.indexOf(d.key) <= 0;
+			//		console.log(removeList.indexOf(d.key) <= 0 && +d.value > 2);
+					return removeList.indexOf(d.key) <= 0 && +d.value > 2;
 				});
-				json = json.slice(0,10)
+		//		console.log(json.length)
+		//		console.log(json.filter(test))
+		//		console.log(json.filter(test).length)
+			//	json = json.slice(0,10)
 				return json;
 			};
 			
@@ -136,14 +145,19 @@ $(document).ready(function() {
 			}
 
 			_chart._doRender = function() {
+
+				group = _chart.dimension().group().reduceCount().all(); 
+//				console.log(group)
+//				console.log(group.filter(test))
+
+//				console.log(group)
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
 				.size([_chart.width(),_chart.height()])
 					.sticky(false)
 					.value(function(d) { return d.value;});
-
 				var node = _chart.root()
-					.datum(makeTree(removeUnwanted(_chart.dimension().group().reduceCount().all() , _removeThese)))
+					.datum(makeTree(removeUnwanted(group, _removeThese)))
 					.selectAll(".node")
 					.data(treemap.nodes)
 					.enter().append("div")
@@ -184,8 +198,6 @@ $(document).ready(function() {
 				.dimension(oblaskDim)
 				.group(oblaskDim.group().reduceCount(function(d) { return d.value;}))
 				.center([49,33])
-				.width(600)
-				.height(400)
 				.zoom(5)
 				.geojson(ukraineData)
 				.colors(colorbrewer.YlGnBu[7])
@@ -215,11 +227,11 @@ $(document).ready(function() {
 			.xAxis().tickValues([]);
 		
 		var groupLang = languageDim.group()
-	
 		internetTreeChart
 			.chartGroup("main")
+			.width(d3.select("#internet").node().getBoundingClientRect()["width"])
 			.dimension(intDim)
-			.removeThese(["undefined","Difficult to answer"]);
+			.removeThese(["undefined","Difficult to answer","NA"]);
 
 		educPortion
 			.chartGroup("main")
