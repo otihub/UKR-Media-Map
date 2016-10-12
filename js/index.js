@@ -1,14 +1,15 @@
 $(document).ready(function() {
 
-	var geometry_center =  {"latitude": 48.360833, "longitude": 31.1809725};
-	var geography_center = {"latitude": 49.0275, "longitude": 31.482778};
 
 	var width = parseInt(d3.select('#map').style('width')),
 	mapRatio = .7,
 	height = width * mapRatio;
 
 	var transitionTime = 700;
-	var color = d3.scale.category20();
+//	var color = d3.scale.category20c();
+	var color = d3.scale.category20c();
+
+	
 	d3.json("data/chosen.json", function(error, json) {
 		
 
@@ -33,7 +34,6 @@ $(document).ready(function() {
 		var radioDim = cf.dimension(function(d) {return d.v41;})
 		var tvDim = cf.dimension(function(d) {return d.v57;})
 
-		console.log(intDim.group(function (site) {return site;}).reduceCount().all())	
 		
 		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
 		dc.portionTextChart = function (parent, chartGroup) {
@@ -101,31 +101,28 @@ $(document).ready(function() {
 		};
 			return _chart.anchor(parent, chartGroup)
 		};
+
+
 	    dc.treeChart =  function (parent, chartGroup) {
+		var tooltip = d3.select('body')
+			.append('div')
+			.attr('class','tooltip');
+			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
 			function makeTree (json) {
 				json = {"name":"tree","children":json}
 				return json;
 			}
-			function test (key) {
-				return key.key == "Difficult to answer";
-			}
+
 			//Filters unwanted and slices to top 10
 			function removeUnwanted (json, removeList) {
 			
-				console.log(json.length)
 				json = json.filter( function(d) {
-			//		console.log(removeList.indexOf(d.key) <= 0 && +d.value > 2);
 					return removeList.indexOf(d.key) <= 0 && +d.value > 2;
 				});
-		//		console.log(json.length)
-		//		console.log(json.filter(test))
-		//		console.log(json.filter(test).length)
-			//	json = json.slice(0,10)
 				return json;
 			};
 			
-			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 
 			_chart.removeThese = function(_) {
 			   	if (!arguments.length) {
@@ -145,15 +142,28 @@ $(document).ready(function() {
 			}
 
 			_chart._doRender = function() {
+				function tipmouseover() {
+  					tooltip.style("display", "inline").style("opacity",100);
+				}
 
+				function tipmousemove(d) {
+  					tooltip
+						.text(d.key + ": " + d.value)
+      					.style("left", (d3.event.pageX - 34) + "px")
+      					.style("top", (d3.event.pageY - 12) + "px");
+					}
+
+				function tipmouseout() {
+					tooltip.style("display", "none");
+				}
+
+				var parentID =  d3.select(this.anchor()).node().parentNode.id 
+				parentID = "#"+ parentID
+				parentWidth = d3.select(parentID).node().getBoundingClientRect().width
 				group = _chart.dimension().group().reduceCount().all(); 
-//				console.log(group)
-//				console.log(group.filter(test))
-
-//				console.log(group)
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
-				.size([_chart.width(),_chart.height()])
+				.size([parentWidth,_chart.height()])
 					.sticky(false)
 					.value(function(d) { return d.value;});
 				var node = _chart.root()
@@ -167,7 +177,10 @@ $(document).ready(function() {
 						return d.name=='tree' ?'#fff': color( d.key );
 					})
 					.append('div')
-					.text(function(d) { return d.key; });
+					.html(function(d) { return d.key + "<br />" + d.value; })
+					.on("mouseover", tipmouseover)
+					.on("mousemove", tipmousemove)
+					.on("mouseout",tipmouseout)
 				};
 
 			_chart._doRedraw = function() {
@@ -198,6 +211,7 @@ $(document).ready(function() {
 				.dimension(oblaskDim)
 				.group(oblaskDim.group().reduceCount(function(d) { return d.value;}))
 				.center([49,33])
+				.height(400)
 				.zoom(5)
 				.geojson(ukraineData)
 				.colors(colorbrewer.YlGnBu[7])
@@ -226,10 +240,9 @@ $(document).ready(function() {
 			.renderLabel(true)
 			.xAxis().tickValues([]);
 		
-		var groupLang = languageDim.group()
 		internetTreeChart
 			.chartGroup("main")
-			.width(d3.select("#internet").node().getBoundingClientRect()["width"])
+//			.width(d3.select("#internet").node().getBoundingClientRect()["width"])
 			.dimension(intDim)
 			.removeThese(["undefined","Difficult to answer","NA"]);
 
@@ -248,15 +261,15 @@ $(document).ready(function() {
 
 
 
+		dc.renderAll("main");
 
 		//register charts
 		dc.registerChart(internetTreeChart, "main");
 		dc.registerChart(langPortion, "main");
 		dc.registerChart(educPortion, "main");
 
-		dc.renderAll("main");
 		//redraw all Charts
-//		dc.redrawAll();
+		dc.redrawAll();
 	});
 
 

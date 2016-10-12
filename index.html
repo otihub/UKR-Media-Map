@@ -17,8 +17,9 @@
 		<link rel="stylesheet" href="css/dc.css">
 		<link rel="stylesheet" href="css/leaflet.css" />
 		<link rel="stylesheet" href="css/leaflet-legend.css" />
-		<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+		
 
 
 
@@ -35,6 +36,7 @@
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/colorbrewer.min.js"></script>
+		
 	</head>
 
 	<body>
@@ -49,43 +51,34 @@
 				<div class="col-xs-8" id="map">
 				</div>
 				<div class="col-xs-4" id="drawer">
-					<div id="drawer">
-						<div class="drawer-content">
-							<div class="overview clearfix">
-								<div class="group first">
-									<h4>Gender</h4>
-										<span class="overview-label">Female</span>
-										<span class="pie-graph" id="gender-pie-graph"></span>
-										<span class="overview-label">Male</span>
-								</div>
-								<div class="group">
-									<h4>Age</h4>
-									<div class="horiz-graph" id="age-horiz-graph">
-									</div>
-
-								</div>
-								<div class="group">
-									<h4>Language</h4>
-									<div class="text-graph" id="lang-text-graph">
-									</div>
-								</div>
-								<div class="group">
-									<h4></h4>
-										<div class="text-graph" id="educ-text-graph">
-										</div>
-								</div>
-								<div class="group">
-									<h4>Wealth</h4>
-									<div class="horiz-graph" id="wealth-horiz-graph">
-									</div>
-								</div>
+					<h3 id=Geography>Surveyed Areas</h3>
+					<div class="overview">
+						<div class="group first">
+							<h4>Gender</h4>
+								<span class="overview-label">Female</span>
+								<span class="pie-graph" id="gender-pie-graph"></span>
+								<span class="overview-label">Male</span>
+						</div>
+						<div class="group">
+							<h4>Age</h4>
+							<div class="horiz-graph" id="age-horiz-graph">
 							</div>
-	<!--					<div class="internet section clearfix">
-								<h3 class="media internet">Internet</h3>
-								<div class="tree-graph" id="net-tree-graph">
+
+						</div>
+						<div class="group">
+							<h4>Language</h4>
+							<div class="text-graph" id="lang-text-graph">
+							</div>
+						</div>
+						<div class="group">
+							<h4></h4>
+								<div class="text-graph" id="educ-text-graph">
 								</div>
-							</div> 
-	-->
+						</div>
+						<div class="group">	
+							<h4>Wealth</h4>
+							<div class="horiz-graph" id="wealth-horiz-graph">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,8 +89,6 @@
 					</div>
 				</div> 
 			</div>		
-
-
 		</div>
 	</body>
 
