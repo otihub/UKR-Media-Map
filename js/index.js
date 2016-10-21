@@ -6,9 +6,8 @@ $(document).ready(function() {
 	height = width * mapRatio;
 
 	var transitionTime = 700;
-//	var color = d3.scale.category20c();
 	var color = d3.scale.category20c();
-
+	
 	
 	d3.json("data/chosen.json", function(error, json) {
 		
@@ -34,74 +33,9 @@ $(document).ready(function() {
 		var radioDim = cf.dimension(function(d) {return d.v41;})
 		var tvDim = cf.dimension(function(d) {return d.v57;})
 
+// formatter for percent
+		var percent = d3.format(".0%");
 		
-		//portion text chart for summarizing the factors in a dataset and printing them as a their individual proportions
-		dc.portionTextChart = function (parent, chartGroup) {
-			var _chosen;
-			var _title;
-			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
-			function position() {
-				this.style("left",function(d) {
-					return d.x + "px";
-				})
-				.style("top",function(d) {return d.y + "px";})
-				.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})
-				.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})
-			}
-
-		//accessor function to add a list of items to remove from the chart _ but keep in data
-			_chart._chosen = function(_) {
-			   if (!arguments) {
-    		      return _chosen;
-     			 }
-      			_chosen = _;
-      			return _chart;
- 			 };
-
-		//accessor function to grab a title for the graph			
-
-			_chart._title = function(_) {
-			   if (!arguments) {
-    		      return _chosen;
-     			 }
-      			_title = _;
-      			return _chart;
- 			 };
-
-
-		//formatter for percent
-			percent = d3.format(".0%")
-
-			_chart._doRender = function() {
-
-				var recordsTotal = _chart.dimension().groupAll().reduceCount().value();
-				var items = _chart.dimension().group().reduceCount().all()
-
-				function itemsToRemove (x) {
-					return _chosen.indexOf(x.key) != -1;
-					
-				}
-				_chart.selectAll("span").remove();
-				var line = _chart.root()
-				line.selectAll("span").remove();
-				line.selectAll(".overview-label")
-					.data(items.filter(itemsToRemove))
-					.enter().append("span")
-					.attr("class","overview-label")
-					.text( function(d) { return _title;})
-					.append("span")
-					.attr("class","overview-value")
-					.text(function(d) {return  percent(d.value/recordsTotal);})
-			};
-
-			_chart._doRedraw = function() {
-
-				return _chart._doRender();
-
-		};
-			return _chart.anchor(parent, chartGroup)
-		};
-
 
 	    dc.treeChart =  function (parent, chartGroup) {
 		var tooltip = d3.select('body')
@@ -193,10 +127,8 @@ $(document).ready(function() {
 		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
 		var ageRowChart = dc.rowChart("#age-horiz-graph","main");		
 		var internetTreeChart = dc.treeChart("#net-tree-graph", "main");
-		var langPortion = dc.portionTextChart("#lang-text-graph", "main");
-		var educPortion = dc.portionTextChart("#educ-text-graph", "main");
 		var Map = dc_leaflet.choroplethChart("#map","main");
-
+		var number = dc.numberDisplay("#test","main");
 		
 
 		d3.json("data/select-oblasks.geojson", function(error, ukraineData) {
@@ -206,6 +138,34 @@ $(document).ready(function() {
 					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
 				}
 			)
+
+			var wealthDimGroup = wealthDim.group().reduceCount()
+//add values in a group array
+
+			var percExt = function (group, key) {
+				var total = 0;
+				var numerator;
+				array = group.all()
+				for (var i=0; i < array.length ; i++) {
+				 	total += array[i].value;
+					if (array[i].key == key) {
+						numerator = array[i].value;
+					}
+				}
+				return numerator/total;
+			}
+
+			number
+				.group(wealthDimGroup)
+				.formatNumber(percent)
+				.valueAccessor(function (d) {
+					return percExt(wealthDimGroup,"Hard to say")
+					})
+				
+					
+
+			
+				
 //Visualize it
 			Map
 				.dimension(oblaskDim)
@@ -220,8 +180,29 @@ $(document).ready(function() {
 				})
 				.featureKeyAccessor(function(feature) {
 					return feature.properties.NAMELATIN;
-				});
-
+				})
+				.on("postRedraw",function(d) { 
+					var titleHTML = "";
+					var subtitleHTML = ""
+					var selected = d.filters(); 
+					if (selected.length == 1 ) {
+						titleHTML =  selected[0];
+					}
+					else if (selected.length == 0) {
+						titleHTML = "All Surveyed Areas";
+					}
+					else {
+						
+						titleHTML = "Select Surveyed Areas";
+						for (i=0;i< selected.length - 1;i++) {
+							subtitleHTML += selected[i] + ", " ;
+							}
+						subtitleHTML +=  " " + selected[selected.length-1];
+						}
+					d3.select("#geography").html(titleHTML);
+					d3.select("#geographySub").html(subtitleHTML);
+				 });
+						   
 		genderPieChart
 			.width(width/30)
 			.height(width/30)
@@ -246,18 +227,6 @@ $(document).ready(function() {
 			.dimension(intDim)
 			.removeThese(["undefined","Difficult to answer","NA"]);
 
-		educPortion
-			.chartGroup("main")
-			.dimension(educDim)
-			._title("Primary")
-			._chosen("Primary school (finished the primary school, a 4-9 year pupi");
-
-
-		langPortion
-			.chartGroup("main")
-			.dimension(languageDim)
-			._chosen("Russian")
-			._title("Russian");
 
 
 
@@ -265,8 +234,6 @@ $(document).ready(function() {
 
 		//register charts
 		dc.registerChart(internetTreeChart, "main");
-		dc.registerChart(langPortion, "main");
-		dc.registerChart(educPortion, "main");
 
 		//redraw all Charts
 		dc.redrawAll();

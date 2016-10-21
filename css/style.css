@@ -62,7 +62,16 @@ body {
   font-weight: 400
 }
 
-
+.tooltip {
+  position: absolute;
+  text-align: center;
+/*  height: 12px; */
+  padding: 8px;
+  margin-top: -20px;
+  font: 10px sans-serif;
+  background: #ddd;
+  pointer-events: none;
+}
 
 h1 {
   font-size: 22px;
@@ -92,20 +101,26 @@ h1.title {
 }
 .node {
 	position: absolute;
-	overflow:hidden;	
+	overflow:hidden;   
+	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
+   -webkit-box-shadow: inset 0 0 10px #FFFFFF;
+   box-shadow:         inset 0 0 10px #FFFFFF;
+	border-radius:	5px;	
 }
 .node div{	
 }
 
 
 
-.group {
+/*.group {
 	float:left;
 	margin-right:10px;
 	}
 	.group.first {
 	
 	}
+
+*/
 .pie-graph {
 	background-color: transparent;
 }
