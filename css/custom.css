@@ -1,0 +1,103 @@
+/*
+Project Name: Ukrainian Media Usage and Top Resources
+Client: Disco Cat
+Author: DAT
+Developer @ the DAT in Washington DC
+*/
+
+
+/******************************************
+/* BASE STYLES
+/*******************************************/
+
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+/*  height: 12px; */
+  padding: 8px;
+  margin-top: -20px;
+  font: 10px sans-serif;
+  background: #ddd;
+  pointer-events: none;
+}
+
+.splash{
+	background:rgb(90,90,90);
+	color:#fff;
+}
+/******************************************
+/* DRAWER
+/*******************************************/
+.overview {
+	display:block;
+	z-index:6;
+	position:absolute;
+	right:0px;
+	height:100%;
+	background:rgba(25,25,25,.9);
+	padding:5px;
+	color:#999;
+	width: 300px;
+}
+
+
+
+.group {
+	vertical-align: baseline;
+}
+.overview ul li {
+	float:left;
+	list-style:none;
+
+}
+.overview ul {
+	padding:0px;
+  margin-bottom: 0px;
+}
+.horizontal {
+	justify-content: space-between;
+}
+
+.overview-value {
+	color:#ccc;
+}
+.overview-label {
+	color:#808080;
+	margin-left:8px;
+	margin-right:0px;
+}.pie-graph {
+	background-color: transparent;
+}
+
+.pie-graph {
+	background-color: transparent;
+}
+/******************************************
+/* Tree Graph
+/*******************************************/
+
+.node {
+	position: absolute;
+	overflow:hidden;
+	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
+   -webkit-box-shadow: inset 0 0 10px #FFFFFF;
+   box-shadow:         inset 0 0 10px #FFFFFF;
+	border-radius:	5px;
+}
+.node div{
+}
+
+
+
+.tree-graph {
+
+	position: relative;
+}
+/******************************************
+/* Plots
+/*******************************************/
+
+.tick text {
+  color:#808080;
+}

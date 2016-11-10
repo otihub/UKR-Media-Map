@@ -75,18 +75,19 @@ div.dc-chart {
 .dc-chart .axis path,
 .dc-chart .axis line {
     fill: none;
-    stroke: #000;
+    stroke: #808080;
     shape-rendering: crispEdges;
 }
 
 .dc-chart .axis text {
     font: 10px sans-serif;
+    fill: #ccc;
 }
 
 .dc-chart .grid-line,
 .dc-chart .axis .grid-line {
     fill: none;
-    stroke: #ccc;
+    stroke: #808080;
     opacity: .5;
     shape-rendering: crispEdges;
 }
