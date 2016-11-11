@@ -36,16 +36,24 @@ Developer @ the DAT in Washington DC
 	right:0px;
 	height:100%;
 	background:rgba(25,25,25,.9);
-	padding:5px;
 	color:#999;
-	width: 300px;
+	width: 400px;
 }
-
-
 
 .group {
 	vertical-align: baseline;
+  padding:0px 8px 8px 8px;
 }
+.first {
+  background: #202020;
+  border-bottom: 1px solid #303030;
+}
+.first.next {
+
+}
+.next {
+}
+
 .overview ul li {
 	float:left;
 	list-style:none;
@@ -66,7 +74,8 @@ Developer @ the DAT in Washington DC
 	color:#808080;
 	margin-left:8px;
 	margin-right:0px;
-}.pie-graph {
+}
+.pie-graph {
 	background-color: transparent;
 }
 

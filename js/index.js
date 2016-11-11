@@ -45,93 +45,6 @@ $(document).ready(function() {
 		var percent = d3.format(".0%");
 
 
-	    dc.treeChart =  function (parent, chartGroup) {
-		var tooltip = d3.select('body')
-			.append('div')
-			.attr('class','tooltip');
-			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
-			//Makes into tree structure
-			function makeTree (json) {
-				json = {"name":"tree","children":json}
-				return json;
-			}
-
-			//Filters unwanted and slices to top 10
-			function removeUnwanted (json, removeList) {
-
-				json = json.filter( function(d) {
-					return removeList.indexOf(d.key) <= 0 && +d.value > 2;
-				});
-				return json;
-			};
-
-
-			_chart.removeThese = function(_) {
-			   	if (!arguments.length) {
-    		   		return _;
-     			 }
-      			_removeThese = _;
-      				return _chart;
- 			 	};
-
-			function position() {
-				this.style("left",function(d) {
-					return d.x + "px";
-				})
-				.style("top",function(d) {return d.y + "px";})
-				.style("width",function(d) {return Math.max(0, d.dx -1) + "px";})
-				.style("height",function(d) {return Math.max(0, d.dy -1) + "px";})
-			}
-
-			_chart._doRender = function() {
-				function tipmouseover() {
-  					tooltip.style("display", "inline").style("opacity",100);
-				}
-
-				function tipmousemove(d) {
-  					tooltip
-						.text(d.key + ": " + d.value)
-      					.style("left", (d3.event.pageX - 34) + "px")
-      					.style("top", (d3.event.pageY - 12) + "px");
-					}
-
-				function tipmouseout() {
-					tooltip.style("display", "none");
-				}
-
-				var parentID =  d3.select(this.anchor()).node().parentNode.id
-				parentID = "#"+ parentID
-				parentWidth = d3.select(parentID).node().getBoundingClientRect().width
-				group = _chart.dimension().group().reduceCount().all();
-				_chart.selectAll("div").remove();
-				var treemap = d3.layout.treemap()
-					.size([parentWidth,_chart.height()])
-					.sticky(false)
-					.value(function(d) { return d.value;});
-				var node = _chart.root()
-					.datum(makeTree(removeUnwanted(group, _removeThese)))
-					.selectAll(".node")
-					.data(treemap.nodes)
-					.enter().append("div")
-					.attr("class","node")
-					.call(position)
-					.style("background-color", function(d) {
-						return d.name=='tree' ?'#fff': color( d.key );
-					})
-					.append('div')
-					.html(function(d) { return d.key + "<br />" + d.value; })
-					.on("mouseover", tipmouseover)
-					.on("mousemove", tipmousemove)
-					.on("mouseout",tipmouseout)
-				};
-
-			_chart._doRedraw = function() {
-				return _chart._doRender();
-			};
-
-			return _chart.anchor(parent, chartGroup)
-		}
-
 //add values in a group array
 		var percExt = function (group, key) {
 			var total = 0;
@@ -228,11 +141,12 @@ $(document).ready(function() {
 
 //Visualize it
 			Map
+				.mapOptions({"scrollWheelZoom":false})
 				.dimension(oblaskDim)
 				.group(oblaskDim.group().reduceCount(function(d) { return d.value;}))
-				.center([49,33])
-				.height(400)
-				.zoom(5)
+				.center([48,39])
+				.height(700)
+				.zoom(6)
 				.geojson(ukraineData)
 				.colors(colorbrewer.YlGnBu[7])
 				.colorAccessor(function(d,i) {
@@ -292,7 +206,7 @@ $(document).ready(function() {
 			.height(125)
 			.dimension(radioUseDim)
 			.group(radioUseDim.group())
-			.elasticX(false)
+			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you listen to the radio?"})
 			.xAxis().ticks(4);	
@@ -302,7 +216,7 @@ $(document).ready(function() {
 			.height(125)
 			.dimension(tvUseDim)
 			.group(tvUseDim.group())
-			.elasticX(false)
+			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you watch television?"})
 			.xAxis().ticks(4);	
@@ -311,7 +225,7 @@ $(document).ready(function() {
 			.height(125)
 			.dimension(intUseDim)
 			.group(intUseDim.group())
-			.elasticX(false)
+			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you use the internet?"})
 			.xAxis().ticks(4);
@@ -320,7 +234,7 @@ $(document).ready(function() {
 			.height(125)
 			.dimension(printUseDim)
 			.group(printUseDim.group())
-			.elasticX(false)
+			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you read print media?"})
 			.xAxis().ticks(4);

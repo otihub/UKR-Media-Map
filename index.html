@@ -31,6 +31,7 @@
 		<script type="text/javascript" src="js/dc.min.js"></script>
 		<script type="text/javascript" src="js/leaflet.js"></script>
 		<script type="text/javascript" src="js/leaflet.markercluster.js"></script>
+		<script type="text/javascript" src="js/dc.treemap.js"></script>
 		<script type="text/javascript" src="js/dc.leaflet.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
@@ -49,79 +50,80 @@
 			<div class="row">
 				<div class="col-xs-12" id="map" style="z-index:0;padding-left:0px">
 					<div class="overview">
-						<span><h4 id=geography>Surveyed Areas</h4></span>
-						<span><h5 id=geographySub></h5></span>
-
 						<div class="group first">
-							<ul class="horizontal clearfix" >
-								<li> <span class="overview-title">Gender</span> </li>
-								<li>
-									<span class="overview-label">Female</span>
-									<span class="pie-graph" id="gender-pie-graph"></span>
-									<span class="overview-label">Male</span>
-								</li>
-							</ul>
-							<ul class="horizontal clearfix">
-								<li> <span class="overview-title">Language</span> </li>
-								<li>
-										<span class="overview-label">Russian:</span>
-										<span class="overview-value" id="russianPerc"></span>
-								</li>
-								<li>
-										<span class="overview-label">Ukrainian:</span>
-										<span class="overview-value" id="ukrainianPerc"></span>
-								</li>
-							</ul>
-							<ul class="horizontal clearfix" >
-								<li> <span class="overview-title">Age</span> </li>
-								<li>
-									<span class="overview-label">18-35:</span>
-									<span class="overview-value" id="youngAgePerc"></span>
-								</li>
-								<li>
-									<span class="overview-label">36-55:</span>
-									<span class="overview-value" id="mediumAgePerc"></span>
-								</li>
-								<li>
-									<span class="overview-label">55+:</span>
-									<span class="overview-value" id="oldAgePerc"></span>
-								</li>
-							</ul>
-							<ul class="horizontal clearfix" >
-								<li> <span class="overview-title">Education</span> </li>
-								<li>
-									<span class="overview-label">Primary:</span>
-									<span class="overview-value" id="primaryEducPerc"></span>
-								</li>
-								<li>
-									<span class="overview-label">Secondary:</span>
-									<span class="overview-value" id="secondaryEducPerc"></span>
-								</li>
-								<li>
-									<span class="overview-label">University:</span>
-									<span class="overview-value" id="uniEducPerc"></span>
-								</li>
-							</ul>
-							<div class="group next">
-								<span><h5>Radio</h5></span>
-								<div id="radioBarChart">
+							<span><h4 id=geography>Surveyed Areas</h4></span>
+							<span><h5 id=geographySub></h5></span>
+								<ul class="horizontal clearfix" >
+									<li> <span class="overview-title">Gender</span> </li>
+									<li>
+										<span class="overview-label">Female</span>
+										<span class="pie-graph" id="gender-pie-graph"></span>
+										<span class="overview-label">Male</span>
+									</li>
+								</ul>
+								<ul class="horizontal clearfix">
+									<li> <span class="overview-title">Language</span> </li>
+									<li>
+											<span class="overview-label">Russian:</span>
+											<span class="overview-value" id="russianPerc"></span>
+									</li>
+									<li>
+											<span class="overview-label">Ukrainian:</span>
+											<span class="overview-value" id="ukrainianPerc"></span>
+									</li>
+								</ul>
+								<ul class="horizontal clearfix" >
+									<li> <span class="overview-title">Age</span> </li>
+									<li>
+										<span class="overview-label">18-35:</span>
+										<span class="overview-value" id="youngAgePerc"></span>
+									</li>
+									<li>
+										<span class="overview-label">36-55:</span>
+										<span class="overview-value" id="mediumAgePerc"></span>
+									</li>
+									<li>
+										<span class="overview-label">55+:</span>
+										<span class="overview-value" id="oldAgePerc"></span>
+									</li>
+								</ul>
+								<ul class="horizontal clearfix" >
+									<li> <span class="overview-title">Education</span> </li>
+									<li>
+										<span class="overview-label">Primary:</span>
+										<span class="overview-value" id="primaryEducPerc"></span>
+									</li>
+									<li>
+										<span class="overview-label">Secondary:</span>
+										<span class="overview-value" id="secondaryEducPerc"></span>
+									</li>
+									<li>
+										<span class="overview-label">University:</span>
+										<span class="overview-value" id="uniEducPerc"></span>
+									</li>
+								</ul>
+						</div>
+						<div class="group next">
+							<span><h5>Radio</h5></span>
+							<div id="radioBarChart">
 							</div>
-							<div class="group next">
-								<span><h5>Television</h5></span>
-								<div id="tvBarChart">
-							</div>
-							<div class="group next">
-								<span><h5>Internet</h5></span>
-								<div id="internetBarChart">
-							</div>
-							<div class="group next">
-								<span><h5>Print</h5></span>
-								<div id="printBarChart">
+						:<wbr></div>
+						<div class="group next">
+							<span><h5>Television</h5></span>
+							<div id="tvBarChart">
 							</div>
 						</div>
+						<div class="group next">
+							<span><h5>Internet</h5></span>
+							<div id="internetBarChart">
+							</div>
+						</div>
+						<div class="group next">
+							<span><h5>Print</h5></span>
+							<div id="printBarChart">
+							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<div class="row">
