@@ -6,10 +6,9 @@ $(document).ready(function() {
 	height = width * mapRatio;
 
 	var transitionTime = 700;
-	var color = d3.scale.category20c();
 
 
-	d3.json("data/chosen.factor.json", function(error, json) {
+	d3.json("data/chosen.json", function(error, json) {
 
 
 		if(error) return
@@ -35,11 +34,40 @@ $(document).ready(function() {
 		var tvUseDim = cf.dimension(function(d) {return d.v46;})
 		var printDim = cf.dimension(function(d) {return d.v68;})
 		var printUseDim = cf.dimension(function(d) {return d.v62;})
+		var leanDim = cf.dimension(function(d) {return d.v131coded;})
 // Create groups
 		var languageDimGroup = languageDim.group().reduceCount()
 		var ageDimGroup = ageDim.group().reduceCount()
 		var educDimGroup = educDim.group().reduceCount()
 		var wealthDimGroup = wealthDim.group().reduceCount()
+		function reduceInitial() {
+			return {
+				count:0,
+				total:0,
+				avg:0
+			}
+		}
+		function reduceAdd(p,v) {
+			if (v.v133coded != "NA") {
+				p.total += v.v133coded;
+				++p.count;
+				p.avg = p.total/p.count;
+			}
+			return p; 
+		}
+		function reduceRemove(p,v) {
+			if (v.v133coded != "NA") {
+				p.total += v.v133coded;
+				--p.count;
+				p.avg = p.total/p.count;
+			}	
+			return p; 
+		}
+	
+		var leanNum = leanDim.group().reduce(reduceAdd,reduceRemove,reduceInitial);
+
+
+		console.log(leanNum.all())
 //	console.log(cf.all())	
 // formatter for percent
 		var percent = d3.format(".0%");
@@ -50,8 +78,6 @@ $(document).ready(function() {
 			var total = 0;
 			var numerator = 0;
 			array = group.all()
-			
-		
 			for (var i=0; i < array.length ; i++) {
 				 	total += array[i].value;
 					if (Array.isArray(key)) {
@@ -133,6 +159,7 @@ $(document).ready(function() {
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
 			ukraineData.features = ukraineData.features.filter(function(d) {
+					console.log (d.properties.NAMELATIN);
 					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
 				}
 			)
