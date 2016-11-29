@@ -70,7 +70,8 @@ dc.treeChart =  function (parent, chartGroup) {
 					.attr("class","node")
 					.call(position)
 					.style("background-color", function(d) {
-						return d.name=='tree' ?'#fff': color( d.key );
+				//		return d.name=='tree' ?'#fff': color( d.key );
+						return '#191919';
 					})
 					.append('div')
 					.html(function(d) { return d.key + "<br />" + d.value; })

@@ -26,9 +26,15 @@ Developer @ the DAT in Washington DC
 	background:rgb(90,90,90);
 	color:#fff;
 }
+
+
 /******************************************
 /* DRAWER
 /*******************************************/
+
+
+
+
 .overview {
 	display:block;
 	z-index:6;
@@ -52,6 +58,7 @@ Developer @ the DAT in Washington DC
 
 }
 .next {
+  height:145px
 }
 
 .overview ul li {
@@ -92,9 +99,10 @@ Developer @ the DAT in Washington DC
 	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
    -webkit-box-shadow: inset 0 0 10px #FFFFFF;
    box-shadow:         inset 0 0 10px #FFFFFF;
-	border-radius:	5px;
+
 }
 .node div{
+    color:white;
 }
 
 
@@ -109,4 +117,11 @@ Developer @ the DAT in Washington DC
 
 .tick text {
   color:#808080;
+}
+/******************************************
+/* Line Graph
+/*******************************************/
+#leaning {
+  stroke-width:1;
+  stroke:rgb(255,0,0);
 }

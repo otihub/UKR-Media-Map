@@ -33,6 +33,7 @@
 		<script type="text/javascript" src="js/leaflet.markercluster.js"></script>
 		<script type="text/javascript" src="js/dc.leaflet.min.js"></script>
 		<script type="text/javascript" src="js/dc.treemap.js"></script>
+		<script type="text/javascript" src="js/dc.leaning.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/colorbrewer.min.js"></script>
@@ -88,10 +89,12 @@
 									</li>
 								</ul>
 								<ul class="horizontal clearfix" >
+									<div>
 									<li> <span class="overview-title">Education</span> </li>
-									<li>Media Landscape in Ukraine
+									<li>
 										<span class="overview-label">Primary:</span>
 										<span class="overview-value" id="primaryEducPerc"></span>
+
 									</li>
 									<li>
 										<span class="overview-label">Secondary:</span>
@@ -101,6 +104,15 @@
 										<span class="overview-label">University:</span>
 										<span class="overview-value" id="uniEducPerc"></span>
 									</li>
+								</div>
+								</ul>
+								<ul class="horizontal clearfix">
+									<div>
+										<li> <span class="overview-label">Russian</span>
+											<span id="leaning"></span>
+											<span class="overview-label">Ukrainian</span>
+										</li>
+									</div>
 								</ul>
 						</div>
 						<div class="group next">
@@ -126,8 +138,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-12" id="internet">
+			<div class="row" style="">
+				<div class="col-xs-12" id="internet" style="padding-left:0px">
 					<div class="tree-graph" id="net-tree-graph">
 					</div>
 				</div>

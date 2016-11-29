@@ -18,6 +18,7 @@ $(document).ready(function() {
 
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
+	
 //Create Dimensions
 		var genderDim = cf.dimension(function(d) {return d.v2;})
 		var ageDim = cf.dimension(function(d) {return d.v172;})
@@ -40,35 +41,12 @@ $(document).ready(function() {
 		var ageDimGroup = ageDim.group().reduceCount()
 		var educDimGroup = educDim.group().reduceCount()
 		var wealthDimGroup = wealthDim.group().reduceCount()
-		function reduceInitial() {
-			return {
-				count:0,
-				total:0,
-				avg:0
-			}
-		}
-		function reduceAdd(p,v) {
-			if (v.v133coded != "NA") {
-				p.total += v.v133coded;
-				++p.count;
-				p.avg = p.total/p.count;
-			}
-			return p; 
-		}
-		function reduceRemove(p,v) {
-			if (v.v133coded != "NA") {
-				p.total += v.v133coded;
-				--p.count;
-				p.avg = p.total/p.count;
-			}	
-			return p; 
-		}
-	
-		var leanNum = leanDim.group().reduce(reduceAdd,reduceRemove,reduceInitial);
+
+//find out the average of leaning
+		var leaning = leanDim.group().reduceCount().all();
 
 
-		console.log(leanNum.all())
-//	console.log(cf.all())	
+		
 // formatter for percent
 		var percent = d3.format(".0%");
 
@@ -154,6 +132,12 @@ $(document).ready(function() {
 			.valueAccessor(function (d) {
 				return percExt(educDimGroup,["Higher educational institution (Specialist or Master degree)"]);
 			});	
+		
+		var leaningNum = dc.leaningChart("#leaning","main")
+			.dimension(leanDim)
+			.group(leaning)
+			.height(20);
+
 
 		d3.json("data/select-oblasks.geojson", function(error, ukraineData) {
 
