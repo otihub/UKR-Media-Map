@@ -136,7 +136,8 @@ $(document).ready(function() {
 		var leaningNum = dc.leaningChart("#leaning","main")
 			.dimension(leanDim)
 			.group(leaning)
-			.height(20);
+			.height(15)
+			.width(250);
 
 
 		d3.json("data/select-oblasks.geojson", function(error, ukraineData) {
@@ -156,7 +157,7 @@ $(document).ready(function() {
 				.dimension(oblaskDim)
 				.group(oblaskDim.group().reduceCount(function(d) { return d.value;}))
 				.center([48,39])
-				.height(700)
+				.height(800)
 				.zoom(6)
 				.geojson(ukraineData)
 				.colors(colorbrewer.YlGnBu[7])
@@ -213,8 +214,8 @@ $(document).ready(function() {
 			.removeThese(["undefined","Difficult to answer","NA"]);
 
 		radioChart
-			.width(300)
-			.height(125)
+			.width(400)
+			.height(120)
 			.dimension(radioUseDim)
 			.group(radioUseDim.group())
 			.elasticX(true)
@@ -223,8 +224,8 @@ $(document).ready(function() {
 			.xAxis().ticks(4);	
 
 		tvChart
-			.width(300)
-			.height(125)
+			.width(400)
+			.height(120)
 			.dimension(tvUseDim)
 			.group(tvUseDim.group())
 			.elasticX(true)
@@ -232,8 +233,8 @@ $(document).ready(function() {
 			.title(function() { return "How often to you watch television?"})
 			.xAxis().ticks(4);	
 		internetChart
-			.width(300)
-			.height(125)
+			.width(400)
+			.height(120)
 			.dimension(intUseDim)
 			.group(intUseDim.group())
 			.elasticX(true)
@@ -241,8 +242,8 @@ $(document).ready(function() {
 			.title(function() { return "How often to you use the internet?"})
 			.xAxis().ticks(4);
 		printChart
-			.width(300)
-			.height(125)
+			.width(400)
+			.height(120)
 			.dimension(printUseDim)
 			.group(printUseDim.group())
 			.elasticX(true)
