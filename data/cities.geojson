@@ -1,0 +1,260 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "1",
+        "name": "Dnipropetrovsk",
+        "respondants": "482"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.983333,
+          48.45
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "2",
+        "name": "Kryvyi Rih",
+        "respondants": "420"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.25,
+          47.916667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "3",
+        "name": "Pavlohrad",
+        "respondants": "419"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.866667,
+          48.516667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "4",
+        "name": "Kramatorsk\\Sloviansk",
+        "respondants": "414"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.625,
+          48.853333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "5",
+        "name": "Mariupol",
+        "respondants": "433"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.549444,
+          47.095833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "6",
+        "name": "Artemivsk",
+        "respondants": "417"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.080556,
+          48.591389
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "7",
+        "name": "Volnovakha",
+        "respondants": "422"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.491944,
+          47.602222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "8",
+        "name": "Zaporizhzhia",
+        "respondants": "685"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.166667,
+          47.833333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "9",
+        "name": "Melitopol",
+        "respondants": "398"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.366667,
+          46.833333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "10",
+        "name": "Berdiansk",
+        "respondants": "421"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.784444,
+          46.759722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "11",
+        "name": "Lisichansk\\Rubizhne\\Severodonetsk",
+        "respondants": "647"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.5,
+          48.933333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "12",
+        "name": "Starobilsk",
+        "respondants": "406"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.9167,
+          49.2833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "13",
+        "name": "Odesa",
+        "respondants": "674"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.743444,
+          46.485722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "14",
+        "name": "Izmail",
+        "respondants": "401"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.836389,
+          45.351667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "15",
+        "name": "Kharkiv",
+        "respondants": "1006"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.231389,
+          50.004444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "16",
+        "name": "Izium",
+        "respondants": "419"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.256944,
+          49.212778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "17",
+        "name": "Kozacha Lopan'",
+        "respondants": "421"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.189678,
+          50.334776
+        ]
+      }
+    }
+  ]
+}

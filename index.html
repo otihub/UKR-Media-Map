@@ -13,13 +13,11 @@
 
 		<!-- external CSS link -->
 <!--		<link rel="stylesheet" href="css/reset.css"> -->
+		<link rel="stylesheet" href="css/custom.css">
 		<link rel="stylesheet" href="css/dc.css">
 		<link rel="stylesheet" href="css/leaflet.css" />
 		<link rel="stylesheet" href="css/leaflet-legend.css" />
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/bootstrap-responsive.css" />
-		<link rel="stylesheet" href="css/custom.css">
-
 
 
 
@@ -37,6 +35,7 @@
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/colorbrewer.min.js"></script>
+		<script type="text/javascript" src="js/queue.v1.min.js"></script>
 
 	</head>
 
@@ -49,12 +48,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12" id="map" style="z-index:0;padding-left:0px">
-					<div class="overview">
-						<div class="group first">
-							<span><h4 id=geography>Surveyed Areas</h4></span>
-							<span><h5 id=geographySub></h5></span>
-								<ul class="horizontal clearfix" >
+				<div class="col-xs-8" id="map" style="z-index:0;padding-left:0px">
+				</div>
+
+				<div class="col-xs-4 overview clearfix">
+						<span><h4 id=geography>Surveyed Areas</h4><h5 id=total> </h5></span>
+							<ul class="horizontal clearfix" >
 									<li> <span class="overview-title">Gender</span> </li>
 									<li>
 										<span class="overview-label">Female</span>
@@ -116,34 +115,45 @@
 									</div>
 								</ul>
 						</div>
-						<div class="group next">
+					</div>
+
+					<div class="row clearfix">
+						<div class="col-xs-6 group">
 							<span><h5>Radio</h5></span>
-							<div id="radioBarChart">
+							<div id="radioBarChart" >
 							</div>
-						<br>
+							<br>
 						</div>
-						<div class="group next">
+						<div class="col-xs-6 group">
 							<span><h5>Television</h5></span>
 							<div id="tvBarChart">
 							</div>
 						</div>
-						<div class="group next">
+					</div>
+					<div class="row clearfix">
+						<div class="col-xs-6 group">
 							<span><h5>Internet</h5></span>
 							<div id="internetBarChart">
 							</div>
 						</div>
-						<div class="group next">
+						<div class="col-xs-6 group">
 							<span><h5>Print</h5></span>
 							<div id="printBarChart">
 							</div>
 						</div>
+
 					</div>
+
 				</div>
-			</div>
+
+		</div>
 			<div class="row" style="">
 				<div class="col-xs-12" id="internet" style="padding-left:0px">
-					<div class="tree-graph" id="net-tree-graph">
+					<div class="tree-chart clearfix">
+						<div class="tree-graph" id="net-tree-graph">
+						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>

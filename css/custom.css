@@ -32,8 +32,18 @@ Developer @ the DAT in Washington DC
 /* DRAWER
 /*******************************************/
 
+.charts {
+  bottom:0;
+  position:relative;
+  margin-top:0px;
+}
+.tree-chart {
+  bottom:0;
+  position:absolute;
 
 
+  z-index:20;
+}
 
 .overview {
 	display:block;
@@ -49,16 +59,15 @@ Developer @ the DAT in Washington DC
 .group {
 	vertical-align: baseline;
   padding:1px 8px 8px 8px;
+  background: #303030;
 }
 .first {
   background: #202020;
   border-bottom: 1px solid #303030;
 }
-.first.next {
 
-}
-.next {
-  height:145px
+.cities {
+  fill:red;
 }
 
 .overview ul li {
@@ -89,6 +98,14 @@ Developer @ the DAT in Washington DC
 .pie-graph {
 	background-color: transparent;
 }
+.filtered {
+  color: yellow;
+}
+
+.selected {
+  fill:yellow;
+}
+
 /******************************************
 /* Tree Graph
 /*******************************************/
@@ -98,18 +115,16 @@ Developer @ the DAT in Washington DC
 	overflow:hidden;
 	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
    -webkit-box-shadow: inset 0 0 10px #FFFFFF;
-   box-shadow:         inset 0 0 10px #FFFFFF;
+   box-shadow: inset 0 0 10px #FFFFFF;
 
 }
 .node div{
     color:white;
 }
 
-
-
 .tree-graph {
-
-	position: relative;
+  width:100%;
+  height:100%
 }
 /******************************************
 /* Plots

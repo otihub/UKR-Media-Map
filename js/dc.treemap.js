@@ -1,5 +1,5 @@
 dc.treeChart =  function (parent, chartGroup) {
-  		var color = d3.scale.category20c();
+  	var color = d3.scale.category20c();
 		var tooltip = d3.select('body')
 			.append('div')
 			.attr('class','tooltip');
@@ -52,14 +52,18 @@ dc.treeChart =  function (parent, chartGroup) {
 				function tipmouseout() {
 					tooltip.style("display", "none");
 				}
+    //    console.log(this.anchor())
 
-				var parentID =  d3.select(this.anchor()).node().parentNode.id
-				parentID = "#"+ parentID
-				parentWidth = d3.select(parentID).node().getBoundingClientRect().width
+				var parentDim =  d3.select(this.anchor()).node().parentNode.getBoundingClientRect()
+
+				parentWidth = parentDim.width
+        parentHeight = parentDim.height
+
 				group = _chart.dimension().group().reduceCount().all();
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
-					.size([parentWidth,_chart.height()])
+			//		.size([parentWidth,_chart.height()])
+          .size([parentWidth,parentHeight])
 					.sticky(false)
 					.value(function(d) { return d.value;});
 				var node = _chart.root()
