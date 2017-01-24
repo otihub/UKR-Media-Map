@@ -51,7 +51,7 @@ Developer @ the DAT in Washington DC
 	position:absolute;
 	right:0px;
 	height:100%;
-	background:rgba(25,25,25,.9);
+	background:rgba(25,</span>25,25,.9);
 	color:#999;
 	width: 400px;
 }
@@ -74,6 +74,10 @@ Developer @ the DAT in Washington DC
 	float:left;
 	list-style:none;
 
+}
+
+.charthead {
+  color:white;
 }
 .overview ul {
 	padding:0px;

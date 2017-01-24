@@ -3,6 +3,7 @@ dc.treeChart =  function (parent, chartGroup) {
 		var tooltip = d3.select('body')
 			.append('div')
 			.attr('class','tooltip');
+      
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
 			function makeTree (json) {
@@ -12,13 +13,11 @@ dc.treeChart =  function (parent, chartGroup) {
 
 			//Filters unwanted and slices to top 10
 			function removeUnwanted (json, removeList) {
-
 				json = json.filter( function(d) {
 					return removeList.indexOf(d.key) <= 0 && +d.value > 2;
 				});
 				return json;
 			};
-
 
 			_chart.removeThese = function(_) {
 			   	if (!arguments.length) {
@@ -52,9 +51,10 @@ dc.treeChart =  function (parent, chartGroup) {
 				function tipmouseout() {
 					tooltip.style("display", "none");
 				}
-    //    console.log(this.anchor())
+        console.log(this);
+        console.log(this.anchor());
 
-				var parentDim =  d3.select(this.anchor()).node().parentNode.getBoundingClientRect()
+				var parentDim =  d3.select(this.anchor()).node().parentNode.getBoundingClientRect();
 
 				parentWidth = parentDim.width
         parentHeight = parentDim.height

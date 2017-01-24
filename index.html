@@ -15,8 +15,6 @@
 <!--		<link rel="stylesheet" href="css/reset.css"> -->
 		<link rel="stylesheet" href="css/custom.css">
 		<link rel="stylesheet" href="css/dc.css">
-		<link rel="stylesheet" href="css/leaflet.css" />
-		<link rel="stylesheet" href="css/leaflet-legend.css" />
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
 
 
@@ -27,9 +25,6 @@
 		<script type="text/javascript" src="js/d3.v3.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="js/crossfilter.js"></script>
 		<script type="text/javascript" src="js/dc.min.js"></script>
-		<script type="text/javascript" src="js/leaflet.js"></script>
-		<script type="text/javascript" src="js/leaflet.markercluster.js"></script>
-		<script type="text/javascript" src="js/dc.leaflet.min.js"></script>
 		<script type="text/javascript" src="js/dc.treemap.js"></script>
 		<script type="text/javascript" src="js/dc.leaning.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -116,46 +111,48 @@
 								</ul>
 						</div>
 					</div>
-
 					<div class="row clearfix">
 						<div class="col-xs-6 group">
-							<span><h5>Radio</h5></span>
-							<div id="radioBarChart" >
+							<h5 class="charthead">Radio</h5>
+							<div class="row-fluid">
+
+								<div class="span6" id="radioBarChart">
+								</div>
+								<div class="span6" id="radioTree">
+								</div>
 							</div>
-							<br>
 						</div>
 						<div class="col-xs-6 group">
-							<span><h5>Television</h5></span>
-							<div id="tvBarChart">
+							<h5 class="charthead">Television</h5>
+							<div class="row-fluid">
+								<div class="span6" id="tvBarChart">
+								</div>
+								<div class="span6" id="tvTree">
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row clearfix">
 						<div class="col-xs-6 group">
-							<span><h5>Internet</h5></span>
-							<div id="internetBarChart">
+							<div class="row-fluid">
+								<h5 class="charthead">Internet</h5>
+								<div class="span6" id="internetBarChart">
+								</div>
+								<div class="span6" id="internetTree">
+								</div>
 							</div>
 						</div>
 						<div class="col-xs-6 group">
-							<span><h5>Print</h5></span>
-							<div id="printBarChart">
+							<div class="row-fluid">
+								<h5 class="charthead">Print</h5><
+								<div class="span6" id="printBarChart">
+								</div>
+								<div class="span6" id="printTree">
+								</div>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
 
-		</div>
-			<div class="row" style="">
-				<div class="col-xs-12" id="internet" style="padding-left:0px">
-					<div class="tree-chart clearfix">
-						<div class="tree-graph" id="net-tree-graph">
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
 	</body>
 </html>

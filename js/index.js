@@ -13,7 +13,6 @@ $(document).ready(function() {
 	var svg = d3.select('#map').append('svg')
 		.attr('preserveAspectRatio','xMinYMin meet')
 		.attr('viewBox', function () {
-			console.log( '0 0 ' + String(width) + ' ' + String(height))
 			return '0 0 ' + String(width) + ' ' + String(height)
 		}) 
 
@@ -178,8 +177,7 @@ $(document).ready(function() {
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
 		var ageRowChart = dc.rowChart("#age-horiz-graph","main");
-		var internetTreeChart = dc.treeChart("#net-tree-graph", "main");
-//		var Map = dc_leaflet.choroplethChart("#map","main");
+		var internetTreeChart = dc.treeChart("#internetTree", "main");
 		var radioChart = dc.rowChart("#radioBarChart","main")
 		var tvChart = dc.rowChart("#tvBarChart","main")
 		var internetChart = dc.rowChart("#internetBarChart","main")
