@@ -65,9 +65,7 @@ Developer @ the DAT in Washington DC
   border-bottom: 1px solid #303030;
 }
 
-.cities {
-  fill:red;
-}
+
 
 .overview ul li {
 	float:left;
@@ -142,4 +140,18 @@ Developer @ the DAT in Washington DC
 #leaning {
   stroke-width:1;
   stroke:rgb(255,0,0);
+}
+/******************************************
+/* Map
+/*******************************************/
+.cities {
+  fill:pink;
+  fill-opacity:.8;
+  stroke:red;
+  stroke-width:2;
+}
+.oblasks {
+  fill:grey;
+  stroke:white;
+  stroke-width:2;
 }
