@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-//	var geometryCenter =  {"latitude": 48.360833, "longitude": 31.1809725};
 	var geometryCenter =  {"latitude": 48, "longitude": 32};
 	var width = parseInt(d3.select('#map').style('width')),
 	mapRatio = .7,
@@ -112,7 +111,7 @@ $(document).ready(function() {
 			.attr('d',path.pointRadius(5))
 			.attr('class','cities')
 			.attr('id',function(d) {
-				return d.properties.name.replace(/([\s\'])/g,'');
+				return d.properties.name.replace(/([\s\'\\])/g,'');
 			})
 			.style('fill','red')
 			.on('click',function(d) {
@@ -176,7 +175,7 @@ $(document).ready(function() {
 
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
-		var ageRowChart = dc.rowChart("#age-horiz-graph","main");
+//		var ageRowChart = dc.rowChart("#age-horiz-graph","main");
 		var internetTreeChart = dc.treeChart("#internetTree", "main");
 		var radioTreeChart = dc.treeChart("#radioTree","main");
 		var tvTreeChart = dc.treeChart("#tvTree","main");
@@ -193,7 +192,7 @@ $(document).ready(function() {
 			})
 			.on("renderlet", function() {
 				for (i=0; i < citiesArray.length ; i++) {
-					d3.select("#" +  citiesArray[i].key.replace(/([\s\'])/g,''))
+					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
 			}		
@@ -274,9 +273,6 @@ $(document).ready(function() {
 
 
 
-
-
-
 //Visualize it
 
 		genderPieChart
@@ -288,14 +284,14 @@ $(document).ready(function() {
 	//		.radius(width/60)
 			.renderLabel(false);
 
-		ageRowChart
+//		ageRowChart
 //			.width(width/10)
-			.height(width/10)
-			.dimension(ageDim)
-			.margins({top:0,right:0,bottom:-1,left:0})
-			.group(ageDim.group())
-			.renderLabel(true)
-			.xAxis().tickValues([]);
+//			.height(200)
+//			.dimension(ageDim)
+//			.margins({top:0,right:0,bottom:-1,left:0})
+//			.group(ageDim.group())
+//			.renderLabel(true)
+//			.xAxis().tickValues([]);
 
 		internetTreeChart
 			.chartGroup("main")
@@ -318,7 +314,7 @@ $(document).ready(function() {
 			.removeThese(["undefined","Difficult to answer","NA"]);
 		radioChart
 //			.width(200)
-			.height(120)
+			.height(200)
 			.dimension(radioUseDim)
 			.group(radioUseDim.group())
 			.elasticX(true)
@@ -328,7 +324,7 @@ $(document).ready(function() {
 
 		tvChart
 //			.width(200)
-			.height(120)
+			.height(200)
 			.dimension(tvUseDim)
 			.group(tvUseDim.group())
 			.elasticX(true)
@@ -337,7 +333,7 @@ $(document).ready(function() {
 			.xAxis().ticks(4);	
 		internetChart
 //			.width(200)
-			.height(120)
+			.height(200)
 			.dimension(intUseDim)
 			.group(intUseDim.group())
 			.elasticX(true)
@@ -346,7 +342,7 @@ $(document).ready(function() {
 			.xAxis().ticks(4);
 		printChart
 //			.width(200)
-			.height(120)
+			.height(200)
 			.dimension(printUseDim)
 			.group(printUseDim.group())
 			.elasticX(true)
