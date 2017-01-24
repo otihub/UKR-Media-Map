@@ -77,6 +77,11 @@ $(document).ready(function() {
 //find out the average of leaning
 		var leaning = leanDim.group().reduceCount().all();
 
+		var changeGeography = function (name) {
+			d3.select("#geography").html(name);
+		}
+
+
 //Add map
 		svg.selectAll('oblasks')
 			.data(oblasks.features)
@@ -89,11 +94,13 @@ $(document).ready(function() {
 					oblaskDim.filterAll();
 					cityFilterDim.filterAll();
 					d3.selectAll('.oblasks').classed('selected',false);
+					changeGeography("All Surveyed Areas")
 					dc.redrawAll('main');
 				} else {	
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.select(this).classed('selected',true);
 					oblaskDim.filter(d.properties.NAMELATIN);
+					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');
 				};	
 			});
@@ -118,10 +125,12 @@ $(document).ready(function() {
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()
 					d3.selectAll('.cities').classed('selected',false);
+					changeGeography("Surveyed Areas");
 					dc.redrawAll('main');
 				} else {	
 					d3.select(this).classed('selected',true);
 					cityFilterDim.filter(d.properties.name);
+					changeGeography(d.properties.name);
 					dc.redrawAll('main');
 				};	
 			});
