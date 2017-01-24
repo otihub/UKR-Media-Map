@@ -3,7 +3,7 @@ dc.treeChart =  function (parent, chartGroup) {
 		var tooltip = d3.select('body')
 			.append('div')
 			.attr('class','tooltip');
-      
+
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
 			function makeTree (json) {
@@ -54,10 +54,14 @@ dc.treeChart =  function (parent, chartGroup) {
         console.log(this);
         console.log(this.anchor());
 
-				var parentDim =  d3.select(this.anchor()).node().parentNode.getBoundingClientRect();
 
-				parentWidth = parentDim.width
-        parentHeight = parentDim.height
+				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
+        console.log(d3.select(this.anchor()).node().getBoundingClientRect())
+				parentWidth = parentDim.width;
+        parentHeight = parentDim.height;
+        console.log("Width = " + parentWidth);
+        console.log("Height = " + parentHeight);
+
 
 				group = _chart.dimension().group().reduceCount().all();
 				_chart.selectAll("div").remove();

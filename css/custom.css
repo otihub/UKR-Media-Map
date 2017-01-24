@@ -28,20 +28,19 @@ Developer @ the DAT in Washington DC
 }
 
 
+
+
 /******************************************
 /* DRAWER
 /*******************************************/
 
-.charts {
-  bottom:0;
-  position:relative;
-  margin-top:0px;
+.tree {
+  height:200px;
 }
+
 .tree-chart {
   bottom:0;
   position:absolute;
-
-
   z-index:20;
 }
 

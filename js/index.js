@@ -178,6 +178,9 @@ $(document).ready(function() {
 		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
 		var ageRowChart = dc.rowChart("#age-horiz-graph","main");
 		var internetTreeChart = dc.treeChart("#internetTree", "main");
+		var radioTreeChart = dc.treeChart("#radioTree","main");
+		var tvTreeChart = dc.treeChart("#tvTree","main");
+		var printTreeChart = dc.treeChart("#printTree","main");
 		var radioChart = dc.rowChart("#radioBarChart","main")
 		var tvChart = dc.rowChart("#tvBarChart","main")
 		var internetChart = dc.rowChart("#internetBarChart","main")
@@ -296,10 +299,23 @@ $(document).ready(function() {
 
 		internetTreeChart
 			.chartGroup("main")
-//			.width(d3.select("#internet").node().getBoundingClientRect()["width"])
 			.dimension(intDim)
 			.removeThese(["undefined","Difficult to answer","NA"]);
 
+		printTreeChart
+			.chartGroup("main")
+			.dimension(printDim)
+			.removeThese(["undefined","Difficult to answer","NA"]);
+
+		tvTreeChart
+			.chartGroup("main")
+			.dimension(tvDim)
+			.removeThese(["undefined","Difficult to answer","NA"]);
+
+		radioTreeChart
+			.chartGroup("main")
+			.dimension(radioDim)
+			.removeThese(["undefined","Difficult to answer","NA"]);
 		radioChart
 //			.width(200)
 			.height(120)
