@@ -11,17 +11,6 @@ Developer @ the DAT in Washington DC
 /*******************************************/
 
 
-.tooltip {
-  position: absolute;
-  text-align: center;
-/*  height: 12px; */
-  padding: 8px;
-  margin-top: -20px;
-  font: 10px sans-serif;
-  background: #ddd;
-  pointer-events: none;
-}
-
 .splash{
 	background:rgb(90,90,90);
 	color:#fff;
@@ -149,6 +138,7 @@ Developer @ the DAT in Washington DC
   fill-opacity:.8;
   stroke:red;
   stroke-width:2;
+  opacity:0;
 }
 .oblasks {
   fill:grey;
