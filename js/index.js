@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var geometryCenter =  {"latitude": 50, "longitude": 30};
+	var geometryCenter =  {"latitude": 48, "longitude": 30};
 	var width = parseInt(d3.select('#map').style('width')),
 	mapRatio = .7,
 	height = width * mapRatio;
@@ -15,11 +15,11 @@ $(document).ready(function() {
 			return '0 0 ' + String(width) + ' ' + String(height)
 		}) 
 
-    var projection = d3.geo.transverseMercator()
+    var projection = d3.geo.mercator()
         .center([geometryCenter.longitude, geometryCenter.latitude])
        // .parallels([43, 62])  
-        .scale(1500);
- //       .translate([width / 2, height / 2]);
+        .scale(1500)
+       .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
         .projection(projection);
