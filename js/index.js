@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var geometryCenter =  {"latitude": 48, "longitude": 32};
+	var geometryCenter =  {"latitude": 50, "longitude": 30};
 	var width = parseInt(d3.select('#map').style('width')),
 	mapRatio = .7,
 	height = width * mapRatio;
@@ -15,36 +15,33 @@ $(document).ready(function() {
 			return '0 0 ' + String(width) + ' ' + String(height)
 		}) 
 
-    var projection = d3.geo.conicEqualArea()
-        .center([0, geometryCenter.latitude])
-        .rotate([-geometryCenter.longitude, 0])
-        .parallels([46, 52])  
-        .scale(4000)
-        .translate([width / 2, height / 2]);
+    var projection = d3.geo.transverseMercator()
+        .center([geometryCenter.longitude, geometryCenter.latitude])
+       // .parallels([43, 62])  
+        .scale(1500);
+ //       .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
         .projection(projection);
 
 	queue()
-		.defer(d3.json,"data/select-oblasks.geojson")
+		.defer(d3.json,"data/oblasks-slim.json")
 		.defer(d3.json,"data/chosen.json")
 		.defer(d3.json,"data/cities.geojson")
 		.await(viz);
 
 	function viz(error,oblasks,surveyData,cities) {	
 	
-
-				
-
+		
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
-			oblasks.features = oblasks.features.filter(function(d) {
-					return d.properties.NAMELATIN != "LUHANSKA OBLAST RU" && d.properties.NAMELATIN != "DONETSKA OBLAST RU";
-				}
-			)
 
+//			oblasks.features = oblasks.features.filter(function(d) {
+//					return d.properties.NAMELATIN == "Dnipropetrovs'ka" || d.properties.NAMELATIN == "Donets'ka" || d.properties.NAMELATIN == "Zaporiz'ka" || d.properties.NAMELATIN == "Odes'ka" || d.properties.NAMELATIN == "Kharkivs'ka" || d.properties.NAMELATIN == "Luhans'ka";
+//				}
+//			)
 
-
+		console.log(oblasks.features);
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
 	
@@ -99,7 +96,9 @@ $(document).ready(function() {
 				} else {	
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.select(this).classed('selected',true);
-					oblaskDim.filter(d.properties.NAMELATIN);
+					console.log(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
+					console.log(oblaskDim.group().reduceCount().all());
+					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');
 				};	
@@ -107,7 +106,7 @@ $(document).ready(function() {
 
 //scale for radius  of cities
 		var cityScale = d3.scale.linear()
-				.range([0,50])
+			.range([0,25])
 				.domain([0,1006]);
 
 
@@ -120,7 +119,6 @@ $(document).ready(function() {
 			.attr('id',function(d) {
 				return d.properties.name.replace(/([\s\'\\])/g,'');
 			})
-			.style('fill','red')
 			.on('click',function(d) {
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()

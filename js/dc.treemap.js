@@ -1,8 +1,5 @@
 dc.treeChart =  function (parent, chartGroup) {
   	var color = d3.scale.category20c();
-		var tooltip = d3.select('body')
-			.append('div')
-			.attr('class','tooltip');
 
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
@@ -37,31 +34,12 @@ dc.treeChart =  function (parent, chartGroup) {
 			}
 
 			_chart._doRender = function() {
-				function tipmouseover() {
-  					tooltip.style("display", "inline").style("opacity",100);
-				}
 
-				function tipmousemove(d) {
-  					tooltip
-						.text(d.key + ": " + d.value)
-      					.style("left", (d3.event.pageX - 34) + "px")
-      					.style("top", (d3.event.pageY - 12) + "px");
-					}
-
-				function tipmouseout() {
-					tooltip.style("display", "none");
-				}
-        console.log(this);
-        console.log(this.anchor());
 
 
 				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
-        console.log(d3.select(this.anchor()).node().getBoundingClientRect())
 				parentWidth = parentDim.width;
         parentHeight = parentDim.height;
-        console.log("Width = " + parentWidth);
-        console.log("Height = " + parentHeight);
-
 
 				group = _chart.dimension().group().reduceCount().all();
 				_chart.selectAll("div").remove();
@@ -82,10 +60,8 @@ dc.treeChart =  function (parent, chartGroup) {
 						return '#191919';
 					})
 					.append('div')
-					.html(function(d) { return d.key + "<br />" + d.value; })
-					.on("mouseover", tipmouseover)
-					.on("mousemove", tipmousemove)
-					.on("mouseout",tipmouseout)
+					.html(function(d) {console.log(d.key);return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value) + "'" + ">" + d.key + "<br />" + d.value + "</div>"; })
+
 				};
 
 			_chart._doRedraw = function() {
