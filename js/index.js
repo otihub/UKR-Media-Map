@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 	queue()
 		.defer(d3.json,"data/oblasks-slim.json")
-		.defer(d3.json,"data/chosen.json")
+		.defer(d3.json,"data/data.json")
 		.defer(d3.json,"data/cities.geojson")
 		.await(viz);
 
@@ -41,7 +41,6 @@ $(document).ready(function() {
 //				}
 //			)
 
-		console.log(oblasks.features);
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
 	
@@ -97,7 +96,7 @@ $(document).ready(function() {
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.select(this).classed('selected',true);
 					console.log(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
-					console.log(oblaskDim.group().reduceCount().all());
+			//		console.log(oblaskDim.group().reduceCount().all());
 					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');

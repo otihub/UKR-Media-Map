@@ -4,9 +4,21 @@ dc.treeChart =  function (parent, chartGroup) {
 			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
 			function makeTree (json) {
-				json = {"name":"tree","children":json}
+				json = {"name":"tree","children":json};
+        console.log(json);
 				return json;
 			}
+//getter method for getting list of to make tree structure
+      _chart.groupList = function(_) {
+        if (typeof(_) == 'object') {
+          _groupList = _;
+        } else {
+          _groupList = null;
+        }
+        return _chart;
+
+      }
+
 
 			//Filters unwanted and slices to top 10
 			function removeUnwanted (json, removeList) {
@@ -42,6 +54,34 @@ dc.treeChart =  function (parent, chartGroup) {
         parentHeight = parentDim.height;
 
 				group = _chart.dimension().group().reduceCount().all();
+
+        group2 = _chart.dimension().group().reduce(
+            function reduceAdd (p,d) {
+
+
+            },
+            function reduceRemove (p,d){
+
+            },
+            function reduceInitial () {
+              return {"name":"tree",
+                      "children":[
+                      {
+                      "name":"russian",
+                      "children":[
+                        {}
+                      ]
+                      },
+                      {
+                      "name":"english",
+                      "children":[
+                        {}
+                      ]
+                    }
+                    ]
+                  }
+            }
+        )
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
 			//		.size([parentWidth,_chart.height()])
@@ -60,7 +100,7 @@ dc.treeChart =  function (parent, chartGroup) {
 						return '#191919';
 					})
 					.append('div')
-					.html(function(d) {console.log(d.key);return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value) + "'" + ">" + d.key + "<br />" + d.value + "</div>"; })
+					.html(function(d) {return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value) + "'" + ">" + d.key + "<br />" + d.value + "</div>"; })
 
 				};
 
