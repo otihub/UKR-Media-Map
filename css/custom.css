@@ -17,8 +17,6 @@ Developer @ the DAT in Washington DC
 }
 
 
-
-
 /******************************************
 /* DRAWER
 /*******************************************/
@@ -89,9 +87,7 @@ Developer @ the DAT in Washington DC
   color: yellow;
 }
 
-.selected {
-  fill:yellow;
-}
+
 
 /******************************************
 /* Tree Graph
@@ -152,7 +148,7 @@ Developer @ the DAT in Washington DC
 
 #ukraine {
 	position:absolute;
-	stroke:white;
+	stroke:black;
 	stroke-width:2;
 	top:0;
 
@@ -164,10 +160,16 @@ Developer @ the DAT in Washington DC
   stroke-width:2;
 
 }
-.oblasks {
+
+
+.notSelected {
   fill:purple;
-	opacity:0;
+	opacity:.1;
 }
 .oblasks:hover {
 	opacity:.2;
+}
+.selected {
+  fill:yellow;
+
 }

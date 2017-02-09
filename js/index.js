@@ -32,7 +32,6 @@ $(document).ready(function() {
 
 	function viz(error,oblasks,surveyData,cities) {	
 	
-		
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
 
@@ -77,26 +76,28 @@ $(document).ready(function() {
 			d3.select("#geography").html(name);
 		}
 
-
+//console.log(leanDim.top(Infinity));
 //Add map
 		svg.selectAll('oblasks')
 			.data(oblasks.features)
 			.enter()
 			.append('path')
 			.attr('d',path)
-			.attr('class','oblasks')
+			.attr('class','oblasks notSelected')
 			.on('click',function(d) {
 				if (d3.select(this).classed('selected')) {
 					oblaskDim.filterAll();
 					cityFilterDim.filterAll();
 					d3.selectAll('.oblasks').classed('selected',false);
+		//			d3.select(this).classed('selected',false);
+					d3.selectAll('.oblasks').classed('notSelected',true);
 					changeGeography("All Surveyed Areas")
 					dc.redrawAll('main');
 				} else {	
 					d3.selectAll('.oblasks').classed('selected',false);
+					d3.select(this).classed('notSelected',false);
 					d3.select(this).classed('selected',true);
 					console.log(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
-			//		console.log(oblaskDim.group().reduceCount().all());
 					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');
@@ -105,10 +106,16 @@ $(document).ready(function() {
 
 //scale for radius  of cities
 		var cityScale = d3.scale.linear()
-			.range([0,25])
+			.range([1,25])
 				.domain([0,1006]);
-
-
+	
+//d3 tip for hoverover of cities
+	/*	var tip = d3.tip()
+				.attr('class','d3-tip')
+				.html(function(d) {
+					return "<strong><span style='color:purple'>" + d.properties.name + "</span></strong>";
+					})
+*/
 		svg.selectAll('cities')
 			.data(cities.features)
 			.enter()
@@ -118,6 +125,13 @@ $(document).ready(function() {
 			.attr('id',function(d) {
 				return d.properties.name.replace(/([\s\'\\])/g,'');
 			})
+			.attr('title','Town Name')
+			.attr('data-content',function(d) {
+				return d.properties.name;
+				})
+			.attr('data-toggle',function(d) {
+				return d.properties.name;
+				})
 			.on('click',function(d) {
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()
@@ -366,7 +380,16 @@ $(document).ready(function() {
 		dc.redrawAll();
 
 	}
-
-
+/*	$('svg .cities').tooltip({
+		'trigger':'hover',
+		'container':'body',
+		'placement':'top',
+		'white-space':'nowrap',
+		'html':'true'
+		});
+	$(function () {
+		('[data-toggle="tooltip"]').tooltip({'placement':'top'});
+	})
+*/
 });
 
