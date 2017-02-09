@@ -5,15 +5,18 @@ dc.treeChart =  function (parent, chartGroup) {
 			//Makes into tree structure
 			function makeTree (json) {
 				json = {"name":"tree","children":json};
-        console.log(json);
+      //  console.log(json);
 				return json;
 			}
 //getter method for getting list of to make tree structure
       _chart.groupList = function(_) {
+        console.log(typeof(_))
         if (typeof(_) == 'object') {
+          console.log("bugee");
           _groupList = _;
         } else {
-          _groupList = null;
+          console.log("bad");
+          return _;
         }
         return _chart;
 
@@ -47,7 +50,7 @@ dc.treeChart =  function (parent, chartGroup) {
 
 			_chart._doRender = function() {
 
-
+        console.log(typeof(_groupList))
 
 				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
 				parentWidth = parentDim.width;
@@ -57,7 +60,6 @@ dc.treeChart =  function (parent, chartGroup) {
 
         group2 = _chart.dimension().group().reduce(
             function reduceAdd (p,d) {
-
 
             },
             function reduceRemove (p,d){

@@ -54,12 +54,9 @@ Developer @ the DAT in Washington DC
   border-bottom: 1px solid #303030;
 }
 
-
-
 .overview ul li {
 	float:left;
 	list-style:none;
-
 }
 
 .charthead {
@@ -133,15 +130,44 @@ Developer @ the DAT in Washington DC
 /******************************************
 /* Map
 /*******************************************/
+
+.img-container {
+	position:relative;
+	width:100%;
+}
+.img-container #base {
+	z-index:0;
+	width:inherit;
+}
+.img-container #labels {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
+	width:inherit;
+	pointer-events: none;
+
+}
+
+
+#ukraine {
+	position:absolute;
+	stroke:white;
+	stroke-width:2;
+	top:0;
+
+}
 .cities {
   fill:pink;
   fill-opacity:.8;
   stroke:red;
   stroke-width:2;
-  
+
 }
 .oblasks {
-  fill:grey;
-  stroke:white;
-  stroke-width:2;
+  fill:purple;
+	opacity:0;
+}
+.oblasks:hover {
+	opacity:.2;
 }
