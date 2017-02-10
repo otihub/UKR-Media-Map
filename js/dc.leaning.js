@@ -36,7 +36,7 @@ dc.leaningChart =  function (parent, chartGroup) {
 //attach the line to svg
 	 	svg.append("path").attr("class", "line grid-line").attr("d",lineFunction(lineData)).attr("id","leaningLine");
 //attach a circle to the line.attr("id","leaningLine")
-	 	svg.append("circle").attr("cx",width * dist).attr("cy",height/2).attr("r",radius).attr("fill","red").attr("id","leaningCirc");
+	 	svg.append("circle").attr("cx",width * dist).attr("cy",height/2).attr("r",radius).attr("id","leaningCirc");
 
 	};
 

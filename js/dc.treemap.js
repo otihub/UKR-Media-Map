@@ -97,10 +97,10 @@ dc.treeChart =  function (parent, chartGroup) {
 					.enter().append("div")
 					.attr("class","node")
 					.call(position)
-					.style("background-color", function(d) {
+	//				.style("background-color", function(d) {
 				//		return d.name=='tree' ?'#fff': color( d.key );
-						return '#191919';
-					})
+		//				return '#191919';
+			//		})
 					.append('div')
 					.html(function(d) {return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value) + "'" + ">" + d.key + "<br />" + d.value + "</div>"; })
 

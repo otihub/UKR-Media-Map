@@ -96,9 +96,12 @@ Developer @ the DAT in Washington DC
 .node {
 	position: absolute;
 	overflow:hidden;
-	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
+/*	-moz-box-shadow:    inset 0 0 10px #FFFFFF;
    -webkit-box-shadow: inset 0 0 10px #FFFFFF;
    box-shadow: inset 0 0 10px #FFFFFF;
+	 */
+	 outline:white dotted thin;
+	 background-color:#501566;
 
 }
 .node div{
@@ -122,6 +125,10 @@ Developer @ the DAT in Washington DC
 #leaning {
   stroke-width:1;
   stroke:rgb(255,0,0);
+}
+#leaningCirc {
+	fill:#501566;
+	stroke:#501566;
 }
 /******************************************
 /* Map

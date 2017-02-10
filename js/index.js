@@ -107,6 +107,9 @@ $(document).ready(function() {
 		var cityScale = d3.scale.linear()
 			.range([1,25])
 				.domain([0,1006]);
+
+//scale for colors to make them purple
+	
 	
 //d3 tip for hoverover of cities
 	/*	var tip = d3.tip()
@@ -296,6 +299,9 @@ $(document).ready(function() {
 
 //Visualize it
 
+//main color
+		var mainColor = "#501566";
+
 		genderPieChart
 			.width(15)
 			.height(15)
@@ -337,6 +343,7 @@ $(document).ready(function() {
 		radioChart
 //			.width(200)
 			.height(200)
+			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(radioUseDim)
 			.group(radioUseDim.group())
 			.elasticX(true)
@@ -347,6 +354,7 @@ $(document).ready(function() {
 		tvChart
 //			.width(200)
 			.height(200)
+			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(tvUseDim)
 			.group(tvUseDim.group())
 			.elasticX(true)
@@ -356,6 +364,7 @@ $(document).ready(function() {
 		internetChart
 //			.width(200)
 			.height(200)
+			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(intUseDim)
 			.group(intUseDim.group())
 			.elasticX(true)
@@ -365,6 +374,7 @@ $(document).ready(function() {
 		printChart
 //			.width(200)
 			.height(200)
+			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(printUseDim)
 			.group(printUseDim.group())
 			.elasticX(true)
