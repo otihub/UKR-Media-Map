@@ -90,12 +90,11 @@ $(document).ready(function() {
 					cityFilterDim.filterAll();
 					d3.selectAll('.oblasks').classed('selected',false);
 		//			d3.select(this).classed('selected',false);
-					d3.selectAll('.oblasks').classed('notSelected',true);
 					changeGeography("All Surveyed Areas")
 					dc.redrawAll('main');
 				} else {	
 					d3.selectAll('.oblasks').classed('selected',false);
-					d3.select(this).classed('notSelected',false);
+					d3.selectAll('.cities').classed('selected',false);
 					d3.select(this).classed('selected',true);
 					console.log(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
@@ -136,10 +135,12 @@ $(document).ready(function() {
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()
 					d3.selectAll('.cities').classed('selected',false);
+					d3.selectAll('.oblasks').classed('selected',false);
 					changeGeography("Surveyed Areas");
 					dc.redrawAll('main');
 				} else {	
 					d3.select(this).classed('selected',true);
+					d3.selectAll('.oblasks').classed('selected',false);
 					cityFilterDim.filter(d.properties.name);
 					changeGeography(d.properties.name);
 					dc.redrawAll('main');
