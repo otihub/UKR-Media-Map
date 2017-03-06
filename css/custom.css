@@ -20,6 +20,9 @@ Developer @ the DAT in Washington DC
 /******************************************
 /* DRAWER
 /*******************************************/
+.flag{
+	width:30px;
+}
 
 .tree {
   height:200px;
@@ -31,7 +34,7 @@ Developer @ the DAT in Washington DC
   z-index:20;
 }
 
-.overview {
+/* .overview {
 	display:block;
 	z-index:6;
 	position:absolute;
@@ -40,6 +43,10 @@ Developer @ the DAT in Washington DC
 	background:rgba(25,</span>25,25,.9);
 	color:#999;
 	width: 400px;
+}
+*/
+.chart-title{
+	height:30px;
 }
 
 .group {
@@ -60,15 +67,16 @@ Developer @ the DAT in Washington DC
 .charthead {
   color:white;
 }
-.overview ul {
+/*.overview ul {
 	padding:0px;
   margin-bottom: 0px;
 }
+*/
 .horizontal {
 	justify-content: space-between;
 }
 
-.overview-value {
+/*.overview-value {
 	color:#ccc;
 }
 .overview-label {
@@ -76,6 +84,7 @@ Developer @ the DAT in Washington DC
 	margin-left:8px;
 	margin-right:0px;
 }
+*/
 .pie-graph {
 	background-color: transparent;
 }
@@ -125,10 +134,15 @@ Developer @ the DAT in Washington DC
 #leaning {
   stroke-width:1;
   stroke:rgb(255,0,0);
+
 }
 #leaningCirc {
 	fill:#501566;
 	stroke:#501566;
+}
+
+#leaningLine{card
+	width:75%;
 }
 /******************************************
 /* Map
@@ -167,7 +181,9 @@ Developer @ the DAT in Washington DC
   stroke-width:2;
 
 }
-
+.cities.selected {
+	fill:yellow;
+}
 
 .notSelected {
   fill:purple;
@@ -176,7 +192,7 @@ Developer @ the DAT in Washington DC
 .oblasks:hover {
 	opacity:.2;
 }
-.selected {
+.oblasks.selected {
   fill:yellow;
 	opacity:.2
 

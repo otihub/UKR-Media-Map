@@ -1,21 +1,26 @@
 dc.treeChart =  function (parent, chartGroup) {
   	var color = d3.scale.category20c();
 
-			var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
+		var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
 			//Makes into tree structure
-			function makeTree (json) {
+		function makeTree (json) {
 				json = {"name":"tree","children":json};
       //  console.log(json);
 				return json;
 			}
+
+
+
+
 //getter method for getting list of to make tree structure
+    var _groupList = {};
       _chart.groupList = function(_) {
-        console.log(typeof(_))
+
         if (typeof(_) == 'object') {
-          console.log("bugee");
+
           _groupList = _;
         } else {
-          console.log("bad");
+
           return _;
         }
         return _chart;
@@ -50,40 +55,54 @@ dc.treeChart =  function (parent, chartGroup) {
 
 			_chart._doRender = function() {
 
-        console.log(typeof(_groupList))
+        console.log(Object.keys(_groupList).length)
 
 				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
 				parentWidth = parentDim.width;
         parentHeight = parentDim.height;
+      //check to see if chart is fed objectList
+      var group = {};
+      var tree = {};
+      group = _chart.dimension().group().reduceCount().all();
+      tree = makeTree(removeUnwanted(group, _removeThese))
+    
+    /*   if  (Object.keys(_groupList).length == 0) {
+          console.log("nobuttman")
+				    group = _chart.dimension().group().reduceCount().all();
+            group = makeTree(removeUnwanted(group, _removeThese))
 
-				group = _chart.dimension().group().reduceCount().all();
+          }
+        else {
+          console.log("buttman")
+            group = _chart.dimension().group().reduce(
+              function reduceAdd (p,d) {
+               console.log(p)
 
-        group2 = _chart.dimension().group().reduce(
-            function reduceAdd (p,d) {
+              },
+              function reduceRemove (p,d){
 
-            },
-            function reduceRemove (p,d){
-
-            },
-            function reduceInitial () {
-              return {"name":"tree",
-                      "children":[
-                      {
-                      "name":"russian",
-                      "children":[
-                        {}
-                      ]
-                      },
-                      {
-                      "name":"english",
-                      "children":[
-                        {}
+              },
+              function reduceInitial () {
+                return {"name":"tree",
+                        "children":[
+                        {
+                        "name":"russian",
+                        "children":[
+                          {}
+                        ]
+                        },
+                        {
+                        "name":"english",
+                        "children":[
+                          {}
+                        ]
+                      }
                       ]
                     }
-                    ]
-                  }
-            }
-        )
+              }
+          )
+        }
+*/
 				_chart.selectAll("div").remove();
 				var treemap = d3.layout.treemap()
 			//		.size([parentWidth,_chart.height()])
@@ -91,7 +110,7 @@ dc.treeChart =  function (parent, chartGroup) {
 					.sticky(false)
 					.value(function(d) { return d.value;});
 				var node = _chart.root()
-					.datum(makeTree(removeUnwanted(group, _removeThese)))
+					.datum(tree)
 					.selectAll(".node")
 					.data(treemap.nodes)
 					.enter().append("div")

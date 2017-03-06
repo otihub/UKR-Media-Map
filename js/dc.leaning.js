@@ -22,9 +22,9 @@ dc.leaningChart =  function (parent, chartGroup) {
 
 	_chart._doRender = function() {
 
-		var width = _chart.width()
-		var height = _chart.height()
-		var radius = 4.5
+		var width = _chart.width() * .7;
+		var height = _chart.height();
+		var radius = 4.5;
 		lineData = [{"x":radius,"y":height/2},{"x":width-radius,"y":height/2}]
 // how far to move dot along the lineData
 		var dist = scale(calcAverage(_chart.group(),[99]));
@@ -41,7 +41,7 @@ dc.leaningChart =  function (parent, chartGroup) {
 	};
 
 	_chart._doRedraw = function() {
-		var width = _chart.width()
+		var width = _chart.width() * .7;
 		var dist = scale(calcAverage(_chart.group(),[99]));
 		d3.select("#leaningCirc").transition(transition).attr("cx",width * dist);
 	};

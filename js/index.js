@@ -18,7 +18,7 @@ $(document).ready(function() {
     var projection = d3.geo.mercator()
         .center([geometryCenter.longitude, geometryCenter.latitude])
        // .parallels([43, 62])  
-        .scale(1850)
+        .scale(1870)
        .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
@@ -28,9 +28,10 @@ $(document).ready(function() {
 		.defer(d3.json,"data/oblasks-slim.json")
 		.defer(d3.json,"data/data.json")
 		.defer(d3.json,"data/cities.geojson")
+		.defer(d3.json,"data/int_lang.json")
 		.await(viz);
 
-	function viz(error,oblasks,surveyData,cities) {	
+	function viz(error,oblasks,surveyData,cities,intLang) {	
 	
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
@@ -301,15 +302,15 @@ $(document).ready(function() {
 
 //main color
 		var mainColor = "#501566";
-
+console.log(genderDim.group().all())
 		genderPieChart
-			.width(15)
-			.height(15)
+	//		.width(15)
+			.height(width/10)
 			.dimension(genderDim)
 			.group(genderDim.group())
 			.transitionDuration(transitionTime)
 	//		.radius(width/60)
-			.renderLabel(false);
+			.renderLabel(true);
 
 //		ageRowChart
 //			.width(width/10)
@@ -323,7 +324,7 @@ $(document).ready(function() {
 		internetTreeChart
 			.chartGroup("main")
 			.dimension(intDim)
-			.groupList({"buts":"Bollos"})
+			.groupList(intLang)
 			.removeThese(["undefined","Difficult to answer","NA"]);
 
 		printTreeChart
