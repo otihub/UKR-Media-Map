@@ -113,12 +113,22 @@ $(document).ready(function() {
 	
 	
 //d3 tip for hoverover of cities
-	/*	var tip = d3.tip()
-				.attr('class','d3-tip')
-				.html(function(d) {
-					return "<strong><span style='color:purple'>" + d.properties.name + "</span></strong>";
-					})
-*/
+	  var tip = d3.tip()
+		.attr('class','d3-tip')
+		.html(function(d) {
+			var count;
+			for(x in citiesArray) {
+				if (d.properties.name == citiesArray[x].key) {
+					count = citiesArray[x].value;
+				}
+			 
+			}
+
+			return "<strong><span style='color:#FF00FF'>" + d.properties.name + "</span></strong><span class='count'>" + " " + count+"</span>";
+
+		})
+		svg.call(tip);
+
 		svg.selectAll('cities')
 			.data(cities.features)
 			.enter()
@@ -129,12 +139,6 @@ $(document).ready(function() {
 				return d.properties.name.replace(/([\s\'\\])/g,'');
 			})
 			.attr('title','Town Name')
-			.attr('data-content',function(d) {
-				return d.properties.name;
-				})
-			.attr('data-toggle',function(d) {
-				return d.properties.name;
-				})
 			.on('click',function(d) {
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()
@@ -149,7 +153,9 @@ $(document).ready(function() {
 					changeGeography(d.properties.name);
 					dc.redrawAll('main');
 				};	
-			});
+			})
+			.on('mouseover', tip.show)
+			.on('mouseout',tip.hide);
 		
 		
 // formatter for percent
@@ -209,7 +215,7 @@ $(document).ready(function() {
 		var tvChart = dc.rowChart("#tvBarChart","main")
 		var internetChart = dc.rowChart("#internetBarChart","main")
 		var printChart = dc.rowChart("#printBarChart","main")
-
+console.log(citiesArray)
 		var total = dc.numberDisplay("#total","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
@@ -220,6 +226,7 @@ $(document).ready(function() {
 					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
+					
 			}		
 		});
 	
@@ -392,16 +399,6 @@ console.log(genderDim.group().all())
 		dc.redrawAll();
 
 	}
-/*	$('svg .cities').tooltip({
-		'trigger':'hover',
-		'container':'body',
-		'placement':'top',
-		'white-space':'nowrap',
-		'html':'true'
-		});
-	$(function () {
-		('[data-toggle="tooltip"]').tooltip({'placement':'top'});
-	})
-*/
+
 });
 

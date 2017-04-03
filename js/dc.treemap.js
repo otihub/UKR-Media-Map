@@ -5,12 +5,8 @@ dc.treeChart =  function (parent, chartGroup) {
 			//Makes into tree structure
 		function makeTree (json) {
 				json = {"name":"tree","children":json};
-      //  console.log(json);
 				return json;
 			}
-
-
-
 
 //getter method for getting list of to make tree structure
     var _groupList = {};
@@ -27,12 +23,14 @@ dc.treeChart =  function (parent, chartGroup) {
 
       }
 
-
 			//Filters unwanted and slices to top 10
 			function removeUnwanted (json, removeList) {
-				json = json.filter( function(d) {
-					return removeList.indexOf(d.key) <= 0 && +d.value > 2;
-				});
+
+        json = json.filter(function(d) {
+					return removeList.indexOf(d.key) <= 0;
+				}).sort(function(a,b) {
+          return +b.value - +a.value;
+        }).slice(0,10);
 				return json;
 			};
 
@@ -63,17 +61,20 @@ dc.treeChart =  function (parent, chartGroup) {
       //check to see if chart is fed objectList
       var group = {};
       var tree = {};
+      var n = _chart.dimension().top(Infinity).length;
       group = _chart.dimension().group().reduceCount().all();
+
+      console.log(group)
       tree = makeTree(removeUnwanted(group, _removeThese))
-    
+
     /*   if  (Object.keys(_groupList).length == 0) {
-          console.log("nobuttman")
+
 				    group = _chart.dimension().group().reduceCount().all();
             group = makeTree(removeUnwanted(group, _removeThese))
 
           }
         else {
-          console.log("buttman")
+
             group = _chart.dimension().group().reduce(
               function reduceAdd (p,d) {
                console.log(p)
@@ -121,7 +122,8 @@ dc.treeChart =  function (parent, chartGroup) {
 		//				return '#191919';
 			//		})
 					.append('div')
-					.html(function(d) {return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value) + "'" + ">" + d.key + "<br />" + d.value + "</div>"; })
+					.html(function(d) {return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value)  +  "'" + ">" + d.key + "<br />" + String((d.value/n * 100).toFixed(0)) + '%' + "</div>"; });
+
 
 				};
 

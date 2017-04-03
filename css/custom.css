@@ -20,8 +20,10 @@ Developer @ the DAT in Washington DC
 /******************************************
 /* DRAWER
 /*******************************************/
+
+
 .flag{
-	width:30px;
+	width:50px;
 }
 
 .tree {
@@ -34,17 +36,10 @@ Developer @ the DAT in Washington DC
   z-index:20;
 }
 
-/* .overview {
-	display:block;
-	z-index:6;
-	position:absolute;
-	right:0px;
-	height:100%;
-	background:rgba(25,</span>25,25,.9);
-	color:#999;
-	width: 400px;
+.overview {
+	background_color: #EFEFEF;
 }
-*/
+
 .chart-title{
 	height:30px;
 }
