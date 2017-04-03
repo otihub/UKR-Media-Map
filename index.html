@@ -57,6 +57,7 @@
 			</div>
 			<div class="row">
 				<div class="col-8" id="map" style="z-index:0;padding-left:0px">
+
 					<div class="img-container">
 						<img src="images/ukraine.png" id="base"></img>
 						<img src="images/labels.png"  id="labels"></img>
@@ -64,8 +65,12 @@
 				</div>
 
 				<div class="col-4 overview clearfix">
-		 			<h2 id=total style="text-align:center"></h2>
 					<h5 id=geography>Surveyed Areas</h5>
+		 			<span id=selected style="text-align:center"></span>
+					<span> selected records | </span>
+					<button class="link" id=reset-all-filters> Reset Filters </button>
+
+
 					<h6>Gender</h6>
 					<!--		<ul class="horizontal clearfix" > -->
 

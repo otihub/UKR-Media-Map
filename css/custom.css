@@ -20,7 +20,11 @@ Developer @ the DAT in Washington DC
 /******************************************
 /* DRAWER
 /*******************************************/
-
+button.link {
+	background:none;
+	border:none;
+	color:#FF00FF;
+}
 
 .flag{
 	width:50px;
@@ -160,7 +164,6 @@ Developer @ the DAT in Washington DC
 	pointer-events: none;
 
 }
-
 
 #ukraine {
 	position:absolute;

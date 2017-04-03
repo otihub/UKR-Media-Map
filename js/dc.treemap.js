@@ -52,9 +52,6 @@ dc.treeChart =  function (parent, chartGroup) {
 			}
 
 			_chart._doRender = function() {
-
-        console.log(Object.keys(_groupList).length)
-
 				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
 				parentWidth = parentDim.width;
         parentHeight = parentDim.height;
@@ -64,7 +61,6 @@ dc.treeChart =  function (parent, chartGroup) {
       var n = _chart.dimension().top(Infinity).length;
       group = _chart.dimension().group().reduceCount().all();
 
-      console.log(group)
       tree = makeTree(removeUnwanted(group, _removeThese))
 
     /*   if  (Object.keys(_groupList).length == 0) {

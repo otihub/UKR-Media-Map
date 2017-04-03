@@ -70,6 +70,33 @@ $(document).ready(function() {
 		var wealthDimGroup = wealthDim.group().reduceCount()
 		var citiesArray = cityDim.group().reduceCount().all()
 
+//reset all filters
+ 	d3.select("#reset-all-filters")
+		.on("click", function(){
+			console.log("hello");
+			cityDim.filterAll();
+			cityFilterDim.filterAll();
+			leanDim.filterAll();
+			printUseDim.filterAll();
+			printDim.filterAll();
+			tvUseDim.filterAll();
+			tvDim.filterAll();
+			radioUseDim.filterAll();
+			radioDim.filterAll();
+			intUseDim.filterAll();
+			intDim.filterAll();
+			oblaskDim.filterAll();
+			languageDim.filterAll();
+			wealthDim.filterAll();
+			employDim.filterAll();
+			educDim.filterAll();
+			ageDim.filterAll();
+			genderDim.filterAll();
+			console.log("goodbye");
+			d3.selectAll('.oblasks').classed('selected',false);
+			dc.redrawAll("main");		
+		});
+
 //find out the average of leaning
 		var leaning = leanDim.group().reduceCount().all();
 
@@ -79,6 +106,7 @@ $(document).ready(function() {
 
 //console.log(leanDim.top(Infinity));
 //Add map
+
 		svg.selectAll('oblasks')
 			.data(oblasks.features)
 			.enter()
@@ -90,7 +118,6 @@ $(document).ready(function() {
 					oblaskDim.filterAll();
 					cityFilterDim.filterAll();
 					d3.selectAll('.oblasks').classed('selected',false);
-		//			d3.select(this).classed('selected',false);
 					changeGeography("All Surveyed Areas")
 					dc.redrawAll('main');
 				} else {	
@@ -188,7 +215,8 @@ $(document).ready(function() {
 //Make function to filter based on selected numberDisplay and apply style to containing div after redraw
 
 		var selectedNum = function (dimension, filter,chart) {
-			var numParent =  d3.select(d3.select(chart.anchor())[0][0].parentNode)
+			var numParent = d3.select(chart.anchor())
+	//		var numParent =  d3.select(d3.select(chart.anchor())[0][0].parentNode)
 			numParent.on("click", function() {
 				if (numParent.classed("filtered")) {
 					numParent.classed("filtered",false);
@@ -216,7 +244,7 @@ $(document).ready(function() {
 		var internetChart = dc.rowChart("#internetBarChart","main")
 		var printChart = dc.rowChart("#printBarChart","main")
 console.log(citiesArray)
-		var total = dc.numberDisplay("#total","main")
+		var total = dc.numberDisplay("#selected","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
 				return d;
