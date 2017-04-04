@@ -31,9 +31,6 @@ button.link {
 	border:none;
 		color:#AACCFF;
 }
-.filtered {
-  color: #AACCFF;
-}
 
 .highlight {
 	color:#AACCFF;
@@ -46,6 +43,14 @@ button.link {
 
 .overview-label {
 	font-size:13px;
+}
+
+.sidebar-chart-row {
+	margin-top:30px;
+}
+
+.overview-value.filtered {
+	color:yellow;
 }
 /******************************************
 /* DRAWER

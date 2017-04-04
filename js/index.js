@@ -73,6 +73,7 @@ $(document).ready(function() {
 //reset all filters
  	d3.select("#reset-all-filters")
 		.on("click", function(){
+			console.log("clicked");
 			oblaskDim.filterAll();
 			cityFilterDim.filterAll();
 			d3.selectAll('.oblasks').classed('selected',false);
@@ -208,6 +209,7 @@ $(document).ready(function() {
 					dimension.filterAll();
 					dc.redrawAll("main");
 				} else {
+					d3.selectAll(".overview-value").classed("filtered",false);
 					numParent.classed("filtered",true);
 					numParent.selectAll("span").classed("filtered",true);
 					dimension.filter(filter);

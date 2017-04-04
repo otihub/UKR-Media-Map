@@ -49,28 +49,26 @@
 			</div>
 			<div class="row clearfix">
 				<div class="col-8" id="map" class="clearfix" style="z-index:0">
-
 					<div class="img-container">
 						<img src="images/ukraine.jpg" id="base"></img>
 						<img src="images/labels.png"  id="labels"></img>
 					</div>
 				</div>
-
 				<div class="col-4 clearfix chart-group">
 					<div class="row-fluid">
-						<div class="col-12" style="padding:0px; margin-bottom:8px">
-							<h5 id="geography">Surveyed Areas</h5>
+						<div class="col-12 charthead" style="padding:0px;margin-bottom:8px">
+							<h4 id="geography">Surveyed Areas</h4>
 			 				<span id="selected" style="text-align:center"></span>
 							<span> selected records | </span>
 							<button class="link" id="reset-all-filters"> Reset Filters </button>
 						</div>
-						<div class="row">
+						<div class="row sidebar-chart-row">
 							<div class="col-6">
-								<h6>Gender</h6>
+								<h5>Gender</h5>
 								<div class="pie-graph" id="gender-pie-graph"></div>
 							</div>
 							<div class="col-6">
-								<h6>Language</h6>
+								<h5>Language</h5>
 								<span class="overview-value" id="russianPerc"></span>
 								<span class="overview-label"> Russian</span><br>
 								<span class="overview-value" id="ukrainianPerc"></span>
@@ -78,9 +76,9 @@
 
 							</div>
 						</div>
-					<div class="row">
+					<div class="row sidebar-chart-row">
 						<div class="col-6">
-							<h6>Age</h6>
+							<h5>Age</h5>
 							<span class="overview-value" id="youngAgePerc"></span>
 							<span class="overview-label"> 18-35</span><br>
 							<span class="overview-value" id="mediumAgePerc"></span>
@@ -90,7 +88,7 @@
 
 						</div>
 						<div class=col-6>
-							<h6>Education</h6>
+							<h5>Education</h5>
 							<span class="overview-value" id="primaryEducPerc"></span>
 							<span class="overview-label"> Primary</span><br>
 							<span class="overview-value" id="secondaryEducPerc"></span>
@@ -100,7 +98,7 @@
 
 					</div>
 				</div>
-					<div>
+					<div class="sidebar-chart-row">
 						<span class="overview-title">Which direction should Ukraine take in its foreign policy?</span></br>
 						<img class="flag" src="images/russia_flag.png"></img>
 						<span id="leaning"></span>
