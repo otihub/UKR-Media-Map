@@ -326,14 +326,6 @@ $(document).ready(function() {
 	//		.radius(width/60)
 			.renderLabel(true);
 
-//		ageRowChart
-//			.width(width/10)
-//			.height(200)
-//			.dimension(ageDim)
-//			.margins({top:0,right:0,bottom:-1,left:0})
-//			.group(ageDim.group())
-//			.renderLabel(true)
-//			.xAxis().tickValues([]);
 
 		internetTreeChart
 			.chartGroup("main")

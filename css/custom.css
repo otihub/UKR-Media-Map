@@ -43,6 +43,10 @@ button.link {
 	font-size:24px;
 	color:#AACCFF;
 }
+
+.overview-label {
+	font-size:13px;
+}
 /******************************************
 /* DRAWER
 /*******************************************/
@@ -170,20 +174,14 @@ button.link {
 .img-container #base {
 	z-index:0;
 	width:inherit;
-	position:absolute;
+
 }
 .img-container #labels {
 	position:absolute;
 	top:0;
 	left:0;
-	z-index:-1;
+	z-index:1;
 	width:inherit;
-	pointer-events: none;
-}
-.img-container #white {
-	width:inherit;
-	z-index:-3;
-	position:absolute;
 	pointer-events: none;
 }
 
