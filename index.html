@@ -48,60 +48,72 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-8" id="map" style="z-index:0;padding-left:0px">
+				<div class="col-8" id="map" class="clearfix" style="z-index:0">
 
 					<div class="img-container">
 						<img src="images/ukraine.png" id="base"></img>
+						<img src="images/white.png" id="white"></img>
+
 						<img src="images/labels.png"  id="labels"></img>
 					</div>
 				</div>
 
-				<div class="col-4 overview clearfix">
-					<h5 id=geography>Surveyed Areas</h5>
-		 			<span id=selected style="text-align:center"></span>
-					<span> selected records | </span>
-					<button class="link" id=reset-all-filters> Reset Filters </button>
-
-
-					<h6>Gender</h6>
-
-					<div class="pie-graph" id="gender-pie-graph"></div>
-					<h6>Language</h6>
-					<span class="overview-label">Russian:</span>
-					<span class="overview-value" id="russianPerc"></span>
-					<span class="overview-label">Ukrainian:</span>
-					<span class="overview-value" id="ukrainianPerc"></span>
-					<h6>Age</h6>
-					<span class="overview-label">18-35:</span>
-					<span class="overview-value" id="youngAgePerc"></span>
-					<span class="overview-label">36-55:</span>
-					<span class="overview-value" id="mediumAgePerc"></span>
-					<span class="overview-label">55+:</span>
-					<span class="overview-value" id="oldAgePerc"></span>
-					<div>
-						<h6>Education</h6>
-						<span class="overview-label">Primary:</span>
-						<span class="overview-value" id="primaryEducPerc"></span>
-						<span class="overview-label">Secondary:</span>
-						<span class="overview-value" id="secondaryEducPerc"></span>
-						<span class="overview-label">University:</span>
-						<span class="overview-value" id="uniEducPerc"></span>
+				<div class="col-4 clearfix chart-group">
+					<div class="row-fluid">
+						<div class="col-12" style="padding:0">
+							<h5 id="geography">Surveyed Areas</h5>
+			 				<span id="selected" class="highlight" style="text-align:center"></span>
+							<span> selected records | </span>
+							<button class="link" id="reset-all-filters"> Reset Filters </button>
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<h6>Gender</h6>
+								<div class="pie-graph" id="gender-pie-graph"></div>
+							</div>
+							<div class="col-6">
+								<h6>Language</h6>
+								<span class="overview-label">Russian:</span>
+								<span class="overview-value" id="russianPerc"></span>
+								<span class="overview-label">Ukrainian:</span>
+								<span class="overview-value" id="ukrainianPerc"></span>
+							</div>
+						</div>
+					<div class="row">
+						<div class="col-6">
+							<h6>Age</h6>
+							<span class="overview-label">18-35:</span>
+							<span class="overview-value" id="youngAgePerc"></span>
+							<span class="overview-label">36-55:</span>
+							<span class="overview-value" id="mediumAgePerc"></span>
+							<span class="overview-label">55+:</span>
+							<span class="overview-value" id="oldAgePerc"></span>
+						</div>
+						<div class=col-6>
+							<h6>Education</h6>
+							<span class="overview-label">Primary:</span>
+							<span class="overview-value" id="primaryEducPerc"></span>
+							<span class="overview-label">Secondary:</span>
+							<span class="overview-value" id="secondaryEducPerc"></span>
+							<span class="overview-label">University:</span>
+							<span class="overview-value" id="uniEducPerc"></span>
 					</div>
+				</div>
 					<div>
 						<span class="overview-title">Which direction should Ukraine take in its foreign policy?</span></br>
 						<img class="flag" src="images/russia_flag.png"></img>
 						<span id="leaning"></span>
 						<img class="flag" src="images/eu_flag.png"></img>
 					</div>
-
 				</div>
+			</div>
 			</div>
 			<div class="row ">
 				<div class="col-6 group">
 					<div class="charthead splash">
 						<h5>Radio</h5>
 					</div>
-					<div class="row-fluid chart-group">
+					<div class="row-fluid chart-group clearfix">
 						<div class="col-6" id="radioBarChart">
 						</div>
 						<div class="col-6 tree" id="radioTree">
@@ -112,7 +124,7 @@
 					<div class="charthead splash">
 						<h5>Television</h5>
 					</div>
-					<div class="row-fluid chart-group">
+					<div class="row-fluid chart-group clearfix">
 						<div class="col-6" id="tvBarChart">
 						</div>
 						<div class="col-6 tree" id="tvTree">
@@ -125,7 +137,7 @@
 					<div class="charthead splash">
 						<h5>Internet</h5>
 					</div>
-					<div class="row-fluid chart-group">
+					<div class="row-fluid chart-group clearfix">
 						<div class="col-6" id="internetBarChart">
 						</div>
 						<div class="col-6 tree"  id="internetTree">
@@ -136,7 +148,7 @@
 					<div class="charthead splash">
 						<h5>Print</h5>
 					</div>
-					<div class="row-fluid chart-group">
+					<div class="row-fluid chart-group clearfix">
 						<div class="col-6" id="printBarChart">
 						</div>
 						<div class="col-6 tree" id="printTree">

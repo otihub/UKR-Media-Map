@@ -20,7 +20,6 @@ body {
 }
 .charthead {
 	padding:8px;
-	text-alighn:center;
 	border: 1px solid rgba(0,0,0,.125);
 
 }
@@ -30,13 +29,20 @@ body {
 button.link {
 	background:none;
 	border:none;
-	color:#AACCFF;
+		color:#AACCFF;
 }
 .filtered {
   color: #AACCFF;
 }
 
+.highlight {
+	color:#AACCFF;
+}
 
+.overview-value {
+	font-size:24px;
+	color:#AACCFF;
+}
 /******************************************
 /* DRAWER
 /*******************************************/
@@ -58,9 +64,6 @@ button.link {
   z-index:20;
 }
 
-.overview {
-	background_color: #EFEFEF;
-}
 
 .chart-title{
 	height:30px;
@@ -68,7 +71,7 @@ button.link {
 
 .group {
 	vertical-align: baseline;
-  padding:1px 5px 5px 5px;
+  padding:5px 5px 1px 5px;
 
 }
 .first {
@@ -167,15 +170,21 @@ button.link {
 .img-container #base {
 	z-index:0;
 	width:inherit;
+	position:absolute;
 }
 .img-container #labels {
 	position:absolute;
 	top:0;
 	left:0;
-	z-index:2;
+	z-index:-1;
 	width:inherit;
 	pointer-events: none;
-
+}
+.img-container #white {
+	width:inherit;
+	z-index:-3;
+	position:absolute;
+	pointer-events: none;
 }
 
 #ukraine {
@@ -190,6 +199,7 @@ button.link {
   fill-opacity:.8;
   stroke:red;
   stroke-width:2;
+	z-index:5;
 
 }
 
@@ -201,6 +211,9 @@ button.link {
 .notSelected {
   fill:purple;
 	opacity:.1;
+}
+.oblasks {
+	z-index:4;
 }
 .oblasks:hover {
 	opacity:.2;

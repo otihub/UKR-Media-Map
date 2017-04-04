@@ -133,7 +133,7 @@ $(document).ready(function() {
 			 
 			}
 
-			return "<strong><span style='color:#FF00FF'>" + d.properties.name + "</span></strong><span class='count'>" + " " + count+"</span>";
+			return "<strong><span class='highlight'>" + d.properties.name + "</span></strong><span class='count'>" + " " + count+"</span>";
 
 		})
 		svg.call(tip);
@@ -216,7 +216,6 @@ $(document).ready(function() {
 
 //Make DC.js charts
 		var genderPieChart = dc.pieChart("#gender-pie-graph","main");
-//		var ageRowChart = dc.rowChart("#age-horiz-graph","main");
 		var internetTreeChart = dc.treeChart("#internetTree", "main");
 		var radioTreeChart = dc.treeChart("#radioTree","main");
 		var tvTreeChart = dc.treeChart("#tvTree","main");
@@ -225,7 +224,6 @@ $(document).ready(function() {
 		var tvChart = dc.rowChart("#tvBarChart","main")
 		var internetChart = dc.rowChart("#internetBarChart","main")
 		var printChart = dc.rowChart("#printBarChart","main")
-console.log(citiesArray)
 		var total = dc.numberDisplay("#selected","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
@@ -237,8 +235,8 @@ console.log(citiesArray)
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
 					
-			}		
-		});
+				}		
+			});
 	
 		var russianNum = dc.numberDisplay("#russianPerc","main")
 			.group(languageDimGroup)
@@ -319,10 +317,9 @@ console.log(citiesArray)
 
 //main color
 		var mainColor = "#501566";
-console.log(genderDim.group().all())
 		genderPieChart
-	//		.width(15)
-			.height(width/10)
+			.width(70)
+			.height(70)
 			.dimension(genderDim)
 			.group(genderDim.group())
 			.transitionDuration(transitionTime)
