@@ -50,8 +50,8 @@ button.link {
 
 .group {
 	vertical-align: baseline;
-  padding:1px 8px 8px 8px;
-  background: #303030;
+  padding:1px 5px 5px 5px;
+
 }
 .first {
   background: #202020;
@@ -65,7 +65,13 @@ button.link {
 
 .charthead {
   color:white;
+	padding:8px;
+
 }
+.chart-group {
+
+}
+
 /*.overview ul {
 	padding:0px;
   margin-bottom: 0px;

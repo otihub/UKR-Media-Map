@@ -73,27 +73,9 @@ $(document).ready(function() {
 //reset all filters
  	d3.select("#reset-all-filters")
 		.on("click", function(){
-			console.log("hello");
-			cityDim.filterAll();
-			cityFilterDim.filterAll();
-			leanDim.filterAll();
-			printUseDim.filterAll();
-			printDim.filterAll();
-			tvUseDim.filterAll();
-			tvDim.filterAll();
-			radioUseDim.filterAll();
-			radioDim.filterAll();
-			intUseDim.filterAll();
-			intDim.filterAll();
-			oblaskDim.filterAll();
-			languageDim.filterAll();
-			wealthDim.filterAll();
-			employDim.filterAll();
-			educDim.filterAll();
-			ageDim.filterAll();
-			genderDim.filterAll();
-			console.log("goodbye");
 			d3.selectAll('.oblasks').classed('selected',false);
+			d3.selectAll('.cities').classed('selected',false);
+			dc.filterAll("main");
 			dc.redrawAll("main");		
 		});
 
