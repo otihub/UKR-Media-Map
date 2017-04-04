@@ -316,7 +316,7 @@ $(document).ready(function() {
 //Visualize it
 
 //main color
-		var mainColor = "#501566";
+		var mainColor = '#3182bd';
 		genderPieChart
 			.width(70)
 			.height(70)

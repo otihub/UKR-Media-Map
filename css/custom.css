@@ -129,7 +129,7 @@ button.link {
    box-shadow: inset 0 0 10px #FFFFFF;
 	 */
 	 outline:white dotted thin;
-	 background-color:#501566;
+	 background-color:#3182bd;
 
 }
 .node div{
@@ -207,7 +207,7 @@ button.link {
 }
 
 .notSelected {
-  fill:purple;
+  fill:#3182bd;
 	opacity:.1;
 }
 .oblasks {
