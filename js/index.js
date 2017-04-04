@@ -73,6 +73,8 @@ $(document).ready(function() {
 //reset all filters
  	d3.select("#reset-all-filters")
 		.on("click", function(){
+			oblaskDim.filterAll();
+			cityFilterDim.filterAll();
 			d3.selectAll('.oblasks').classed('selected',false);
 			d3.selectAll('.cities').classed('selected',false);
 			dc.filterAll("main");
@@ -230,7 +232,10 @@ $(document).ready(function() {
 				return d;
 			})
 			.on("renderlet", function() {
+				console.log("renderlet")
 				for (i=0; i < citiesArray.length ; i++) {
+					console.log( citiesArray[i].key.replace(/([\s\'\\])/g,''))
+					console.log( citiesArray[i].value);
 					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
