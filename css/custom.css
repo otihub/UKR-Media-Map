@@ -12,19 +12,37 @@ Developer @ the DAT in Washington DC
 
 
 .splash{
-	background:rgb(90,90,90);
-	color:#fff;
+	background-color:#202030;
+}
+body {
+	background-color:#222233;
+	color:#FFFFFF
+}
+.charthead {
+	padding:8px;
+	text-alighn:center;
+	border: 1px solid rgba(0,0,0,.125);
+
+}
+.chart-group {
+	background-color:#202030;
+}
+button.link {
+	background:none;
+	border:none;
+	color:#AACCFF;
+}
+.filtered {
+  color: #AACCFF;
 }
 
 
 /******************************************
 /* DRAWER
 /*******************************************/
-button.link {
-	background:none;
-	border:none;
-	color:#FF00FF;
-}
+
+
+
 
 .flag{
 	width:50px;
@@ -63,14 +81,6 @@ button.link {
 	list-style:none;
 }
 
-.charthead {
-  color:white;
-	padding:8px;
-
-}
-.chart-group {
-
-}
 
 /*.overview ul {
 	padding:0px;
@@ -96,9 +106,6 @@ button.link {
 
 .pie-graph {
 	background-color: transparent;
-}
-.filtered {
-  color: yellow;
 }
 
 
@@ -137,13 +144,13 @@ button.link {
 /* Line Graph
 /*******************************************/
 #leaning {
-  stroke-width:1;
+  stroke-width:.75;
   stroke:rgb(255,0,0);
 
 }
 #leaningCirc {
-	fill:#501566;
-	stroke:#501566;
+	fill:#AACCFF;
+	stroke:#AACCFF;
 }
 
 #leaningLine{card
@@ -185,6 +192,8 @@ button.link {
   stroke-width:2;
 
 }
+
+
 .cities.selected {
 	fill:yellow;
 }
