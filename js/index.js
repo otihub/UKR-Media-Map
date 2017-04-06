@@ -44,6 +44,7 @@ $(document).ready(function() {
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
 	
+	
 //Create Dimensions
 		var genderDim = cf.dimension(function(d) {return d.v2;})
 		var ageDim = cf.dimension(function(d) {return d.v172;})
@@ -60,16 +61,20 @@ $(document).ready(function() {
 		var tvUseDim = cf.dimension(function(d) {return d.v46;})
 		var printDim = cf.dimension(function(d) {return d.v68;})
 		var printUseDim = cf.dimension(function(d) {return d.v62;})
-		var leanDim = cf.dimension(function(d) {return d.v131coded;})
+//		var leanDim = cf.dimension(function(d) {return d.v131coded;})
+		var leanDim = cf.dimension(function(d) {return d.v131;})
 		var cityDim	= cf.dimension(function(d) {return d.v170;})
 		var cityFilterDim	= cf.dimension(function(d) {return d.v170;})
 // Create groups
-		var languageDimGroup = languageDim.group().reduceCount()
-		var ageDimGroup = ageDim.group().reduceCount()
-		var educDimGroup = educDim.group().reduceCount()
-		var wealthDimGroup = wealthDim.group().reduceCount()
-		var citiesArray = cityDim.group().reduceCount().all()
+		var languageDimGroup = languageDim.group().reduceCount();
+		var ageDimGroup = ageDim.group().reduceCount();
+		var educDimGroup = educDim.group().reduceCount();
+		var wealthDimGroup = wealthDim.group().reduceCount();
+		var leanDimGroup = leanDim.group().reduceCount();
+		console.log(leanDim.group().all())
 
+
+		var citiesArray = cityDim.group().reduceCount().all();
 //reset all filters
  	d3.select("#reset-all-filters")
 		.on("click", function(){
@@ -82,9 +87,7 @@ $(document).ready(function() {
 			dc.redrawAll("main");		
 		});
 
-//find out the average of leaning
-		var leaning = leanDim.group().reduceCount().all();
-
+	
 		var changeGeography = function (name) {
 			d3.select("#geography").html(name);
 		}
@@ -109,7 +112,6 @@ $(document).ready(function() {
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.selectAll('.cities').classed('selected',false);
 					d3.select(this).classed('selected',true);
-					console.log(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');
@@ -224,20 +226,19 @@ $(document).ready(function() {
 		var radioTreeChart = dc.treeChart("#radioTree","main");
 		var tvTreeChart = dc.treeChart("#tvTree","main");
 		var printTreeChart = dc.treeChart("#printTree","main");
-		var radioChart = dc.rowChart("#radioBarChart","main")
-		var tvChart = dc.rowChart("#tvBarChart","main")
-		var internetChart = dc.rowChart("#internetBarChart","main")
-		var printChart = dc.rowChart("#printBarChart","main")
+		var radioChart = dc.rowChart("#radioBarChart","main");
+		var tvChart = dc.rowChart("#tvBarChart","main");
+		var internetChart = dc.rowChart("#internetBarChart","main");
+		var printChart = dc.rowChart("#printBarChart","main");
+		var leaningBarChart = dc.rowChart("#leanBarChart","main");
+		
 		var total = dc.numberDisplay("#selected","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
 				return d;
 			})
 			.on("renderlet", function() {
-				console.log("renderlet")
 				for (i=0; i < citiesArray.length ; i++) {
-					console.log( citiesArray[i].key.replace(/([\s\'\\])/g,''))
-					console.log( citiesArray[i].value);
 					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
@@ -312,13 +313,8 @@ $(document).ready(function() {
 			});	
 		
 		
-		var leaningNum = dc.leaningChart("#leaning","main")
-			.dimension(leanDim)
-			.group(leaning)
-			.height(15)
-			.width(250);
 
-
+			
 
 //Visualize it
 
@@ -360,10 +356,19 @@ $(document).ready(function() {
 			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(radioUseDim)
 			.group(radioUseDim.group())
+			.valueAccessor(function(d) {
+				return d.value/radioUseDim.top(Infinity).length;
+				})
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you listen to the radio?"})
-			.xAxis().ticks(4);	
+			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+
+
+	
+console.log(tvUseDim.group().all());
+
+
 
 		tvChart
 //			.width(200)
@@ -371,37 +376,55 @@ $(document).ready(function() {
 			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(tvUseDim)
 			.group(tvUseDim.group())
+			.valueAccessor(function(d) {
+				return d.value/tvUseDim.top(Infinity).length;
+				})
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you watch television?"})
-			.xAxis().ticks(4);	
+			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 		internetChart
 //			.width(200)
 			.height(200)
 			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(intUseDim)
 			.group(intUseDim.group())
+			.valueAccessor(function(d) {
+				return d.value/intUseDim.top(Infinity).length;
+				})
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you use the internet?"})
-			.xAxis().ticks(4);
+			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 		printChart
 //			.width(200)
 			.height(200)
 			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
 			.dimension(printUseDim)
 			.group(printUseDim.group())
+			.valueAccessor(function(d) {
+				return d.value/printUseDim.top(Infinity).length;
+				})
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you read print media?"})
-			.xAxis().ticks(4);
+			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+		leaningBarChart
+			.width(350)
+			.height(200)
+			.dimension(leanDim)
+			.colors(d3.scale.ordinal().domain(["only"]).range([mainColor]))
+			.group(leanDim.group())
+			.valueAccessor(function(d) {
+				return d.value/leanDim.top(Infinity).length;
+				})
+			.elasticX(true)
+			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 
+
+//		dc.registerChart(internetTreeChart, "main");
 		dc.renderAll("main");
 
-		//register charts
-		dc.registerChart(internetTreeChart, "main");
-
-		//redraw all Charts
 		dc.redrawAll();
 
 	}

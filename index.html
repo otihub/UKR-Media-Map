@@ -58,9 +58,9 @@
 					<div class="row-fluid">
 						<div class="col-12 charthead" style="padding:0px;margin-bottom:8px">
 							<h4 id="geography">Surveyed Areas</h4>
-			 				<span id="selected" style="text-align:center"></span>
+			 				<b><span id="selected" class="highlight" style="text-align:center"></span></b>
 							<span> selected records | </span>
-							<button class="link" id="reset-all-filters"> Reset Filters </button>
+							<button class="link" id="reset-all-filters"><b> reset filters </b></button>
 						</div>
 						<div class="row sidebar-chart-row">
 							<div class="col-6">
@@ -73,7 +73,6 @@
 								<span class="overview-label"> Russian</span><br>
 								<span class="overview-value" id="ukrainianPerc"></span>
 								<span class="overview-label"> Ukrainian</span>
-
 							</div>
 						</div>
 					<div class="row sidebar-chart-row">
@@ -98,17 +97,18 @@
 
 					</div>
 				</div>
-					<div class="sidebar-chart-row">
-						<span class="overview-title">Which direction should Ukraine take in its foreign policy?</span></br>
-						<img class="flag" src="images/russia_flag.png"></img>
-						<span id="leaning"></span>
-						<img class="flag" src="images/eu_flag.png"></img>
+				<div class="row sidebar-chart-row">
+					<div class="col-12">
+						<h5 style="margin-bottom:0px">Which direction should Ukraine take in its foreign policy?</h5>
+						<div id="leanBarChart">
+						</div>
 					</div>
 				</div>
 			</div>
-			</div>
-			<div class="row ">
-				<div class="col-6 group">
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-6 group">
 					<div class="charthead splash">
 						<h5>Radio</h5>
 					</div>
