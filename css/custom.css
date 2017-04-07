@@ -9,11 +9,19 @@ Developer @ the DAT in Washington DC
 /******************************************
 /* BASE STYLES
 /*******************************************/
-
-
+.fade.in{
+	opacity:1;
+}
+.popover{
+	color:black;
+}
 .splash{
 	background-color:#202030;
+	#tour{
 }
+	float:right;
+}
+
 body {
 	background-color:#222233;
 	color:#FFFFFF
@@ -46,7 +54,7 @@ button.link {
 }
 
 .sidebar-chart-row {
-	margin-top:30px;
+	margin-top:20px;
 }
 .overview-value {
 	cursor:pointer;
@@ -54,12 +62,15 @@ button.link {
 .overview-value.filtered {
 	color:yellow;
 }
+
+.container {
+	box-shadow: -5px 3px 5px 1px rgba(0,0,0,0.2), 5px 3px 5px 1px rgba(0,0,0,0.2);
+
+}
+
 /******************************************
 /* DRAWER
 /*******************************************/
-
-
-
 
 .flag{
 	width:50px;

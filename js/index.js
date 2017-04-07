@@ -31,6 +31,8 @@ $(document).ready(function() {
 		.defer(d3.json,"data/int_lang.json")
 		.await(viz);
 
+
+
 	function viz(error,oblasks,surveyData,cities,intLang) {	
 	
 
@@ -318,8 +320,10 @@ $(document).ready(function() {
 
 //Visualize it
 
-//main color
+//Main color
 		var mainColor = '#3182bd';
+
+//Charts
 		genderPieChart
 			.width(70)
 			.height(70)
@@ -362,7 +366,7 @@ $(document).ready(function() {
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you listen to the radio?"})
-			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 
 
 	
@@ -382,7 +386,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you watch television?"})
-			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 		internetChart
 //			.width(200)
 			.height(200)
@@ -395,7 +399,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you use the internet?"})
-			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 		printChart
 //			.width(200)
 			.height(200)
@@ -408,7 +412,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you read print media?"})
-			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 		leaningBarChart
 			.width(350)
 			.height(200)
@@ -419,7 +423,7 @@ console.log(tvUseDim.group().all());
 				return d.value/leanDim.top(Infinity).length;
 				})
 			.elasticX(true)
-			.xAxis().ticks(5).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
 
 
 //		dc.registerChart(internetTreeChart, "main");
@@ -428,6 +432,18 @@ console.log(tvUseDim.group().all());
 		dc.redrawAll();
 
 	}
+//set what happens when tour button is clicked
+
+	tour.init();
+	tour.start();
+	d3.select("#tour").on("click",function() {
+		console.log("restart tour");
+			tour.restart();
+		});
+
+console.log(tour);
+
+
 
 });
 
