@@ -10,7 +10,7 @@ var tour = new Tour({
     element: "#map",
     title: "The Map",
     backdrop:false,
-    content: "Data was collected in the highlighted oblasks. More effort was put into collecting around the cities highlighted in red. Click on any of these to filter on geography.",
+    content: "Data was collected in the highlighted oblasts. More effort was put into collecting around the cities highlighted in red. Click on any of these to filter on geography.",
     onShown: function(){
       $(".tour-backdrop").appendTo("#map");
       $(".tour-step-background").appendTo("#map");
