@@ -3,7 +3,7 @@ var tour = new Tour({
   steps: [
   {
     title: "Hello World",
-    content: "From November 27-December 25, 2015 and again from x to y surveys were held to study media preferences and political orientations in South and East Ukraine. This interactive interface will give you access to the results of these surveying efforts.",
+    content: "From November 27-December 25, 2015 and again from x to y surveys were held to study media preferences and political orientations in South and East Ukraine. This interactive will give you access to certain aspects of this effort, the full dataset is available on the IMI website.",
     orphan: true
   },
   {
