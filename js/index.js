@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	//start google analytice engine
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-97746128-1', 'auto');
+		ga('send', 'pageview');
+
+
 
 	var geometryCenter =  {"latitude": 49.1, "longitude": 31.75};
 	var width = parseInt(d3.select('#map').style('width')),
@@ -13,11 +23,11 @@ $(document).ready(function() {
 		.attr('preserveAspectRatio','xMinYMin meet')
 		.attr('viewBox', function () {
 			return '0 0 ' + String(width) + ' ' + String(height)
-		}) 
+		})
 
     var projection = d3.geo.mercator()
         .center([geometryCenter.longitude, geometryCenter.latitude])
-       // .parallels([43, 62])  
+       // .parallels([43, 62])
         .scale(1870)
        .translate([width / 2, height / 2]);
 
@@ -33,8 +43,8 @@ $(document).ready(function() {
 
 
 
-	function viz(error,oblasks,surveyData,cities,intLang) {	
-	
+	function viz(error,oblasks,surveyData,cities,intLang) {
+
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
 
@@ -45,8 +55,8 @@ $(document).ready(function() {
 
 //Create CrossFilter
 		var cf = crossfilter(surveyData);
-	
-	
+
+
 //Create Dimensions
 		var genderDim = cf.dimension(function(d) {return d.v2;})
 		var ageDim = cf.dimension(function(d) {return d.v172;})
@@ -86,10 +96,10 @@ $(document).ready(function() {
 			d3.selectAll('.oblasks').classed('selected',false);
 			d3.selectAll('.cities').classed('selected',false);
 			dc.filterAll("main");
-			dc.redrawAll("main");		
+			dc.redrawAll("main");
 		});
 
-	
+
 		var changeGeography = function (name) {
 			d3.select("#geography").html(name);
 		}
@@ -104,20 +114,21 @@ $(document).ready(function() {
 			.attr('d',path)
 			.attr('class','oblasks notSelected')
 			.on('click',function(d) {
+				ga('send','event','oblast','click',d.properties.NAMELATIN,1);
 				if (d3.select(this).classed('selected')) {
 					oblaskDim.filterAll();
 					cityFilterDim.filterAll();
 					d3.selectAll('.oblasks').classed('selected',false);
 					changeGeography("All Surveyed Areas")
 					dc.redrawAll('main');
-				} else {	
+				} else {
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.selectAll('.cities').classed('selected',false);
 					d3.select(this).classed('selected',true);
 					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
 					changeGeography(d.properties.NAMELATIN);
 					dc.redrawAll('main');
-				};	
+				};
 			});
 
 //scale for radius  of cities
@@ -126,8 +137,8 @@ $(document).ready(function() {
 				.domain([0,1006]);
 
 //scale for colors to make them purple
-	
-	
+
+
 //d3 tip for hoverover of cities
 	  var tip = d3.tip()
 		.attr('class','d3-tip')
@@ -137,7 +148,7 @@ $(document).ready(function() {
 				if (d.properties.name == citiesArray[x].key) {
 					count = citiesArray[x].value;
 				}
-			 
+
 			}
 
 			return "<strong><span class='highlight'>" + d.properties.name + "</span></strong><span class='count'>" + " " + count+"</span>";
@@ -156,24 +167,25 @@ $(document).ready(function() {
 			})
 			.attr('title','Town Name')
 			.on('click',function(d) {
+				ga('send','event','city','click',d.properties.name,1);
 				if (d3.select(this).classed('selected')) {
 					cityFilterDim.filterAll()
 					d3.selectAll('.cities').classed('selected',false);
 					d3.selectAll('.oblasks').classed('selected',false);
 					changeGeography("Surveyed Areas");
 					dc.redrawAll('main');
-				} else {	
+				} else {
 					d3.select(this).classed('selected',true);
 					d3.selectAll('.oblasks').classed('selected',false);
 					cityFilterDim.filter(d.properties.name);
 					changeGeography(d.properties.name);
 					dc.redrawAll('main');
-				};	
+				};
 			})
 			.on('mouseover', tip.show)
 			.on('mouseout',tip.hide);
-		
-		
+
+
 // formatter for percent
 		var percent = d3.format(".0%");
 
@@ -200,7 +212,7 @@ $(document).ready(function() {
 			}
 			return numerator/total;
 		}
-		
+
 //Make function to filter based on selected numberDisplay and apply style to containing div after redraw
 
 		var selectedNum = function (dimension, filter,chart) {
@@ -233,7 +245,7 @@ $(document).ready(function() {
 		var internetChart = dc.rowChart("#internetBarChart","main");
 		var printChart = dc.rowChart("#printBarChart","main");
 		var leaningBarChart = dc.rowChart("#leanBarChart","main");
-		
+
 		var total = dc.numberDisplay("#selected","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
@@ -244,10 +256,10 @@ $(document).ready(function() {
 					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
-					
-				}		
+
+				}
 			});
-	
+
 		var russianNum = dc.numberDisplay("#russianPerc","main")
 			.group(languageDimGroup)
 			.formatNumber(percent)
@@ -304,7 +316,7 @@ $(document).ready(function() {
 			.valueAccessor(function (d) {
 				return percExt(educDimGroup,["Secondary school (finished 9 years, a 10-11 year pupil)","Complete secondary school (finished 10-11 years)"]);
 			});
-	
+
 
 
 		var uniEducNum = dc.numberDisplay("#uniEducPerc","main")
@@ -312,11 +324,11 @@ $(document).ready(function() {
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
 				return percExt(educDimGroup,["Higher educational institution (Specialist or Master degree)"]);
-			});	
-		
-		
+			});
 
-			
+
+
+
 
 //Visualize it
 
@@ -366,10 +378,10 @@ $(document).ready(function() {
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you listen to the radio?"})
-			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;
 
 
-	
+
 console.log(tvUseDim.group().all());
 
 
@@ -386,7 +398,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you watch television?"})
-			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;
 		internetChart
 //			.width(200)
 			.height(200)
@@ -399,7 +411,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you use the internet?"})
-			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;
 		printChart
 //			.width(200)
 			.height(200)
@@ -412,7 +424,7 @@ console.log(tvUseDim.group().all());
 			.elasticX(true)
 			.renderTitle(true)
 			.title(function() { return "How often to you read print media?"})
-			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;
 		leaningBarChart
 			.width(350)
 			.height(200)
@@ -423,7 +435,7 @@ console.log(tvUseDim.group().all());
 				return d.value/leanDim.top(Infinity).length;
 				})
 			.elasticX(true)
-			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;	
+			.xAxis().ticks(4).tickFormat(function(v) { return String(v * 100) + '%'}) ;
 
 
 //		dc.registerChart(internetTreeChart, "main");
@@ -446,4 +458,3 @@ console.log(tour);
 
 
 });
-
