@@ -1,4 +1,5 @@
 dc.treeChart =  function (parent, chartGroup) {
+  console.log("treeChart")
   	var color = d3.scale.category20c();
 
 		var _chart = dc.marginMixin(dc.colorMixin(dc.baseMixin({})));
@@ -20,7 +21,6 @@ dc.treeChart =  function (parent, chartGroup) {
           return _;
         }
         return _chart;
-
       }
 
 			//Filters unwanted and slices to top 10
@@ -52,6 +52,8 @@ dc.treeChart =  function (parent, chartGroup) {
 			}
 
 			_chart._doRender = function() {
+          _chart.selectAll("div").remove();
+console.log("doRender");
 				var parentDim =  d3.select(this.anchor()).node().getBoundingClientRect();
 				parentWidth = parentDim.width;
         parentHeight = parentDim.height;
@@ -100,12 +102,12 @@ dc.treeChart =  function (parent, chartGroup) {
           )
         }
 */
-				_chart.selectAll("div").remove();
+
 				var treemap = d3.layout.treemap()
-			//		.size([parentWidth,_chart.height()])
           .size([parentWidth,parentHeight])
 					.sticky(false)
 					.value(function(d) { return d.value;});
+
 				var node = _chart.root()
 					.datum(tree)
 					.selectAll(".node")
@@ -119,11 +121,13 @@ dc.treeChart =  function (parent, chartGroup) {
 			//		})
 					.append('div')
 					.html(function(d) {return "<div data-toggle='tooltip' data-placement='top' title=" + "'" + String(d.key)  + ' ' +  String(d.value)  +  "'" + ">" + d.key + "<br />" + String((d.value/n * 100).toFixed(0)) + '%' + "</div>"; });
-
+        return _chart;
 
 				};
-
+console.log("bottom")
 			_chart._doRedraw = function() {
+        console.log("doRedraw");
+
 				return _chart._doRender();
 			};
 

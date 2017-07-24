@@ -35,21 +35,22 @@ $(document).ready(function() {
         .projection(projection);
 
 	queue()
-		.defer(d3.json,"data/oblasks-slim.json")
-		.defer(d3.json,"data/data.json")
+		.defer(d3.json,"data/oblasts.geojson")
+		.defer(d3.json,"data/data.m.json2")
 		.defer(d3.json,"data/cities.geojson")
 		.defer(d3.json,"data/int_lang.json")
 		.await(viz);
 
 
 
-	function viz(error,oblasks,surveyData,cities,intLang) {
-
+	function viz(error,oblasts,surveyData,cities,intLang) {
+oblasts.features.forEach( function(d) {
+})
 
 //Filter out the json in RU controlled mostly to check to see if that was the problem
 
-			oblasks.features = oblasks.features.filter(function(d) {
-					return d.properties.NAMELATIN == "Dnipropetrovs'ka" || d.properties.NAMELATIN == "Donets'ka" || d.properties.NAMELATIN == "Zaporiz'ka" || d.properties.NAMELATIN == "Odes'ka" || d.properties.NAMELATIN == "Kharkivs'ka" || d.properties.NAMELATIN == "Luhans'ka";
+			oblasts.features = oblasts.features.filter(function(d) {
+					return d.properties.name == "Dnipropetrovs'ka" || d.properties.name == "Donets'ka" || d.properties.name == "Zaporiz'ka" || d.properties.name == "Odes'ka" || d.properties.name == "Kharkivs'ka" || d.properties.name == "Luhans'ka" || d.properties.name == "NGCA" || d.properties.name =="Khersons'ka" ;
 				}
 			)
 
@@ -57,14 +58,14 @@ $(document).ready(function() {
 		var cf = crossfilter(surveyData);
 
 
+
 //Create Dimensions
 		var genderDim = cf.dimension(function(d) {return d.v2;})
-		var ageDim = cf.dimension(function(d) {return d.v172;})
-		var educDim = cf.dimension(function(d) {return d.v152;})
-		var employDim = cf.dimension(function(d) {return d.v153;})
-		var wealthDim = cf.dimension(function(d) {return d.v154;})
+		var ageDim = cf.dimension(function(d) {return d.age;})
+		var educDim = cf.dimension(function(d) {return d.edu;})
+		var wealthDim = cf.dimension(function(d) {return d.wealth;})
 		var languageDim = cf.dimension(function(d) {return d.v155;})
-		var oblaskDim = cf.dimension(function(d) {return d.v175;})
+		var oblaskDim = cf.dimension(function(d) {return d.regions;})
 		var intDim = cf.dimension(function(d) {return d.v27;})
 		var intUseDim = cf.dimension(function(d) {return d.v5;})
 		var radioDim = cf.dimension(function(d) {return d.v41;})
@@ -73,24 +74,21 @@ $(document).ready(function() {
 		var tvUseDim = cf.dimension(function(d) {return d.v46;})
 		var printDim = cf.dimension(function(d) {return d.v68;})
 		var printUseDim = cf.dimension(function(d) {return d.v62;})
-//		var leanDim = cf.dimension(function(d) {return d.v131coded;})
 		var leanDim = cf.dimension(function(d) {return d.v131;})
-		var cityDim	= cf.dimension(function(d) {return d.v170;})
-		var cityFilterDim	= cf.dimension(function(d) {return d.v170;})
+		var cityDim	= cf.dimension(function(d) {return d.cities;})
+		var cityFilterDim	= cf.dimension(function(d) {return d.cities;})
+		var waveDim = cf.dimension(function(d) {return d.wave;})
 // Create groups
 		var languageDimGroup = languageDim.group().reduceCount();
 		var ageDimGroup = ageDim.group().reduceCount();
 		var educDimGroup = educDim.group().reduceCount();
 		var wealthDimGroup = wealthDim.group().reduceCount();
 		var leanDimGroup = leanDim.group().reduceCount();
-		console.log(leanDim.group().all())
-
-
+	
 		var citiesArray = cityDim.group().reduceCount().all();
 //reset all filters
  	d3.select("#reset-all-filters")
 		.on("click", function(){
-			console.log("clicked");
 			oblaskDim.filterAll();
 			cityFilterDim.filterAll();
 			d3.selectAll('.oblasks').classed('selected',false);
@@ -99,22 +97,20 @@ $(document).ready(function() {
 			dc.redrawAll("main");
 		});
 
-
 		var changeGeography = function (name) {
 			d3.select("#geography").html(name);
 		}
 
-//console.log(leanDim.top(Infinity));
 //Add map
 
 		svg.selectAll('oblasks')
-			.data(oblasks.features)
+			.data(oblasts.features)
 			.enter()
 			.append('path')
 			.attr('d',path)
 			.attr('class','oblasks notSelected')
 			.on('click',function(d) {
-				ga('send','event','oblast','click',d.properties.NAMELATIN,1);
+				ga('send','event','oblast','click',d.properties.name_oti,1);
 				if (d3.select(this).classed('selected')) {
 					oblaskDim.filterAll();
 					cityFilterDim.filterAll();
@@ -125,8 +121,8 @@ $(document).ready(function() {
 					d3.selectAll('.oblasks').classed('selected',false);
 					d3.selectAll('.cities').classed('selected',false);
 					d3.select(this).classed('selected',true);
-					oblaskDim.filter(d.properties.NAMELATIN.replace(/([\s\'\\])/g,''));
-					changeGeography(d.properties.NAMELATIN);
+					oblaskDim.filter(d.properties.name_oti.replace(/([\s\'\\])/g,''));
+					changeGeography(d.properties.name_oti);
 					dc.redrawAll('main');
 				};
 			});
@@ -135,9 +131,6 @@ $(document).ready(function() {
 		var cityScale = d3.scale.linear()
 			.range([1,25])
 				.domain([0,1006]);
-
-//scale for colors to make them purple
-
 
 //d3 tip for hoverover of cities
 	  var tip = d3.tip()
@@ -148,7 +141,6 @@ $(document).ready(function() {
 				if (d.properties.name == citiesArray[x].key) {
 					count = citiesArray[x].value;
 				}
-
 			}
 
 			return "<strong><span class='highlight'>" + d.properties.name + "</span></strong><span class='count'>" + " " + count+"</span>";
@@ -184,6 +176,8 @@ $(document).ready(function() {
 			})
 			.on('mouseover', tip.show)
 			.on('mouseout',tip.hide);
+
+		
 
 
 // formatter for percent
@@ -245,7 +239,6 @@ $(document).ready(function() {
 		var internetChart = dc.rowChart("#internetBarChart","main");
 		var printChart = dc.rowChart("#printBarChart","main");
 		var leaningBarChart = dc.rowChart("#leanBarChart","main");
-
 		var total = dc.numberDisplay("#selected","main")
 			.group(cf.groupAll())
 			.valueAccessor(function(d) {
@@ -253,7 +246,8 @@ $(document).ready(function() {
 			})
 			.on("renderlet", function() {
 				for (i=0; i < citiesArray.length ; i++) {
-					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\])/g,''))
+
+					d3.select("#" +  citiesArray[i].key.replace(/([\s\'\\/])/g,''))
 						.transition()
 						.attr("d", path.pointRadius(cityScale(citiesArray[i].value)));
 
@@ -264,70 +258,129 @@ $(document).ready(function() {
 			.group(languageDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(languageDimGroup,"Russian")
+				return percExt(languageDimGroup,"russian")
 			})
 			.on("renderlet",function (russianNum) {
 				selectedNum(languageDim,"Russian",russianNum);
 			});
+
 		var ukrainianNum = dc.numberDisplay("#ukrainianPerc","main")
 			.group(languageDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(languageDimGroup,"Ukrainian")
+				return percExt(languageDimGroup,"ukrainian")
 			})
 			.on("renderlet",function (ukrainianNum) {
 				selectedNum(languageDim,"Ukrainian",ukrainianNum);
+			});
+		var adolescentAgeNum = dc.numberDisplay("#adolescentAgePerc","main")
+			.group(ageDimGroup)
+			.formatNumber(percent)
+			.valueAccessor(function (d) {
+				return percExt(ageDimGroup,"18-24")
+			})
+			.on("renderlet",function (youngAgeNum) {
+				selectedNum(ageDim,"18-24",youngAgeNum);
 			});
 		var youngAgeNum = dc.numberDisplay("#youngAgePerc","main")
 			.group(ageDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(ageDimGroup,"18-35")
+				return percExt(ageDimGroup,"25-34")
 			})
 			.on("renderlet",function (youngAgeNum) {
-				selectedNum(ageDim,"18-35",youngAgeNum);
+				selectedNum(ageDim,"25-34",youngAgeNum);
 			});
 
 		var mediumAgeNum = dc.numberDisplay("#mediumAgePerc","main")
 			.group(ageDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(ageDimGroup,"36-55")
+				return percExt(ageDimGroup,"35-44")
 			}).on("renderlet",function (mediumAgeNum) {
-				selectedNum(ageDim,"36-55",mediumAgeNum);
+				selectedNum(ageDim,"35-44",mediumAgeNum);
 			});
 		var oldAgeNum = dc.numberDisplay("#oldAgePerc","main")
 			.group(ageDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(ageDimGroup,"56+")
+				return percExt(ageDimGroup,"45-54")
 			}).on("renderlet",function (oldAgeNum) {
-				selectedNum(ageDim,"56+",oldAgeNum);
+				selectedNum(ageDim,"45-54",oldAgeNum);
+			});
+		var veryoldAgeNum = dc.numberDisplay("#veryoldAgePerc","main")
+			.group(ageDimGroup)
+			.formatNumber(percent)
+			.valueAccessor(function (d) {
+				return percExt(ageDimGroup,"55-64")
+			}).on("renderlet",function (oldAgeNum) {
+				selectedNum(ageDim,"55-64",oldAgeNum);
+			});
+		var veryveryoldAgeNum = dc.numberDisplay("#veryveryoldAgePerc","main")
+			.group(ageDimGroup)
+			.formatNumber(percent)
+			.valueAccessor(function (d) {
+				return percExt(ageDimGroup,"65+")
+			}).on("renderlet",function (oldAgeNum) {
+				selectedNum(ageDim,"65+",oldAgeNum);
 			});
 		var primaryEducNum = dc.numberDisplay("#primaryEducPerc","main")
 			.group(educDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(educDimGroup,"Primary school (finished the primary school, a 4-9 year pupi");
+				return percExt(educDimGroup,"Primary School");
 			});
 		var secondaryEducNum = dc.numberDisplay("#secondaryEducPerc","main")
 			.group(educDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(educDimGroup,["Secondary school (finished 9 years, a 10-11 year pupil)","Complete secondary school (finished 10-11 years)"]);
+				return percExt(educDimGroup,"At Least Some Secondary School");
 			});
 
 
-
-		var uniEducNum = dc.numberDisplay("#uniEducPerc","main")
+		var postSecondaryEducNum = dc.numberDisplay("#postSecondaryEducPerc","main")
 			.group(educDimGroup)
 			.formatNumber(percent)
 			.valueAccessor(function (d) {
-				return percExt(educDimGroup,["Higher educational institution (Specialist or Master degree)"]);
+				return percExt(educDimGroup,["Post Secondary"]);
 			});
 
+//function to attache onlick events to buttons for filter on wave
+	d3.select("#wave1").on("click",function(d) {
+console.log(d3.select(this).classed("clicked"))	
+		if(d3.select(this).classed("clicked")){
+   			waveDim.filterAll();
+			d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
+			dc.filterAll("main");
+			dc.redrawAll("main");
+		} else {
+			console.log("flipp")
+			d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
+			d3.select(this).attr("class","btn-info btn-sm clicked");
+			waveDim.filterAll();
+			waveDim.filter("1");
+			dc.filterAll("main");
+			dc.redrawAll("main");
+		}
+	});
 
-
+//function to attache onlick events to buttons for filter on wave
+	d3.select("#wave2").on("click",function(d) {
+			if(d3.select(this).classed("clicked")){
+					waveDim.filterAll();
+					d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
+					dc.filterAll("main");
+					dc.redrawAll("main");
+				} else {
+					console.log("flipp")
+					d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
+					d3.select(this).attr("class","btn-info btn-sm clicked");
+					waveDim.filterAll();
+					waveDim.filter("2");
+					dc.filterAll("main");
+					dc.redrawAll("main");
+				}
+	});
 
 
 //Visualize it
@@ -382,7 +435,6 @@ $(document).ready(function() {
 
 
 
-console.log(tvUseDim.group().all());
 
 
 
@@ -449,11 +501,9 @@ console.log(tvUseDim.group().all());
 	tour.init();
 	tour.start();
 	d3.select("#tour").on("click",function() {
-		console.log("restart tour");
 			tour.restart();
 		});
 
-console.log(tour);
 
 
 

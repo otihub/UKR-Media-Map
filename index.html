@@ -54,9 +54,8 @@
 					<div class="img-container">
 						<img src="images/ukraine.jpg" id="base"></img>
 						<img src="images/labels.png"  id="labels"></img>
-					<!--	<img src="images/ukraine_2.png" id="base"></img>
-						<img src="images/labels_2.png"  id="labels"></img>
--->
+						<button class="btn-info btn-sm" id="wave1" style="position:absolute; top:0px;right:55px; z-index:100">2015</button>
+						<button class="btn-info btn-sm" id="wave2" style="position:absolute; top:0px;right:0px; z-index:100">2017</button>
 					</div>
 				</div>
 				<div class="col-4 clearfix chart-group">
@@ -83,12 +82,18 @@
 					<div class="row sidebar-chart-row">
 						<div class="col-6">
 							<h5>Age</h5>
+							<span class="overview-value" id="adolescentAgePerc"></span>
+							<span class="overview-label">18-24</span><br>
 							<span class="overview-value" id="youngAgePerc"></span>
-							<span class="overview-label"> 18-35</span><br>
+							<span class="overview-label"> 25-34</span><br>
 							<span class="overview-value" id="mediumAgePerc"></span>
-							<span class="overview-label"> 36-55</span><br>
+							<span class="overview-label"> 35-44</span><br>
 							<span class="overview-value" id="oldAgePerc"></span>
-							<span class="overview-label"> 55+</span>
+							<span class="overview-label"> 45-54</span>
+							<span class="overview-value" id="veryoldAgePerc"></span>
+							<span class="overview-label"> 55-64</span>
+							<span class="overview-value" id="veryveryoldAgePerc"></span>
+							<span class="overview-label"> 65+</span>
 
 						</div>
 						<div class=col-6>
@@ -96,9 +101,9 @@
 							<span class="overview-value" id="primaryEducPerc"></span>
 							<span class="overview-label"> Primary</span><br>
 							<span class="overview-value" id="secondaryEducPerc"></span>
-							<span class="overview-label"> Secondary</span><br>
-							<span class="overview-value" id="uniEducPerc"></span>
-							<span class="overview-label"> University</span>
+							<span class="overview-label"> Some Secondary</span><br>
+							<span class="overview-value" id="postSecondaryEducPerc"></span>
+							<span class="overview-label"> Post Secondary</span>
 
 					</div>
 				</div>
