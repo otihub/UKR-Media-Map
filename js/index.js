@@ -349,17 +349,16 @@ oblasts.features.forEach( function(d) {
 	d3.select("#wave1").on("click",function(d) {
 console.log(d3.select(this).classed("clicked"))	
 		if(d3.select(this).classed("clicked")){
-   			waveDim.filterAll();
+   			waveDim.filter(null);
 			d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
-			dc.filterAll("main");
+	//		dc.filterAll("main");
 			dc.redrawAll("main");
 		} else {
-			console.log("flipp")
 			d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
 			d3.select(this).attr("class","btn-info btn-sm clicked");
-			waveDim.filterAll();
+			waveDim.filter(null);
 			waveDim.filter("1");
-			dc.filterAll("main");
+	//		dc.filterAll("main");
 			dc.redrawAll("main");
 		}
 	});
@@ -367,17 +366,17 @@ console.log(d3.select(this).classed("clicked"))
 //function to attache onlick events to buttons for filter on wave
 	d3.select("#wave2").on("click",function(d) {
 			if(d3.select(this).classed("clicked")){
-					waveDim.filterAll();
+					waveDim.filter(null);
 					d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
-					dc.filterAll("main");
+			//		dc.filterAll("main");
 					dc.redrawAll("main");
 				} else {
 					console.log("flipp")
 					d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
 					d3.select(this).attr("class","btn-info btn-sm clicked");
-					waveDim.filterAll();
+					waveDim.filter(null);
 					waveDim.filter("2");
-					dc.filterAll("main");
+			//		dc.filterAll("main");
 					dc.redrawAll("main");
 				}
 	});
@@ -395,7 +394,6 @@ console.log(d3.select(this).classed("clicked"))
 			.dimension(genderDim)
 			.group(genderDim.group())
 			.transitionDuration(transitionTime)
-	//		.radius(width/60)
 			.renderLabel(true);
 
 
