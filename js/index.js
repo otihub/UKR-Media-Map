@@ -78,6 +78,10 @@ oblasts.features.forEach( function(d) {
 		var cityDim	= cf.dimension(function(d) {return d.cities;})
 		var cityFilterDim	= cf.dimension(function(d) {return d.cities;})
 		var waveDim = cf.dimension(function(d) {return d.wave;})
+
+//initialize filter on waveDim
+		waveDim.filter("1");
+
 // Create groups
 		var languageDimGroup = languageDim.group().reduceCount();
 		var ageDimGroup = ageDim.group().reduceCount();
@@ -350,6 +354,7 @@ oblasts.features.forEach( function(d) {
 console.log(d3.select(this).classed("clicked"))	
 		if(d3.select(this).classed("clicked")){
    			waveDim.filter(null);
+			waveDim.filter("2");
 			d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
 	//		dc.filterAll("main");
 			dc.redrawAll("main");
@@ -367,8 +372,8 @@ console.log(d3.select(this).classed("clicked"))
 	d3.select("#wave2").on("click",function(d) {
 			if(d3.select(this).classed("clicked")){
 					waveDim.filter(null);
+					waveDim.filter("1");
 					d3.selectAll(".btn-info").attr("class","btn-info btn-sm");
-			//		dc.filterAll("main");
 					dc.redrawAll("main");
 				} else {
 					console.log("flipp")
@@ -376,7 +381,6 @@ console.log(d3.select(this).classed("clicked"))
 					d3.select(this).attr("class","btn-info btn-sm clicked");
 					waveDim.filter(null);
 					waveDim.filter("2");
-			//		dc.filterAll("main");
 					dc.redrawAll("main");
 				}
 	});

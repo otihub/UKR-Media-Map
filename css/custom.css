@@ -44,6 +44,11 @@ button.link {
 		color:#AACCFF;
 }
 
+.btn-info.clicked{
+	color:yellow;
+	background-color:goldenrod;
+}
+
 .highlight {
 	color:#AACCFF;
 }
